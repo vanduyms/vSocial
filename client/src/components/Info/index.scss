@@ -1,0 +1,39 @@
+.info {
+  position: relative;
+  &__content {
+    margin-left: 100px;
+
+    &--title {
+      .editBtn {
+        margin-left: 40px;
+      }
+    }
+
+    &--sub {
+      .item {
+        text-decoration: none;
+        color: #000;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .item + .item {
+        margin-left: 80px;
+      }
+    }
+
+    &--detail {
+      margin-top: 1rem;
+      h6 {
+        margin: 0;
+      }
+
+      a {
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

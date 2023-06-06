@@ -1,0 +1,41 @@
+.search_form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  position: relative;
+
+  width: 20%;
+  padding: 4px 15px;
+  border-radius: 50px;
+  background-color: #fff;
+
+  input {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+
+    &:focus {
+      border: none;
+      outline: none;
+    }
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+  }
+
+  .users {
+    position: absolute;
+    width: 100%;
+    min-width: 250px;
+    background: #fafafa;
+    max-height: calc(100vh - 150px);
+    overflow: auto;
+    top: 30px;
+    left: 0;
+  }
+}
