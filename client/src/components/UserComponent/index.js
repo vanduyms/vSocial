@@ -24,4 +24,4 @@ function UserComponent({ user, isFollow, setIsFollow }) {
   )
 }
 
-export default UserComponent
+export default UserComponent;

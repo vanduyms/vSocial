@@ -33,7 +33,7 @@ function Info() {
       bio: ""
     }
   ]
-  const following = profile.user.following;
+  const following = profile.user?.following;
 
 
   useEffect(() => {
