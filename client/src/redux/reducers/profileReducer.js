@@ -5,7 +5,9 @@ const { createSlice } = require("@reduxjs/toolkit")
 
 const initialState = {
   loading: false,
-  user: null
+  user: null,
+  folowers: [],
+  following: []
 }
 
 const profileReducer = createSlice({
@@ -20,6 +22,8 @@ const profileReducer = createSlice({
     [getProfileUser.fulfilled]: (state, { payload }) => {
       state.loading = false
       state.user = payload.data.user
+      state.followers = payload.data.user.followers
+      state.following = payload.data.user.following
     },
     [getProfileUser.rejected]: (state, { payload }) => {
       state.loading = false

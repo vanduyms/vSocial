@@ -31,6 +31,9 @@ const authSlice = createSlice({
     setCredentials: (state, action) => {
       state.userInfo = action.payload
     },
+    updateUserInfo: (state, action) => {
+      state.userInfo = action.payload.data.user
+    }
   },
   extraReducers: {
     [userLogin.pending]: (state) => {
@@ -65,5 +68,5 @@ const authSlice = createSlice({
   }
 });
 
-export const { logout, setCredentials } = authSlice.actions;
+export const { logout, setCredentials, updateUserInfo } = authSlice.actions;
 export default authSlice.reducer;

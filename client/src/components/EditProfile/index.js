@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateProfileUser } from '../../redux/actions/profileAction';
-import { checkImage } from '../../utils/imageUpload';
 import Avatar from '../Avatar';
 import "./index.scss";
 
 function EditProfile({ user, setOnEdit }) {
   const [avatar, setAvatar] = useState(user?.avatar ? user.avatar : '');
+  const [avatarBase64, setAvatarBase64] = useState(user?.avatar ? user.avatar : '');
   const [fullName, setFullName] = useState(user?.fullName ? user.fullName : '');
   const [mobile, setMobile] = useState(user?.mobile ? user.mobile : '');
   const [address, setAddress] = useState(user?.address ? user.address : '');
@@ -21,15 +21,21 @@ function EditProfile({ user, setOnEdit }) {
 
   const changeAvatar = async (e) => {
     const file = e.target.files[0];
-    const error = checkImage(file);
-    if (error) console.log(error);
-    setAvatar(URL.createObjectURL(file));
+    let reader = new FileReader();
 
+    let base64String = "";
+    reader.onload = function () {
+      base64String = reader.result;
+      setAvatarBase64(base64String.toString());
+    }
+    reader.readAsDataURL(file);
+    setAvatar(URL.createObjectURL(file));
   }
+
   const id = profile.user._id;
 
-  const handleSubmit = async () => {
-    const res = await dispatch(updateProfileUser({ id, auth, userData, avatar }));
+  const handleSubmit = () => {
+    const res = dispatch(updateProfileUser({ id, auth, userData, avatarBase64 }));
     console.log(res);
   }
 
@@ -41,6 +47,7 @@ function EditProfile({ user, setOnEdit }) {
       >
         Close
       </button>
+      {/* <form onSubmit={handleSubmit} > */}
       <form onSubmit={handleSubmit} >
         <div className="info_avatar">
           <Avatar src={avatar} alt="avatar" size='very-big' />
@@ -105,6 +112,7 @@ function EditProfile({ user, setOnEdit }) {
         </div>
 
         <button className="btn btn-info w-100" type="submit">Save</button>
+        {/* <input type="text" onChange={handleSubmit} /> */}
       </form>
     </div>
   )

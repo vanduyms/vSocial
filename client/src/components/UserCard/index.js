@@ -14,7 +14,7 @@ function UserCard({ children, user, border, handleClose, setShowFollowers, setSh
 
   return (
     <div className='userCard'>
-      <div className='px-3 py-2 '>
+      <div className='px-3 py-2'>
         <Link to={`/profile/${user._id}`} onClick={handleCloseAll}
           className="d-flex align-items-center text-decoration-none">
 

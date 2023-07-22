@@ -1,5 +1,3 @@
-import axios from "axios";
-
 export const checkImage = (file) => {
   let err = ""
   if (!file) return err = "File does not exist."
@@ -14,22 +12,22 @@ export const checkImage = (file) => {
 }
 
 export const imageUpload = async (images) => {
-  console.log(images);
   let imgArr = [];
   for (const item of images) {
+    console.log(item);
     const formData = new FormData();
-
     formData.append("file", item);
 
-    formData.append("upload_preset", "swayf0yv");
+    formData.append("upload_preset", "tnqvinp5");
     formData.append("cloud_name", "dfdkmd9xz");
-    const res = await axios.post(`https://api.cloudinary.com/v1_1/dfdkmd9xz/image/upload`, {
+    const res = await fetch(`https://api.cloudinary.com/v1_1/dfdkmd9xz/image/upload`, {
       method: "POST",
       body: formData,
     })
 
-    const data = await res.json()
-    imgArr.push({ pubic_id: data.pubic_id, url: data.secure_url });
+    const data = await res.json();
+    console.log(data);
+    imgArr.push({ pubic_id: data.public_id, url: data.secure_url });
   }
   return imgArr;
 }

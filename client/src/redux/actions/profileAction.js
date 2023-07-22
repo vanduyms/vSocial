@@ -20,11 +20,11 @@ export const getProfileUser = createAsyncThunk(
 
 export const updateProfileUser = createAsyncThunk(
   'api/user',
-  async ({ id, auth, userData, avatar }, { rejectWithValue }) => {
+  async ({ auth, userData, avatar }, { rejectWithValue }) => {
     try {
       let media;
       if (avatar) media = await imageUpload([avatar]);
-      console.log(media[0]);
+      console.log(media);
 
       const res = await patchDataAPI("/user", {
         ...userData,
@@ -36,6 +36,44 @@ export const updateProfileUser = createAsyncThunk(
       if (error.response && error.response.data.msg) {
         return rejectWithValue(error.response.data.msg)
       } else {
+        return rejectWithValue(error.response);
+      }
+    }
+  }
+)
+
+export const followUser = createAsyncThunk(
+  'api/follow',
+  async ({ id, auth }, { rejectWithValue }) => {
+    try {
+      console.log(id)
+      const res = await patchDataAPI(`/user/${id}/follow`, { id: id }, auth.userToken);
+      return res;
+    } catch (error) {
+      if (error.response && error.response.data.msg) {
+        console.log(error.response);
+        return rejectWithValue(error.response.data.msg);
+      } else {
+        console.log(error);
+        return rejectWithValue(error.response);
+      }
+    }
+  }
+)
+
+export const unfollowUser = createAsyncThunk(
+  'api/unfollow',
+  async ({ id, auth }, { rejectWithValue }) => {
+    try {
+      console.log(id)
+      const res = await patchDataAPI(`/user/${id}/unfollow`, { id: id }, auth.userToken);
+      return res;
+    } catch (error) {
+      if (error.response && error.response.data.msg) {
+        console.log(error.response);
+        return rejectWithValue(error.response.data.msg);
+      } else {
+        console.log(error);
         return rejectWithValue(error.response);
       }
     }

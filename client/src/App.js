@@ -15,7 +15,7 @@ function App() {
   useEffect(() => {
     setIsLogin(!isLogin);
     const isUserToken = localStorage.getItem("userToken");
-    { isUserToken && setIsLogin(!isLogin) };
+    { if (!isUserToken) setIsLogin(false) };
   }, [userToken])
 
   return (
