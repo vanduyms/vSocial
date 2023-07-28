@@ -19,6 +19,7 @@ function Login() {
     data.email = email.toLowerCase();
     dispatch(userLogin(data));
     navigate("/");
+    window.location.reload();
   }
 
   return (

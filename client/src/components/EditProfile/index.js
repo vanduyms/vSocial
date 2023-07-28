@@ -6,7 +6,6 @@ import "./index.scss";
 
 function EditProfile({ user, setOnEdit }) {
   const [avatar, setAvatar] = useState(user?.avatar ? user.avatar : '');
-  const [avatarBase64, setAvatarBase64] = useState(user?.avatar ? user.avatar : '');
   const [fullName, setFullName] = useState(user?.fullName ? user.fullName : '');
   const [mobile, setMobile] = useState(user?.mobile ? user.mobile : '');
   const [address, setAddress] = useState(user?.address ? user.address : '');
@@ -20,35 +19,41 @@ function EditProfile({ user, setOnEdit }) {
   const { auth, profile } = useSelector(state => state);
 
   const changeAvatar = async (e) => {
+    e.preventDefault();
     const file = e.target.files[0];
-    let reader = new FileReader();
+    TransformFile(file);
+  }
 
-    let base64String = "";
-    reader.onload = function () {
-      base64String = reader.result;
-      setAvatarBase64(base64String.toString());
+  const TransformFile = (file) => {
+    const reader = new FileReader();
+
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setAvatar(reader.result);
+      }
+    } else {
+      setAvatar("");
     }
-    reader.readAsDataURL(file);
-    setAvatar(URL.createObjectURL(file));
   }
 
   const id = profile.user._id;
 
-  const handleSubmit = () => {
-    const res = dispatch(updateProfileUser({ id, auth, userData, avatarBase64 }));
-    console.log(res);
+  const handleSubmit = async () => {
+    await dispatch(updateProfileUser({ id, auth, userData, avatar }));
   }
 
   return (
     <div className='edit-profile'>
-      <button
-        className="btn btn-danger btn_close"
-        onClick={() => setOnEdit(false)}
-      >
-        Close
-      </button>
-      {/* <form onSubmit={handleSubmit} > */}
       <form onSubmit={handleSubmit} >
+        <button
+          className="btn btn_close rounded-circle d-flex align-items-center p-1"
+          onClick={() => setOnEdit(false)}
+        >
+          <span className="material-icons">
+            close
+          </span>
+        </button>
         <div className="info_avatar">
           <Avatar src={avatar} alt="avatar" size='very-big' />
           <span>
@@ -111,8 +116,7 @@ function EditProfile({ user, setOnEdit }) {
           </select>
         </div>
 
-        <button className="btn btn-info w-100" type="submit">Save</button>
-        {/* <input type="text" onChange={handleSubmit} /> */}
+        <button className="btn btn-info w-100">Save</button>
       </form>
     </div>
   )

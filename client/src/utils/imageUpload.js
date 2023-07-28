@@ -14,7 +14,6 @@ export const checkImage = (file) => {
 export const imageUpload = async (images) => {
   let imgArr = [];
   for (const item of images) {
-    console.log(item);
     const formData = new FormData();
     formData.append("file", item);
 
@@ -26,7 +25,6 @@ export const imageUpload = async (images) => {
     })
 
     const data = await res.json();
-    console.log(data);
     imgArr.push({ pubic_id: data.public_id, url: data.secure_url });
   }
   return imgArr;

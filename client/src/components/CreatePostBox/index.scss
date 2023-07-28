@@ -1,0 +1,128 @@
+.createPost-box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #0008;
+  z-index: 9;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+
+  .btn_close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0;
+
+    background-color: #ccc;
+  }
+
+  form {
+    max-width: 450px;
+    width: 100%;
+    padding: 20px;
+    border-radius: 5px;
+    margin: auto;
+    background-color: white;
+    position: relative;
+
+    .btn-emoji {
+      cursor: pointer;
+    }
+
+    .form-group {
+      .user-info {
+        .user {
+          margin-left: 15px;
+          a {
+            text-decoration: none;
+            color: black;
+          }
+          p {
+            font-weight: 600;
+          }
+
+          .btn-setting {
+            background: #ccc;
+            font-weight: 600;
+          }
+        }
+      }
+
+      textarea {
+        border: none;
+        outline: none;
+        font-size: 20px;
+        resize: none;
+        overflow-y: none;
+        min-height: 40px;
+      }
+
+      .title {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      input[type="file"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+      }
+    }
+
+    .add-image_container {
+      position: relative;
+      border: 1px solid #ccc;
+
+      .selected-image {
+        width: calc(100% - 1rem);
+      }
+
+      .btn-close_image {
+        right: 1rem;
+        top: 1rem;
+      }
+    }
+    .add-container {
+      border: 1px solid #ccc;
+
+      a {
+        color: #000;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .btn-add_menu {
+        margin-bottom: 0;
+        .btn-add_item {
+          display: flex;
+          align-items: center;
+          padding: 7px;
+          cursor: pointer;
+          border-radius: 50%;
+
+          &:hover {
+            background: rgb(236, 236, 236);
+          }
+          .btn-add_item + .btn-add_item {
+            margin-left: 5px;
+          }
+        }
+      }
+    }
+  }
+
+  .emoji-container {
+    position: fixed;
+    top: 5%;
+    left: 55%;
+  }
+}

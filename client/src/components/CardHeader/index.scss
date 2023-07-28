@@ -1,0 +1,17 @@
+.card__header {
+  &--left {
+    .card__name {
+      margin-left: 10px;
+    }
+  }
+
+  &--right {
+    span {
+      cursor: pointer;
+
+      &:hover {
+        filter: blur(0.8px);
+      }
+    }
+  }
+}

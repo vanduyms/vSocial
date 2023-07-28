@@ -24,7 +24,6 @@ export const updateProfileUser = createAsyncThunk(
     try {
       let media;
       if (avatar) media = await imageUpload([avatar]);
-      console.log(media);
 
       const res = await patchDataAPI("/user", {
         ...userData,
@@ -51,10 +50,8 @@ export const followUser = createAsyncThunk(
       return res;
     } catch (error) {
       if (error.response && error.response.data.msg) {
-        console.log(error.response);
         return rejectWithValue(error.response.data.msg);
       } else {
-        console.log(error);
         return rejectWithValue(error.response);
       }
     }
@@ -65,15 +62,12 @@ export const unfollowUser = createAsyncThunk(
   'api/unfollow',
   async ({ id, auth }, { rejectWithValue }) => {
     try {
-      console.log(id)
       const res = await patchDataAPI(`/user/${id}/unfollow`, { id: id }, auth.userToken);
       return res;
     } catch (error) {
       if (error.response && error.response.data.msg) {
-        console.log(error.response);
         return rejectWithValue(error.response.data.msg);
       } else {
-        console.log(error);
         return rejectWithValue(error.response);
       }
     }

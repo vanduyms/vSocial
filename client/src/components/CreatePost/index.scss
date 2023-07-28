@@ -1,0 +1,25 @@
+.create-post {
+  width: 68%;
+  margin: 20px auto;
+  background-color: white;
+
+  &__top {
+    padding: 0 4px;
+    input {
+      margin-left: 10px;
+      text-align: left;
+      outline: none;
+    }
+  }
+
+  .line {
+    height: 1px;
+    background-color: #ccc;
+  }
+
+  &__bottom {
+    button > span {
+      margin-right: 10px;
+    }
+  }
+}

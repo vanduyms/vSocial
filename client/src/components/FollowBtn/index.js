@@ -1,23 +1,39 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { followUser, unfollowUser } from '../../redux/actions/profileAction';
-import { updateUserInfo } from '../../redux/reducers/authReducer';
+import { followUser, getProfileUser, unfollowUser } from '../../redux/actions/profileAction';
 
 function FollowBtn({ setOnEdit }) {
-  const { auth } = useSelector(state => state);
+  const { auth, profile } = useSelector(state => state);
   const { id } = useParams();
-  const [followed, setFollowed] = useState(JSON.parse(auth.userInfo).following.some(user => user._id === id));
 
+  const [followed, setFollowed] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        await dispatch(getProfileUser({ id, auth }));
+        const followers = profile?.followers;
+        if (followers) {
+          setFollowed(followers.some(user => user._id === JSON.parse(auth.userInfo)._id))
+        }
+      } catch (error) {
+      }
+    };
+
+    loadData();
+  }, [id, auth, dispatch, profile?.followers])
+
 
   const handleClick = async () => {
     if (!followed) {
-      const res = await dispatch(followUser({ id, auth }));
-      console.log(res);
+      await dispatch(followUser({ id, auth }));
+      await dispatch(getProfileUser(id, auth));
     } else {
-      const res = await dispatch(unfollowUser({ id, auth }));
-      await updateUserInfo(res);
+      await dispatch(unfollowUser({ id, auth }));
+      await dispatch(getProfileUser(id, auth));
+
     }
   }
 

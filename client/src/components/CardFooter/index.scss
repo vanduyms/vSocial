@@ -1,0 +1,25 @@
+.card__footer {
+  &--action {
+    ul {
+      margin-bottom: 0;
+      margin-left: -2px;
+    }
+    .action--item {
+      margin: 0;
+      color: black;
+      cursor: pointer;
+
+      &:hover {
+        filter: blur(0.8px);
+      }
+    }
+
+    .action--item + .action--item {
+      margin-left: 15px;
+    }
+
+    .action--right {
+      margin-right: -5px;
+    }
+  }
+}
