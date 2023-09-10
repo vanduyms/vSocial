@@ -6,7 +6,7 @@ import { userLogin } from '../../redux/actions/authAction';
 import "./index.scss";
 
 function Login() {
-  const { loading } = useSelector((state) => state.auth);
+  const { loading } = useSelector(state => state.auth);
   const { register, handleSubmit } = useForm();
   const [email, setEmail] = useState("");
 
@@ -19,7 +19,7 @@ function Login() {
     data.email = email.toLowerCase();
     dispatch(userLogin(data));
     navigate("/");
-    window.location.reload();
+    // window.location.reload();
   }
 
   return (

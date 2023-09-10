@@ -32,7 +32,7 @@ const authSlice = createSlice({
       state.userInfo = action.payload
     },
     updateUserInfo: (state, action) => {
-      state.userInfo = action.payload.data.user
+      state.userInfo = action.payload
     }
   },
   extraReducers: {
@@ -41,7 +41,7 @@ const authSlice = createSlice({
     },
     [userLogin.fulfilled]: (state, { payload }) => {
       state.loading = false
-      state.userInfo = payload
+      state.userInfo = payload.userInfo
       state.userToken = payload.userToken
       state.success = true
 

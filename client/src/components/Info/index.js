@@ -22,9 +22,9 @@ function Info() {
   const following = profile?.following;
 
   useEffect(() => {
-    const loadData = async () => {
+    const loadData = () => {
       try {
-        await dispatch(getProfileUser({ id, auth }));
+        dispatch(getProfileUser({ id, auth }));
       } catch (error) {
       }
     };

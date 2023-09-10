@@ -1,11 +1,26 @@
 const Post = require('../models/postModel');
 
+class APIfeatures {
+  constructor(query, queryString) {
+    this.query = query;
+    this.queryString = queryString;
+  }
+
+  paginating() {
+    const page = this.queryString.page * 1 || 1;
+    const limit = this.queryString.limit * 1 || 9;
+    const skip = (page - 1) * limit;
+    this.query = this.query.skip(skip).limit(limit);
+    return this;
+  }
+}
+
 const postController = {
   createPost: async (req, res) => {
     try {
-      const { content, image } = req.body;
+      const { content, images } = req.body;
 
-      const newPost = new Post({ content, image, user: req.user._id });
+      const newPost = new Post({ content, images, user: req.user });
       await newPost.save();
 
       res.json({ newPost })
@@ -15,6 +30,14 @@ const postController = {
   },
   getPosts: async (req, res) => {
     try {
+      const posts = await Post.find({}).sort('-createdAt')
+        .populate("user", "avatar username fullName followers");
+
+      res.json({
+        msg: 'Success!',
+        result: posts.length,
+        posts
+      })
 
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -49,11 +72,12 @@ const postController = {
       const post = await Post.find({ _id: req.params.id, likes: req.user._id });
       if (post.length > 0) return res.status(500).json({ msg: "You liked this post" });
 
-      const like = await Post.findOneAndUpdate({ _id: req.params._id }, { $push: { likes: req.user._id } }, { new: true });
+      const like = await Post.findOneAndUpdate({ _id: req.params.id }, { $push: { likes: req.user._id } }, { new: true });
+      console.log(like);
 
       if (!like) return res.status(400).json({ msg: "This post is not exist" });
 
-      res.json({ msg: "Liked post !" })
+      res.json({ msg: "Liked post !", result: like })
 
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -61,11 +85,11 @@ const postController = {
   },
   unLikePost: async (req, res) => {
     try {
-      const like = await Post.findOneAndUpdate({ _id: req.params._id }, { $pull: { likes: req.user._id } }, { new: true });
+      const like = await Post.findOneAndUpdate({ _id: req.params.id }, { $pull: { likes: req.user._id } }, { new: true });
 
       if (!like) return res.status(400).json({ msg: "This post is not exist" });
 
-      res.json({ msg: "UnLiked post !" })
+      res.json({ msg: "UnLiked post !", result: like })
 
     } catch (err) {
       return res.status(500).json({ msg: err.message });

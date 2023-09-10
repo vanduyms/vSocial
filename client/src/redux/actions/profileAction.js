@@ -25,7 +25,7 @@ export const updateProfileUser = createAsyncThunk(
       let media;
       if (avatar) media = await imageUpload([avatar]);
 
-      const res = await patchDataAPI("/user", {
+      const res = await patchDataAPI("user", {
         ...userData,
         avatar: media ? media[0].url : auth.userInfo.avatar
       }, auth.userToken);

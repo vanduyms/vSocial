@@ -1,11 +1,12 @@
 const routes = {
   home: "/",
-  login: "/login",
-  register: "/register",
+  // login: "/login",
+  // register: "/register",
   message: "/message",
   profile: "/profile/:id",
   discover: "/discover",
   notify: "/notify",
+  notfound: "*"
 }
 
 export default routes;

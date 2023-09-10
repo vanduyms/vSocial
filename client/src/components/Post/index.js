@@ -1,31 +1,41 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import LoadIcon from "../../images/loading.png";
 import PostCard from '../PostCard';
+import { getPostsAction } from '../../redux/actions/postAction';
 
 function Post() {
-  const { id } = useParams();
-  const { auth } = useSelector(state => state);
-  const [post, setPost] = useState([]);
+  const [allPost, setAllPost] = useState([]);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch();
-  // }, [])
+  const { auth, post } = useSelector(state => state);
+
+  useEffect(() => {
+    setAllPost(post.posts);
+  }, [post]);
+
+  useEffect(() => {
+    const loadData = async () => {
+      await dispatch(getPostsAction({ auth }));
+    }
+
+    loadData();
+  }, [dispatch, auth]);
+
+
   return (
     <div className='posts'>
-      {/* {
-        post.length === 0 &&
-        <img src={LoadIcon} alt="loading" className="d-block mx-auto my-4" />
-      } */}
+      {
+        post.loading &&
+        <div className="spinner-border text-primary d-flex m-auto" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      }
 
-      {/* {
-        post.map(item => (
+      {
+        allPost?.map(item => (
           <PostCard key={item._id} post={item} />
         ))
-      } */}
-      <PostCard />
+      }
     </div>
   )
 }

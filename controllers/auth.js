@@ -77,7 +77,6 @@ const auth = {
           password: ''
         }
       });
-
     } catch (err) {
       return res.status(500).json({ msg: err.message })
     }

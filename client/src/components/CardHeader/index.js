@@ -1,9 +1,20 @@
 import React from 'react'
+import { formatDistanceToNow } from "date-fns";
 import { Link } from 'react-router-dom';
 import Avatar from '../Avatar';
 import "./index.scss";
 
-function CardHeader({ user }) {
+function CardHeader({ post }) {
+  const user = post.user[0];
+
+  const calculateDate = (date) => {
+    const targetDate = new Date(date);
+
+    const formattedDistance = formatDistanceToNow(targetDate, { addSuffix: true });
+
+    return formattedDistance;
+  };
+
   return (
     <div className='card__header w-100 d-flex justify-content-between p-1'>
       <div className='card__header--left d-flex align-items-center'>
@@ -18,7 +29,7 @@ function CardHeader({ user }) {
             </Link>
           </h6>
           <small className="text-muted">
-            {/* {moment(post.createdAt).fromNow()} */}
+            {calculateDate(post.createdAt)}
           </small>
         </div>
       </div>

@@ -5,6 +5,8 @@ import Avatar from '../Avatar';
 import EmojiPicker from "emoji-picker-react";
 import "./index.scss";
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { createPostAction, getPostsAction } from '../../redux/actions/postAction';
 
 function CreatePostBox({ setShowCreateBox, user }) {
   const textAreaRef = useRef();
@@ -14,6 +16,7 @@ function CreatePostBox({ setShowCreateBox, user }) {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const boxImage = useRef();
+  const auth = useSelector(state => state.auth);
 
   const changeImage = async (e) => {
     e.preventDefault();
@@ -29,7 +32,7 @@ function CreatePostBox({ setShowCreateBox, user }) {
       reader.onloadend = () => {
         setImage(reader.result);
       }
-      boxImage.current.display = "none";
+      boxImage.current = "none";
     } else {
       setImage("");
     }
@@ -42,6 +45,17 @@ function CreatePostBox({ setShowCreateBox, user }) {
 
   const handleEmojiClick = (emoji) => {
     setContent(content + emoji.emoji);
+  }
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await dispatch(createPostAction({ auth, content, image }));
+
+    setShowCreateBox(false);
+
+    await dispatch(getPostsAction({ auth }));
   }
 
   return (
@@ -160,7 +174,8 @@ function CreatePostBox({ setShowCreateBox, user }) {
             </li>
           </ul>
         </div>
-        <button className="btn btn-info w-100">Post</button>
+        {/* <input onChange={handleSubmit} /> */}
+        <button onClick={handleSubmit} className="btn btn-info w-100">Post</button>
       </form>
 
       {

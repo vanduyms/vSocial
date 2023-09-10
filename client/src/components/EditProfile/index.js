@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateProfileUser } from '../../redux/actions/profileAction';
+import { getProfileUser, updateProfileUser } from '../../redux/actions/profileAction';
 import Avatar from '../Avatar';
 import "./index.scss";
+import { updateUserInfo } from '../../redux/reducers/authReducer';
 
 function EditProfile({ user, setOnEdit }) {
   const [avatar, setAvatar] = useState(user?.avatar ? user.avatar : '');
@@ -16,7 +17,7 @@ function EditProfile({ user, setOnEdit }) {
   const userData = { fullName, mobile, address, website, story, gender };
 
   const dispatch = useDispatch();
-  const { auth, profile } = useSelector(state => state);
+  const { auth } = useSelector(state => state);
 
   const changeAvatar = async (e) => {
     e.preventDefault();
@@ -37,10 +38,18 @@ function EditProfile({ user, setOnEdit }) {
     }
   }
 
-  const id = profile.user._id;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await dispatch(updateProfileUser({ auth, userData, avatar }));
 
-  const handleSubmit = async () => {
-    await dispatch(updateProfileUser({ id, auth, userData, avatar }));
+    var id = user._id;
+    const res = await dispatch(getProfileUser({ id, auth }));
+    var infoUpdated = JSON.stringify(res.payload.data.user);
+
+    await dispatch(updateUserInfo(infoUpdated));
+
+    localStorage.setItem("userInfo", infoUpdated);
+    setOnEdit(false);
   }
 
   return (
@@ -116,8 +125,11 @@ function EditProfile({ user, setOnEdit }) {
           </select>
         </div>
 
+        {/* <input onClick={handleSubmit} /> */}
+
         <button className="btn btn-info w-100">Save</button>
       </form>
+
     </div>
   )
 }

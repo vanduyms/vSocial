@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../../redux/reducers/authReducer';
 import Avatar from '../Avatar';
@@ -21,7 +21,8 @@ function Navbar() {
     dispatch(logout());
   }
 
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const user = useSelector(state => state.auth);
+  const userInfo = JSON.parse(user.userInfo);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between align-middle">
