@@ -6,7 +6,7 @@ import "./index.scss";
 function UserComponent({ user, isFollow, setIsFollow }) {
   return (
     <div className='user_component'>
-      <Link className='user_component-content'>
+      <Link className='user_component-content' to={`/profile/${user._id}`}>
         <Avatar src={user.avatar} size="medium" />
         <div className='user_component-info'>
           <p>{user.username}</p>

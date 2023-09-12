@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import PostCard from '../PostCard';
 import { getPostsAction } from '../../redux/actions/postAction';
+import Loading from '../Loading';
 
 function Post() {
   const [allPost, setAllPost] = useState([]);
@@ -25,15 +26,12 @@ function Post() {
   return (
     <div className='posts'>
       {
-        post.loading &&
-        <div className="spinner-border text-primary d-flex m-auto" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
+        post?.loading && <Loading />
       }
 
       {
         allPost?.map(item => (
-          <PostCard key={item._id} post={item} />
+          <PostCard key={item._id} postItem={item} />
         ))
       }
     </div>

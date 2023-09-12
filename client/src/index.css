@@ -27,7 +27,23 @@ code {
 }
 
 .main {
-  max-width: 1000px;
+  max-width: 1200px;
   width: 100%;
   margin: auto;
+
+  padding: 15px 0;
+
+  margin-top: 45px;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+p {
+  margin-bottom: 0;
 }

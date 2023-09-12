@@ -67,14 +67,14 @@ function EditProfile({ user, setOnEdit }) {
           <Avatar src={avatar} alt="avatar" size='very-big' />
           <span>
             <i className="fas fa-camera" />
-            <p>Change</p>
+            <p>Thay đổi</p>
             <input type="file" name="file" id="file_up"
               accept="image/*" onChange={changeAvatar} />
           </span>
         </div>
 
         <div className="form-group mb-3">
-          <label htmlFor="fullname">Full Name</label>
+          <label htmlFor="fullname">Họ và tên</label>
           <div className="position-relative">
             <input type="text" className="form-control" id="fullname"
               name="fullName" value={fullName} onChange={e => setFullName(e.target.value)} />
@@ -86,13 +86,13 @@ function EditProfile({ user, setOnEdit }) {
         </div>
 
         <div className="form-group mb-3">
-          <label htmlFor="mobile">Mobile</label>
+          <label htmlFor="mobile">Số điện thoại</label>
           <input type="text" name="mobile"
             className="form-control" value={mobile} onChange={e => setMobile(e.target.value)} />
         </div>
 
         <div className="form-group mb-3">
-          <label htmlFor="address">Address</label>
+          <label htmlFor="address">Địa chỉ</label>
           <input type="text" name="address"
             className="form-control" value={address} onChange={e => setAddress(e.target.value)} />
         </div>
@@ -104,7 +104,7 @@ function EditProfile({ user, setOnEdit }) {
         </div>
 
         <div className="form-group mb-3">
-          <label htmlFor="story">Story</label>
+          <label htmlFor="story">Bio</label>
           <textarea name="story" cols="30" rows="3"
             className="form-control" value={story} onChange={e => setStory(e.target.value)} />
 
@@ -113,7 +113,7 @@ function EditProfile({ user, setOnEdit }) {
           </small>
         </div>
 
-        <label htmlFor="gender">Gender</label>
+        <label htmlFor="gender">Giới tính</label>
         <div className="input-group-prepend px-0 mb-4">
           <select name="gender" id="gender"
             className="custom-select text-capitalize"

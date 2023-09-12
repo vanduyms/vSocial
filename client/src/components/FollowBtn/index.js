@@ -11,12 +11,13 @@ function FollowBtn({ setOnEdit }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const loadData = async () => {
+    const loadData = () => {
       try {
-        await dispatch(getProfileUser({ id, auth }));
         const followers = profile?.followers;
-        if (followers) {
-          setFollowed(followers.some(user => user._id === JSON.parse(auth.userInfo)._id))
+        if (!followers) {
+          dispatch(getProfileUser({ id, auth }));
+        } else {
+          setFollowed(followers.some(user => user._id === JSON.parse(auth.userInfo)._id));
         }
       } catch (error) {
       }
@@ -45,7 +46,7 @@ function FollowBtn({ setOnEdit }) {
           className='editBtn btn btn-outline-info'
           onClick={() => setOnEdit(true)}
         >
-          Edit Profile
+          Chỉnh sửa trang cá nhân
         </button> :
         <button
           className='editBtn btn btn-outline-info'

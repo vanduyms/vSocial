@@ -14,10 +14,29 @@
     position: absolute;
     top: 1rem;
     right: 1rem;
+    background-color: #ccc;
+  }
+
+  .btn_close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0;
+
+    background-color: #ccc;
+  }
+
+  form {
+    max-width: 450px;
+    width: 100%;
+    padding: 20px;
+    border-radius: 5px;
+    margin: auto;
+    background-color: white;
+    position: relative;
   }
 
   &_content {
-    max-width: 450px;
     width: 100%;
     border-radius: 5px;
     margin: auto;

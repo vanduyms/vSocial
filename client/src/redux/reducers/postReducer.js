@@ -1,5 +1,5 @@
 const { createSlice } = require("@reduxjs/toolkit")
-const { createPostAction, getPostsAction, likePostAction, unLikePostAction } = require("../actions/postAction")
+const { createPostAction, getPostsAction, likePostAction, unLikePostAction, getUserPostsAction, deletePostAction, updatePostAction } = require("../actions/postAction")
 
 const initialState = {
   loading: false,
@@ -30,6 +30,14 @@ const postSlice = createSlice({
       state.result = payload.data.result
       state.loading = false
     },
+    [getUserPostsAction.pending]: (state) => {
+      state.loading = true
+    },
+    [getUserPostsAction.fulfilled]: (state, { payload }) => {
+      state.posts = payload.data.posts
+      state.result = payload.data.result
+      state.loading = false
+    },
     [likePostAction.pending]: (state) => {
       // state.loading = true
     },
@@ -53,6 +61,18 @@ const postSlice = createSlice({
         }
         return post;
       })
+    },
+    [deletePostAction.pending]: (state) => {
+      state.loading = true
+    },
+    [deletePostAction.fulfilled]: (state) => {
+      state.loading = false
+    },
+    [updatePostAction.pending]: (state) => {
+      state.loading = true
+    },
+    [updatePostAction.fulfilled]: (state) => {
+      state.loading = false
     }
   }
 });

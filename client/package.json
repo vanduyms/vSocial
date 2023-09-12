@@ -13,6 +13,7 @@
     "aws-sdk": "^2.1418.0",
     "axios": "^1.4.0",
     "cloudinary": "^1.37.3",
+    "date-fns": "^2.30.0",
     "emoji-picker-react": "^4.4.10",
     "fs": "^0.0.1-security",
     "moment": "^2.29.4",

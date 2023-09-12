@@ -8,6 +8,7 @@ import EditProfile from '../EditProfile';
 import Follower from '../Follower';
 import FollowBtn from '../FollowBtn';
 import "./index.scss";
+import UserPost from '../UserPost';
 
 function Info() {
   const { id } = useParams();
@@ -33,37 +34,68 @@ function Info() {
   }, [id, auth, dispatch]);
 
   return (
-    <div className='info m-5 d-flex align-items-center'>
-      <Avatar src={profile.user?.avatar} size="very-big" />
+    <div className='info m-5 d-flex flex-column align-items-center'>
+      <div className='info__container d-flex'>
 
-      <div className='info__content'>
-        <div className='info__content--title d-flex align-items-center'>
-          <h2 className='username'>{profile.user?.username}</h2>
-          <FollowBtn setOnEdit={setOnEdit} />
+        <div className='info__avatar rounded-circle'>
+          <Avatar src={profile.user?.avatar} size="very-big" />
         </div>
 
-        <div className='info__content--sub d-flex mt-3'>
-          {/* <p className='item'><span className='fw-semibold'>{profile.user?.posts.length}</span> Post</p> */}
+        <div className='info__content'>
+          <div className='info__content--title d-flex align-items-center'>
+            <h2 className='username'>{profile.user?.username}</h2>
+            <FollowBtn setOnEdit={setOnEdit} />
+          </div>
 
-          <a className='item' onClick={() => setOnShowFollower(!onShowFollower)}>
-            <span className='fw-semibold'>
-              {profile.user?.followers.length}
-            </span> Followers
-          </a>
+          <div className='info__content--sub d-flex mt-3'>
+            {/* <p className='item'><span className='fw-semibold'>{profile.user?.posts.length}</span> Post</p> */}
 
-          <a className='item' onClick={() => setOnShowFollowing(!onShowFollowing)}>
-            <span className='fw-semibold'>
-              {profile.user?.following.length}
-            </span> Following
-          </a>
-        </div>
+            <a className='item' onClick={() => setOnShowFollower(!onShowFollower)}>
+              <span className='fw-semibold'>
+                {profile.user?.followers.length}
+              </span> Người theo dõi
+            </a>
 
-        <div className='info__content--detail'>
-          <h6>{profile.user?.fullName}</h6>
-          <p>{profile.user?.bio}</p>
-          <h6 >{profile.user?.email}</h6>
+            <a className='item' onClick={() => setOnShowFollowing(!onShowFollowing)}>
+              <span className='fw-semibold'>
+                {profile.user?.following.length}
+              </span> Đang theo dõi
+            </a>
+          </div>
+
+          <div className='info__content--detail'>
+            <h6>{profile.user?.fullName}</h6>
+            <p>{profile.user?.bio}</p>
+            <h6 >{profile.user?.email}</h6>
+          </div>
         </div>
       </div>
+
+      {/* <div className='info__details'>
+        <ul className='info__details--menu d-flex list-unstyled align-items-center justify-content-center'>
+          <li className='info__details--item selected'>
+            <span class="material-symbols-outlined">
+              post
+            </span>
+            Post
+          </li>
+          <li className='info__details--item'>
+            <span class="material-symbols-outlined">
+              bookmark
+            </span>
+            Saved
+          </li>
+          <li className='info__details--item'>
+            <span class="material-symbols-outlined">
+              person_book
+            </span>
+            Tagged
+          </li>
+        </ul>
+      </div> */}
+
+      <UserPost />
+
 
       {onEdit && <EditProfile setOnEdit={setOnEdit} user={profile.user} />}
 

@@ -4,16 +4,19 @@ import React, { useEffect, useRef, useState } from 'react';
 import Avatar from '../Avatar';
 import EmojiPicker from "emoji-picker-react";
 import "./index.scss";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createPostAction, getPostsAction } from '../../redux/actions/postAction';
+import { createPostAction, getPostsAction, getUserPostsAction, updatePostAction } from '../../redux/actions/postAction';
+import { useClickOutSide } from '../../hook/useToggle';
 
-function CreatePostBox({ setShowCreateBox, user }) {
+function CreatePostBox({ setShowCreateBox, user, data }) {
   const textAreaRef = useRef();
-  const [content, setContent] = useState("");
-  const [image, setImage] = useState("");
-  const [showBoxImage, setShowBoxImage] = useState(false);
+  const [content, setContent] = useState(data ? data.content : "");
+  const [image, setImage] = useState(data ? data.images[0] : "");
+  const [showBoxImage, setShowBoxImage] = useState(data?.images[0] ? true : false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+  const [refOutSide] = useClickOutSide(() => setShowCreateBox(false));
 
   const boxImage = useRef();
   const auth = useSelector(state => state.auth);
@@ -49,27 +52,43 @@ function CreatePostBox({ setShowCreateBox, user }) {
 
   const dispatch = useDispatch();
 
+  let id = data?._id;
+  let urlParams = useParams();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(createPostAction({ auth, content, image }));
 
-    setShowCreateBox(false);
-
-    await dispatch(getPostsAction({ auth }));
+    if (!data) {
+      await dispatch(createPostAction({ auth, content, image }));
+      setShowCreateBox(false);
+      await dispatch(getPostsAction({ auth }));
+    } else {
+      await dispatch(updatePostAction({ auth, content, image, id }));
+      setShowCreateBox(false);
+      id = urlParams?.id;
+      urlParams ? await dispatch(getUserPostsAction({ auth, id })) : await dispatch(getPostsAction({ auth }));
+    }
   }
 
   return (
-    <div className='createPost-box'>
+    <div
+      className='createPost-box'
+    >
       <form className='text-center'>
         <button
           className="btn btn_close rounded-circle d-flex align-items-center p-1"
+          ref={refOutSide}
           onClick={() => setShowCreateBox(false)}
         >
-          <span className="material-icons">
+          <span
+            className="material-icons">
             close
           </span>
         </button>
-        <h3 className='title mb-3'>Create post</h3>
+        <h3 className='title mb-3'>
+          {
+            data ? 'Chỉnh sửa bài viết' : 'Tạo bài viết'
+          }
+        </h3>
 
         <div className='line mb-3'>
 
@@ -83,7 +102,7 @@ function CreatePostBox({ setShowCreateBox, user }) {
               <Link to={`/profile/${user._id}`}>
                 <p className='username py-0 my-0'>{user.fullName}</p>
               </Link>
-              <button className='btn py-0 btn-setting'>Friends</button>
+              <button className='btn py-0 btn-setting'>Bạn bè</button>
             </div>
           </div>
 
@@ -91,7 +110,7 @@ function CreatePostBox({ setShowCreateBox, user }) {
             type="text"
             className="w-100 mb-3"
             id="content-create_post"
-            placeholder='What are you thinking ?'
+            placeholder='Bạn đang nghĩ gì ?'
             ref={textAreaRef}
             value={content}
             onChange={e => setContent(e.target.value)}
@@ -115,7 +134,7 @@ function CreatePostBox({ setShowCreateBox, user }) {
                 <span className="material-icons text-secondary fs-1" >
                   image
                 </span>
-                <span className='fs-5 fw-medium text-secondary'>Add image to post</span>
+                <span className='fs-5 fw-medium text-secondary'>Thêm ảnh vào bài viết</span>
               </div>
               <input
                 type="file"
@@ -140,7 +159,7 @@ function CreatePostBox({ setShowCreateBox, user }) {
         </div>
 
         <div className='form-group w-100 mb-3 d-flex justify-content-between align-items-center add-container py-2 px-2 rounded-2'>
-          <a className='text text-decoration-none'>Add to your post</a>
+          <a className='text text-decoration-none'>Thêm vào bài viết </a>
           <ul className='btn-add_menu list-unstyled d-flex align-items-center justify-content-between'>
             <li className='btn-add_item dropdown' onClick={() => setShowBoxImage(!showBoxImage)}>
               <span className="material-icons text-success " >
@@ -175,17 +194,23 @@ function CreatePostBox({ setShowCreateBox, user }) {
           </ul>
         </div>
         {/* <input onChange={handleSubmit} /> */}
-        <button onClick={handleSubmit} className="btn btn-info w-100">Post</button>
+        <button
+          onClick={handleSubmit}
+          className="btn btn-info w-100"
+        >
+          {!data ? "Đăng" : "Cập nhật"}
+        </button>
+        {
+          showEmojiPicker && (
+            <div className='emoji-container'>
+              <EmojiPicker
+                onEmojiClick={(emoji) => handleEmojiClick(emoji)}
+              />
+            </div>
+          )}
       </form>
 
-      {
-        showEmojiPicker && (
-          <div className='emoji-container'>
-            <EmojiPicker
-              onEmojiClick={(emoji) => handleEmojiClick(emoji)}
-            />
-          </div>
-        )}
+
     </div>
   )
 }

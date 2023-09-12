@@ -19,6 +19,8 @@ function Navbar() {
 
   const handleLogout = () => {
     dispatch(logout());
+
+    window.location.reload();
   }
 
   const user = useSelector(state => state.auth);
@@ -41,13 +43,13 @@ function Navbar() {
           }
           <li className="nav-item dropdown">
             <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <Avatar src={userInfo.avatar} size='small' />
+              <Avatar src={userInfo?.avatar} size='small' />
             </a>
             <div className="dropdown-menu">
-              <Link className="dropdown-item" to={`/profile/${userInfo._id}`}>Profile</Link>
-              <Link className="dropdown-item" to="/">Dark mode</Link>
+              <Link className="dropdown-item" to={`/profile/${userInfo?._id}`}>Trang cá nhân</Link>
+              <Link className="dropdown-item" to="/">Chế độ tối</Link>
               <hr className="dropdown-divider" />
-              <Link className="dropdown-item" to="/" onClick={handleLogout}>Logout</Link>
+              <Link className="dropdown-item" to="/" onClick={handleLogout}>Đăng xuất</Link>
             </div>
           </li>
         </ul>

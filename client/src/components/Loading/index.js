@@ -3,10 +3,8 @@ import "./index.scss";
 
 function Loading() {
   return (
-    <div className="loading position-fixed w-100 h-100 ">
-      <div className="loading-spinner">
-      </div>
-      <p>Loading</p>
+    <div className="spinner-border text-primary d-flex m-auto" role="status">
+      <span className="visually-hidden">Loading...</span>
     </div>
   )
 }

@@ -3,13 +3,16 @@ import React, { useEffect, useState } from 'react';
 import "./index.scss";
 import { useDispatch, useSelector } from 'react-redux';
 import { likePostAction, unLikePostAction } from '../../redux/actions/postAction';
+import CommentBox from '../CommentBox';
 
 function CardFooter({ post }) {
   const [liked, setLiked] = useState(false);
   const { auth } = useSelector(state => state);
 
   useEffect(() => {
-    if (post.likes.includes(JSON.parse(auth.userInfo)._id)) setLiked(true);
+    if (post.likes.includes(JSON.parse(auth.userInfo)._id))
+      setLiked(true);
+    else setLiked(false);
   }, [auth, liked, post]);
 
   const dispatch = useDispatch();
@@ -17,15 +20,13 @@ function CardFooter({ post }) {
   const handleLike = async (e) => {
     e.preventDefault();
     const id = post._id;
-    const res = await dispatch(likePostAction({ auth, id }));
-    console.log(res);
+    await dispatch(likePostAction({ auth, id }));
   }
 
   const handleUnLike = async (e) => {
     e.preventDefault();
     const id = post._id;
-    const res = await dispatch(unLikePostAction({ auth, id }));
-    console.log(res);
+    await dispatch(unLikePostAction({ auth, id }));
   }
   return (
     <div className='card__footer w-100 py-2'>
@@ -80,6 +81,10 @@ function CardFooter({ post }) {
         <div className='card__comments'>
           <strong>{post.comments.length} bình luận</strong>
         </div>
+      </div>
+
+      <div className='card__footer--comment'>
+        <CommentBox auth={auth} />
       </div>
     </div>
   )

@@ -13,11 +13,13 @@
   input {
     width: 100%;
     border: none;
-    background-color: transparent;
+    background-color: white;
 
     &:focus {
       border: none;
       outline: none;
+
+      background-color: white !important;
     }
   }
 
@@ -37,5 +39,6 @@
     overflow: auto;
     top: 30px;
     left: 0;
+    z-index: 20;
   }
 }

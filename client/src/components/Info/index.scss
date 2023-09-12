@@ -1,6 +1,10 @@
 .info {
   // position: relative;
   z-index: 10;
+
+  &__avatar {
+    border: 1px solid #ccc;
+  }
   &__content {
     margin-left: 100px;
 
@@ -34,6 +38,33 @@
         &:hover {
           text-decoration: underline;
         }
+      }
+    }
+  }
+
+  &__details {
+    width: 100%;
+    &--menu {
+      width: 100%;
+      margin-top: 60px;
+      border-top: 1px solid #ccc;
+      li {
+        display: flex;
+        font-size: 18px;
+        align-items: center;
+
+        padding: 10px 20px;
+        cursor: pointer;
+
+        span {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    &--item {
+      &.selected {
+        border-top: 1px solid #000;
       }
     }
   }

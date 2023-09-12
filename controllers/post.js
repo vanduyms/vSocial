@@ -47,13 +47,14 @@ const postController = {
     try {
       const { content, image } = req.body;
 
-      const post = await Post.findOneAndUpdate({ _id: req.params.id }, { content, image }).populate("user likes", "avatar username fullName followers").populate({
-        path: "comments",
-        populate: {
-          path: "user likes",
-          select: "-password"
-        }
-      })
+      const post = await Post.findOneAndUpdate({ _id: req.params.id }, { content, image }).populate("user likes", "avatar username fullName followers")
+      // .populate({
+      //   path: "comments",
+      //   populate: {
+      //     path: "user likes",
+      //     select: "-password"
+      //   }
+      // })
 
       res.json({
         msg: "Success",
@@ -72,9 +73,7 @@ const postController = {
       const post = await Post.find({ _id: req.params.id, likes: req.user._id });
       if (post.length > 0) return res.status(500).json({ msg: "You liked this post" });
 
-      const like = await Post.findOneAndUpdate({ _id: req.params.id }, { $push: { likes: req.user._id } }, { new: true });
-      console.log(like);
-
+      const like = await Post.findOneAndUpdate({ _id: req.params.id }, { $push: { likes: req.user._id } }, { new: true }).populate("user");
       if (!like) return res.status(400).json({ msg: "This post is not exist" });
 
       res.json({ msg: "Liked post !", result: like })
@@ -85,7 +84,7 @@ const postController = {
   },
   unLikePost: async (req, res) => {
     try {
-      const like = await Post.findOneAndUpdate({ _id: req.params.id }, { $pull: { likes: req.user._id } }, { new: true });
+      const like = await Post.findOneAndUpdate({ _id: req.params.id }, { $pull: { likes: req.user._id } }, { new: true }).populate("user");
 
       if (!like) return res.status(400).json({ msg: "This post is not exist" });
 
@@ -97,7 +96,14 @@ const postController = {
   },
   getUserPost: async (req, res) => {
     try {
+      const posts = await Post.find({ user: req.params.id }).populate("user", "avatar username fullName followers").sort("-createdAt");
 
+      if (!posts) return res.status(400).json({ msg: "This post is not exist!" });
+
+      res.json({
+        posts,
+        result: posts.length
+      });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

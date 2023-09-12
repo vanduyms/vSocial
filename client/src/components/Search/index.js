@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { useClickOutSide } from '../../hook/useToggle';
 import { getDataAPI } from '../../utils/fetchData';
 import UserCard from '../UserCard';
 import "./index.scss";
@@ -10,6 +11,8 @@ function Search() {
   const [showClearBtn, setShowClearBtn] = useState(false);
 
   const { userToken } = useSelector(state => state.auth);
+
+  const [refOutside] = useClickOutSide({ "onClickOutside": () => setShowClearBtn(false) });
 
   useEffect(() => {
     if (search && userToken) {
@@ -33,7 +36,7 @@ function Search() {
         name="search"
         id="search"
         value={search}
-        placeholder="Search"
+        placeholder="Tìm kiếm"
         onClick={handleInputChange}
         onChange={e => {
           setSearch(e.target.value.toLowerCase().replace(/ /g, ''));
@@ -45,6 +48,7 @@ function Search() {
       </div>
       <div
         className='icon'
+        ref={refOutside}
         onClick={() => {
           setSearch('');
           setShowClearBtn(false);
@@ -56,7 +60,7 @@ function Search() {
 
       <div className="users">
         {
-          search && users.map(user => (
+          search && showClearBtn && users.map(user => (
             <UserCard
               key={user._id}
               user={user}
