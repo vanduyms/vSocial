@@ -10,7 +10,7 @@ function CardFooter({ post }) {
   const { auth } = useSelector(state => state);
 
   useEffect(() => {
-    if (post.likes.includes(JSON.parse(auth.userInfo)._id))
+    if (post.likes.includes(auth.userInfo._id))
       setLiked(true);
     else setLiked(false);
   }, [auth, liked, post]);
@@ -32,13 +32,6 @@ function CardFooter({ post }) {
     <div className='card__footer w-100 py-2'>
       <div className='card__footer--action d-flex justify-content-between align-items-center'>
         <ul className='action--left d-flex list-unstyled align-items-center'>
-          {/* {
-            liked ?
-            <li className='action--item d-flex' onClick={handleUnLike}>
-
-              </li>
-          } */
-          }
           <li className='action--item d-flex' onClick={!liked ? handleLike : handleUnLike}>
             {!liked ?
               <span className="material-icons" id="moreLink" data-toggle="dropdown">
@@ -83,9 +76,9 @@ function CardFooter({ post }) {
         </div>
       </div>
 
-      <div className='card__footer--comment'>
-        <CommentBox auth={auth} />
-      </div>
+      {/* <div className='postDetail--container__comment'>
+          <CommentBox auth={auth} />
+        </div> */}
     </div>
   )
 }

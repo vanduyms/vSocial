@@ -2,7 +2,7 @@ const { createAsyncThunk } = require("@reduxjs/toolkit");
 const { imageUpload } = require("../../utils/imageUpload");
 const { postDataAPI, getDataAPI, patchDataAPI, deleteDataAPI } = require("../../utils/fetchData");
 
-export const createPostAction = createAsyncThunk('api/post', async ({ auth, content, image }, { rejectWithValue }) => {
+export const createPostAction = createAsyncThunk('api/post', async ({ auth, content, image, socket }, { rejectWithValue }) => {
   try {
     let media;
     if (image) media = await imageUpload([image]);
@@ -47,9 +47,12 @@ export const getUserPostsAction = createAsyncThunk('api/post', async ({ auth, id
   }
 });
 
-export const likePostAction = createAsyncThunk('api/post/:id/like', async ({ auth, id }, { rejectWithValue }) => {
+export const likePostAction = createAsyncThunk('api/post/:id/like', async ({ auth, postItem, socket }, { rejectWithValue }) => {
   try {
-    const res = await patchDataAPI(`post/${id}/like`, { id: id }, auth.userToken);
+    const newPost = { ...postItem, likes: [...postItem.likes, auth.user] };
+    socket.emit("likePost", newPost);
+
+    const res = await patchDataAPI(`post/${postItem._id}/like`, { id: postItem._id }, auth.userToken);
     return res;
   } catch (error) {
     if (error.response && error.response.data.msg) {
@@ -61,11 +64,15 @@ export const likePostAction = createAsyncThunk('api/post/:id/like', async ({ aut
   }
 })
 
-export const unLikePostAction = createAsyncThunk('api/post/:id/unlike', async ({ auth, id }, { rejectWithValue }) => {
+export const unLikePostAction = createAsyncThunk('api/post/:id/unlike', async ({ auth, postItem, socket }, { rejectWithValue }) => {
   try {
-    const res = await patchDataAPI(`post/${id}/unlike`, { id: id }, auth.userToken);
+    const newPost = { ...postItem, likes: postItem.likes.filter(like => like._id !== auth.userInfo._id) }
+    socket.emit("unLikePost", newPost);
+
+    const res = await patchDataAPI(`post/${postItem._id}/unlike`, { id: postItem._id }, auth.userToken);
     return res;
   } catch (error) {
+    console.log(error)
     if (error.response && error.response.data.msg) {
       return rejectWithValue(error.response.data.msg);
     }

@@ -31,7 +31,7 @@ const postController = {
   getPosts: async (req, res) => {
     try {
       const posts = await Post.find({}).sort('-createdAt')
-        .populate("user", "avatar username fullName followers");
+        .populate("user likes", "avatar username fullName followers");
 
       res.json({
         msg: 'Success!',
@@ -46,7 +46,6 @@ const postController = {
   updatePost: async (req, res) => {
     try {
       const { content, image } = req.body;
-
       const post = await Post.findOneAndUpdate({ _id: req.params.id }, { content, image }).populate("user likes", "avatar username fullName followers")
       // .populate({
       //   path: "comments",
@@ -96,7 +95,7 @@ const postController = {
   },
   getUserPost: async (req, res) => {
     try {
-      const posts = await Post.find({ user: req.params.id }).populate("user", "avatar username fullName followers").sort("-createdAt");
+      const posts = await Post.find({ user: req.params.id }).populate("user likes", "avatar username fullName followers").sort("-createdAt");
 
       if (!posts) return res.status(400).json({ msg: "This post is not exist!" });
 

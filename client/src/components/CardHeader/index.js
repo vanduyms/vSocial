@@ -68,7 +68,7 @@ function CardHeader({ postItem }) {
           Lưu bài viết
         </div>
         {
-          postItem?.user[0]?._id === JSON.parse(auth?.userInfo)._id &&
+          postItem?.user[0]?._id === auth?.userInfo._id &&
           (
             <>
               <div className='dropdown-item' data-bs-toggle="modal" data-bs-target="#modalDelete">

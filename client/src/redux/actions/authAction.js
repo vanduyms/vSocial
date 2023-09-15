@@ -9,6 +9,8 @@ export const userLogin = createAsyncThunk(
 
       localStorage.setItem('userToken', res.data.access_token);
       localStorage.setItem('userInfo', JSON.stringify(res.data.user));
+
+      localStorage.setItem('firstLogin', true);
       return res;
     } catch (error) {
       if (error.response && error.response.data.msg) {
@@ -33,6 +35,26 @@ export const userRegister = createAsyncThunk(
         return rejectWithValue(error.response.data.msg)
       } else {
         return rejectWithValue(error.response);
+      }
+    }
+  }
+)
+
+export const refreshToken = createAsyncThunk(
+  'api/refreshToken',
+  async ({ rejectWithValue }) => {
+    const firstLogin = localStorage.getItem("firstLogin")
+    if (firstLogin) {
+      try {
+        const res = await postDataAPI('refresh_token');
+        return res;
+      } catch (error) {
+        console.log(error);
+        if (error.response && error.response.data.msg) {
+          return rejectWithValue(error.response.data.msg)
+        } else {
+          return rejectWithValue(error.response);
+        }
       }
     }
   }

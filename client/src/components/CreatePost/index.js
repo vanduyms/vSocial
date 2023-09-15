@@ -9,7 +9,7 @@ function CreatePost() {
   const [onShowBox, setShowBox] = useState(false);
   const { auth } = useSelector(state => state);
 
-  const user = JSON.parse(auth?.userInfo);
+  const user = typeof auth.userInfo === "string" ? JSON.parse(auth.userInfo) : auth.userInfo;
 
   return (
     <div className='create-post d-flex flex-column align-items-center justify-content-center p-3 rounded-3'>

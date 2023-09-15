@@ -3,7 +3,7 @@ import Avatar from '../Avatar';
 import "./index.scss";
 
 function CommentBox({ auth }) {
-  const user = JSON.parse(auth.userInfo);
+  const user = auth.userInfo;
   const [content, setContent] = useState("");
 
   return (

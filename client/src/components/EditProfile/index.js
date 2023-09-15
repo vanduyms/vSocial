@@ -4,6 +4,7 @@ import { getProfileUser, updateProfileUser } from '../../redux/actions/profileAc
 import Avatar from '../Avatar';
 import "./index.scss";
 import { updateUserInfo } from '../../redux/reducers/authReducer';
+import { useClickOutSide } from '../../hook/useToggle';
 
 function EditProfile({ user, setOnEdit }) {
   const [avatar, setAvatar] = useState(user?.avatar ? user.avatar : '');
@@ -18,6 +19,8 @@ function EditProfile({ user, setOnEdit }) {
 
   const dispatch = useDispatch();
   const { auth } = useSelector(state => state);
+
+  const [refOutside] = useClickOutSide({ "onClickOutside": () => setOnEdit(false) });
 
   const changeAvatar = async (e) => {
     e.preventDefault();
@@ -54,7 +57,7 @@ function EditProfile({ user, setOnEdit }) {
 
   return (
     <div className='edit-profile'>
-      <form onSubmit={handleSubmit} >
+      <form onSubmit={handleSubmit} ref={refOutside}>
         <button
           className="btn btn_close rounded-circle d-flex align-items-center p-1"
           onClick={() => setOnEdit(false)}

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import { useClickOutSide } from '../../hook/useToggle';
 import { getDataAPI } from '../../utils/fetchData';
 import UserCard from '../UserCard';

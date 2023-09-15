@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
@@ -6,20 +6,22 @@ import { userLogin } from '../../redux/actions/authAction';
 import "./index.scss";
 
 function Login() {
-  const { loading } = useSelector(state => state.auth);
+  const { auth } = useSelector(state => state);
   const { register, handleSubmit } = useForm();
   const [email, setEmail] = useState("");
+  const [show, setShow] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [show, setShow] = useState(false);
+  useEffect(() => {
+    if (auth.userToken) navigate("/")
+  }, [auth.userToken, navigate])
+
 
   const submitForm = (data) => {
     data.email = email.toLowerCase();
     dispatch(userLogin(data));
-    navigate("/");
-    // window.location.reload();
   }
 
   return (
@@ -46,7 +48,7 @@ function Login() {
             </small>
           </div>
         </div>
-        <button type="submit" className="btn btn-dark w-100 rounded-pill" disabled={loading}>Login</button>
+        <button type="submit" className="btn btn-dark w-100 rounded-pill" disabled={auth.loading}>Login</button>
 
         <p className='my-2'>
           You don't have account ? <Link to="/register" style={{}} >Register Now</Link>

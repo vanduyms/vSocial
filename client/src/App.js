@@ -1,22 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-lone-blocks */
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NotFound from './components/NotFound';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import io from "socket.io-client";
 import { publicRoutes } from './routes';
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { refreshToken } from './redux/actions/authAction';
+import { setSocket } from './redux/reducers/socketReducer';
 
 function App() {
-  const { userToken } = useSelector(state => state.auth);
-  const [isLogin, setIsLogin] = useState(false);
+  const { auth } = useSelector(state => state);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsLogin(!isLogin);
-    const isUserToken = localStorage.getItem("userToken");
-    { if (!isUserToken) setIsLogin(false) };
-  }, [userToken])
+    dispatch(refreshToken());
+    const socket = io();
+
+    dispatch(setSocket());
+
+    return () => {
+      socket.close();
+    };
+  }, [dispatch]);
 
   return (
     <Router>
@@ -24,7 +32,7 @@ function App() {
       <input type="checkbox" id='theme' />
       <div className="App">
         <Routes>
-          <Route path='/' element={isLogin ? <Home /> : <Login />} />
+          <Route path='/' element={auth.userToken ? <Home /> : <Login />} />
           {
             publicRoutes.map((route, index) => {
               const Page = route.component;

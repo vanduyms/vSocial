@@ -16,7 +16,7 @@ function CreatePostBox({ setShowCreateBox, user, data }) {
   const [showBoxImage, setShowBoxImage] = useState(data?.images[0] ? true : false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
-  const [refOutSide] = useClickOutSide(() => setShowCreateBox(false));
+  const [refOutSide] = useClickOutSide({ "onClickOutside": () => setShowCreateBox(false) });
 
   const boxImage = useRef();
   const auth = useSelector(state => state.auth);
@@ -64,19 +64,18 @@ function CreatePostBox({ setShowCreateBox, user, data }) {
     } else {
       await dispatch(updatePostAction({ auth, content, image, id }));
       setShowCreateBox(false);
+
       id = urlParams?.id;
-      urlParams ? await dispatch(getUserPostsAction({ auth, id })) : await dispatch(getPostsAction({ auth }));
+
+      Object.keys(urlParams).length > 0 ? await dispatch(getUserPostsAction({ auth, id })) : await dispatch(getPostsAction({ auth }));
     }
   }
 
   return (
-    <div
-      className='createPost-box'
-    >
-      <form className='text-center'>
+    <div className='createPost-box'>
+      <form className='text-center' ref={refOutSide}>
         <button
           className="btn btn_close rounded-circle d-flex align-items-center p-1"
-          ref={refOutSide}
           onClick={() => setShowCreateBox(false)}
         >
           <span

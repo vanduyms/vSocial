@@ -6,13 +6,13 @@ import { userRegister } from '../../redux/actions/authAction';
 import "./index.scss";
 
 function Register() {
-  const { userToken } = useSelector(state => state.auth);
+  const { auth } = useSelector(state => state);
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
 
   useEffect(() => {
-    if (userToken) navigate('/');
-  }, [navigate, userToken]);
+    if (auth.userToken) navigate('/');
+  }, [navigate, auth.userToken]);
 
   const dispatch = useDispatch();
   const [show1, setShow1] = useState(false);

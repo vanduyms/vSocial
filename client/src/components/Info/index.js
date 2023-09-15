@@ -99,8 +99,8 @@ function Info() {
 
       {onEdit && <EditProfile setOnEdit={setOnEdit} user={profile.user} />}
 
-      {onShowFollower && <Follower title="Follower" data={followers} setShow={setOnShowFollower} />}
-      {onShowFollowing && <Follower title="Following" data={following} setShow={setOnShowFollowing} />}
+      {onShowFollower && <Follower title="Người theo dõi" data={followers} setShow={setOnShowFollower} />}
+      {onShowFollowing && <Follower title="Đang theo dõi" data={following} setShow={setOnShowFollowing} />}
     </div>
   )
 }

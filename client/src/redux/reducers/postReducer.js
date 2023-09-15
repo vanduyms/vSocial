@@ -12,7 +12,28 @@ const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-
+    // createPost: (state, action) => {
+    //   state.posts = [action.payload, ...state.posts]
+    // },
+    // setLoading: (state, action) => {
+    //   state.loading = action.payload;
+    // },
+    // getPosts: (state, action) => {
+    //   state.posts = action.payload.posts;
+    //   state.result = action.payload.result;
+    //   state.page = action.payload.page;
+    // },
+    // updatePost: (state, action) => {
+    //   const { _id, ...newData } = action.payload;
+    //   const postIndex = state.posts.findIndex((post) => post._id === _id);
+    //   if (postIndex !== -1) {
+    //     state.posts[postIndex] = { ...state.posts[postIndex], ...newData };
+    //   }
+    // },
+    // deletePost: (state, action) => {
+    //   const { _id } = action.payload;
+    //   state.posts = state.posts.filter((post) => post._id !== _id);
+    // },
   },
   extraReducers: {
     [createPostAction.pending]: (state) => {
@@ -77,4 +98,11 @@ const postSlice = createSlice({
   }
 });
 
+// export const {
+//   createPost,
+//   setLoading,
+//   getPosts,
+//   updatePost,
+//   deletePost
+// } = postSlice.actions;
 export default postSlice.reducer;

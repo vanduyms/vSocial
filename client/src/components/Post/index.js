@@ -18,10 +18,8 @@ function Post() {
     const loadData = async () => {
       await dispatch(getPostsAction({ auth }));
     }
-
     loadData();
   }, [dispatch, auth]);
-
 
   return (
     <div className='posts'>
@@ -34,6 +32,7 @@ function Post() {
           <PostCard key={item._id} postItem={item} />
         ))
       }
+
     </div>
   )
 }

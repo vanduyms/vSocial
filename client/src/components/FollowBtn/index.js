@@ -10,6 +10,8 @@ function FollowBtn({ setOnEdit }) {
   const [followed, setFollowed] = useState(false);
   const dispatch = useDispatch();
 
+  const userInfo = typeof auth.userInfo === "string" ? JSON.parse(auth.userInfo) : auth.userInfo;
+
   useEffect(() => {
     const loadData = () => {
       try {
@@ -17,7 +19,7 @@ function FollowBtn({ setOnEdit }) {
         if (!followers) {
           dispatch(getProfileUser({ id, auth }));
         } else {
-          setFollowed(followers.some(user => user._id === JSON.parse(auth.userInfo)._id));
+          setFollowed(followers.some(user => user._id === userInfo._id));
         }
       } catch (error) {
       }
@@ -40,20 +42,21 @@ function FollowBtn({ setOnEdit }) {
 
   return (
     <div>
-      {(JSON.parse(auth.userInfo)._id === id)
-        ?
-        <button
-          className='editBtn btn btn-outline-info'
-          onClick={() => setOnEdit(true)}
-        >
-          Chỉnh sửa trang cá nhân
-        </button> :
-        <button
-          className='editBtn btn btn-outline-info'
-          onClick={handleClick}
-        >
-          {followed ? "Đang theo dõi" : "Theo dõi"}
-        </button>
+      {
+        userInfo._id === id
+          ?
+          <button
+            className='editBtn btn btn-outline-info'
+            onClick={() => setOnEdit(true)}
+          >
+            Chỉnh sửa trang cá nhân
+          </button> :
+          <button
+            className='editBtn btn btn-outline-info'
+            onClick={handleClick}
+          >
+            {followed ? "Đang theo dõi" : "Theo dõi"}
+          </button>
       }
     </div>
   )

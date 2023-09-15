@@ -1,11 +1,14 @@
 import React from 'react';
+import { useClickOutSide } from '../../hook/useToggle';
 import UserComponent from '../UserComponent';
 import "./index.scss";
 
 function Follower({ data, title, setShow }) {
+  const [refOutside] = useClickOutSide({ "onClickOutside": () => setShow(false) });
+
   return (
     <div className='follows'>
-      <form>
+      <form ref={refOutside}>
         <button
           className="btn btn_close rounded-circle d-flex align-items-center p-1"
           onClick={() => setShow(false)}

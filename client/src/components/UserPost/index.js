@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -30,8 +31,15 @@ function UserPost() {
             {post.loading && <Loading />}
             {
               post.posts?.map((item, index) => {
-                if (item.images[0])
-                  return <img key={index} src={item.images[0]} alt="" />
+                if (item.images[0]) {
+                  return (
+                    < img
+                      key={index}
+                      src={item.images[0]}
+                      alt=""
+                    // onClick={() => setShowDetail(true)}
+                    />)
+                }
               })
             }
           </div>
