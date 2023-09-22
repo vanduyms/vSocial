@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProfileUser, updateProfileUser } from '../../redux/actions/profileAction';
 import Avatar from '../Avatar';
 import "./index.scss";
-import { updateUserInfo } from '../../redux/reducers/authReducer';
 import { useClickOutSide } from '../../hook/useToggle';
 
 function EditProfile({ user, setOnEdit }) {
@@ -11,11 +10,11 @@ function EditProfile({ user, setOnEdit }) {
   const [fullName, setFullName] = useState(user?.fullName ? user.fullName : '');
   const [mobile, setMobile] = useState(user?.mobile ? user.mobile : '');
   const [address, setAddress] = useState(user?.address ? user.address : '');
-  const [website, setWebsite] = useState(user?.website ? user.website : '');
-  const [story, setStory] = useState(user?.story ? user.story : '');
+  // const [website, setWebsite] = useState(user?.website ? user.website : '');
+  const [bio, setBio] = useState(user?.bio ? user.bio : '');
   const [gender, setGender] = useState(user?.gender ? user.gender : '');
 
-  const userData = { fullName, mobile, address, website, story, gender };
+  const userData = { fullName, mobile, address, bio, gender };
 
   const dispatch = useDispatch();
   const { auth } = useSelector(state => state);
@@ -43,15 +42,9 @@ function EditProfile({ user, setOnEdit }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(updateProfileUser({ auth, userData, avatar }));
+    const res = await dispatch(updateProfileUser({ auth, userData, avatar }));
 
-    var id = user._id;
-    const res = await dispatch(getProfileUser({ id, auth }));
-    var infoUpdated = JSON.stringify(res.payload.data.user);
-
-    await dispatch(updateUserInfo(infoUpdated));
-
-    localStorage.setItem("userInfo", infoUpdated);
+    console.log(res);
     setOnEdit(false);
   }
 
@@ -100,19 +93,19 @@ function EditProfile({ user, setOnEdit }) {
             className="form-control" value={address} onChange={e => setAddress(e.target.value)} />
         </div>
 
-        <div className="form-group mb-3">
+        {/* <div className="form-group mb-3">
           <label htmlFor="website">Website</label>
           <input type="text" name="website"
             className="form-control" value={website} onChange={e => setWebsite(e.target.value)} />
-        </div>
+        </div> */}
 
         <div className="form-group mb-3">
           <label htmlFor="story">Bio</label>
           <textarea name="story" cols="30" rows="3"
-            className="form-control" value={story} onChange={e => setStory(e.target.value)} />
+            className="form-control" value={bio} onChange={e => setBio(e.target.value)} />
 
           <small className="text-danger d-block text-right">
-            {story.length}/200
+            {bio.length}/200
           </small>
         </div>
 

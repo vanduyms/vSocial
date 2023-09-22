@@ -1,5 +1,6 @@
-const { createSlice } = require("@reduxjs/toolkit")
-const { createPostAction, getPostsAction, likePostAction, unLikePostAction, getUserPostsAction, deletePostAction, updatePostAction } = require("../actions/postAction")
+import { createSlice } from "@reduxjs/toolkit";
+import { createPostAction, getAllPostsAction, likePostAction, unLikePostAction, getUserPostsAction, deletePostAction, updatePostAction, getPostAction } from "../actions/postAction";
+import { EditData } from "../data";
 
 const initialState = {
   loading: false,
@@ -12,28 +13,9 @@ const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    // createPost: (state, action) => {
-    //   state.posts = [action.payload, ...state.posts]
-    // },
-    // setLoading: (state, action) => {
-    //   state.loading = action.payload;
-    // },
-    // getPosts: (state, action) => {
-    //   state.posts = action.payload.posts;
-    //   state.result = action.payload.result;
-    //   state.page = action.payload.page;
-    // },
-    // updatePost: (state, action) => {
-    //   const { _id, ...newData } = action.payload;
-    //   const postIndex = state.posts.findIndex((post) => post._id === _id);
-    //   if (postIndex !== -1) {
-    //     state.posts[postIndex] = { ...state.posts[postIndex], ...newData };
-    //   }
-    // },
-    // deletePost: (state, action) => {
-    //   const { _id } = action.payload;
-    //   state.posts = state.posts.filter((post) => post._id !== _id);
-    // },
+    updatePost: (state, { payload }) => {
+      state.posts = EditData(state.posts, payload._id, payload)
+    }
   },
   extraReducers: {
     [createPostAction.pending]: (state) => {
@@ -41,12 +23,12 @@ const postSlice = createSlice({
     },
     [createPostAction.fulfilled]: (state, { payload }) => {
       state.loading = false
-      state.posts = [payload.data.newPost, ...state.posts]
+      state.posts = [...state.posts, payload.data.newPost]
     },
-    [getPostsAction.pending]: (state) => {
+    [getAllPostsAction.pending]: (state) => {
       state.loading = true
     },
-    [getPostsAction.fulfilled]: (state, { payload }) => {
+    [getAllPostsAction.fulfilled]: (state, { payload }) => {
       state.posts = payload.data.posts
       state.result = payload.data.result
       state.loading = false
@@ -64,24 +46,14 @@ const postSlice = createSlice({
     },
     [likePostAction.fulfilled]: (state, { payload }) => {
       // state.loading = false
-      state.posts = state.posts.map((post) => {
-        if (post._id === payload.data.result._id) {
-          return payload.data.result;
-        }
-        return post;
-      });
+      state.posts = EditData(state.posts, payload._id, payload);
     },
     [unLikePostAction.pending]: (state) => {
-      state.loading = true
+      // state.loading = true
     },
     [unLikePostAction.fulfilled]: (state, { payload }) => {
-      state.loading = false
-      state.posts = state.posts.map((post) => {
-        if (post._id === payload.data.result._id) {
-          return payload.data.result;
-        }
-        return post;
-      })
+      // state.loading = false
+      state.posts = EditData(state.posts, payload._id, payload);
     },
     [deletePostAction.pending]: (state) => {
       state.loading = true
@@ -94,15 +66,17 @@ const postSlice = createSlice({
     },
     [updatePostAction.fulfilled]: (state) => {
       state.loading = false
-    }
+    }, [getPostAction.pending]: (state) => {
+      state.loading = true
+    },
+    [getPostAction.fulfilled]: (state, { payload }) => {
+      state.loading = false
+      state.posts = [payload.data.post]
+    },
   }
 });
 
-// export const {
-//   createPost,
-//   setLoading,
-//   getPosts,
-//   updatePost,
-//   deletePost
-// } = postSlice.actions;
+export const {
+  updatePost,
+} = postSlice.actions;
 export default postSlice.reducer;

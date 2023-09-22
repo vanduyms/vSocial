@@ -4,7 +4,7 @@ const auth = require("../middleware/auth");
 
 router.post("/post", auth, postCtrl.createPost);
 router.get("/post", auth, postCtrl.getPosts);
-router.get("/post/:id", auth, postCtrl.getUserPost);
+router.get("/user_posts/:id", auth, postCtrl.getUserPost);
 
 router.patch("/post/:id/like", auth, postCtrl.likePost);
 router.patch("/post/:id/unlike", auth, postCtrl.unLikePost);

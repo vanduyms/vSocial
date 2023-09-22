@@ -6,26 +6,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { formatDistanceToNow } from "date-fns";
 import CreatePostBox from '../CreatePostBox';
 import "./index.scss";
-import { Link, useParams } from 'react-router-dom';
-import { deletePostAction, getPostsAction, getUserPostsAction, likePostAction, unLikePostAction } from '../../redux/actions/postAction';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { deletePostAction, likePostAction, unLikePostAction } from '../../redux/actions/postAction';
 import Avatar from '../Avatar';
-import PostDetail from '../PostDetail';
 import Follower from "../Follower";
 
 function PostCard({ postItem }) {
   const [liked, setLiked] = useState(false);
   const { auth, post, socket } = useSelector(state => state);
   const [showUpdateBox, setShowUpdateBox] = useState(false);
-  const [showDetail, setShowDetail] = useState(false);
   const [showUserLikes, setShowUserLikes] = useState(false);
 
   const dispatch = useDispatch();
 
-  const userInfo = typeof auth.userInfo === "string" ? JSON.parse(auth.userInfo) : auth.userInfo;
+  const navigate = useNavigate();
+  var { id } = useParams();
+
+  const handleClickDetail = () => {
+    if (!id) navigate(`/post/${postItem._id}`);
+  }
 
   useEffect(() => {
     if (postItem.likes.find((value) =>
-      userInfo._id === value._id
+      auth.userInfo._id === value._id
     ))
       setLiked(true);
     else setLiked(false);
@@ -41,33 +44,23 @@ function PostCard({ postItem }) {
     return formattedDistance;
   };
 
-  let id = postItem?._id;
-  const urlParams = useParams();
 
   const handleLike = async (e) => {
     e.preventDefault();
     await dispatch(likePostAction({ auth, postItem, socket }));
-
-    id = urlParams?.id;
-    !Object.keys(urlParams).length > 0 ? await dispatch(getPostsAction({ auth })) : await dispatch(getUserPostsAction({ auth, id }));
   }
 
   const handleUnLike = async (e) => {
     e.preventDefault();
     await dispatch(unLikePostAction({ auth, postItem, socket }));
-
-    id = urlParams?.id;
-
-    !Object.keys(urlParams).length > 0 ? await dispatch(getPostsAction({ auth })) : await dispatch(getUserPostsAction({ auth, id }));
   }
 
 
-  const handleDelete = async () => {
+  const handleDelete = async (e) => {
+    e.preventDefault();
+
+    id = postItem?._id;
     await dispatch(deletePostAction({ auth, id }));
-
-    id = urlParams?.id;
-
-    !Object.keys(urlParams).length > 0 ? await dispatch(getPostsAction({ auth })) : await dispatch(getUserPostsAction({ auth, id }));
   }
 
   return (
@@ -164,9 +157,7 @@ function PostCard({ postItem }) {
               src={postItem.images[0]}
               alt="Content"
               className='card__image'
-              onClick={() => {
-                setShowDetail(true);
-              }} />
+              onClick={handleClickDetail} />
             :
             <div></div>
         }
@@ -189,9 +180,7 @@ function PostCard({ postItem }) {
             </li>
             <li
               className='action--item d-flex'
-              onClick={() => {
-                setShowDetail(true);
-              }}>
+              onClick={handleClickDetail}>
               <span className="material-icons" id="moreLink" data-toggle="dropdown">
                 chat_bubble_outline
               </span>
@@ -217,9 +206,7 @@ function PostCard({ postItem }) {
 
           <div
             className='card__comments'
-            onClick={() => {
-              setShowDetail(true);
-            }}
+            onClick={handleClickDetail}
           >
             <strong>{postItem.comments.length} bình luận</strong>
           </div>
@@ -230,7 +217,6 @@ function PostCard({ postItem }) {
         </div> */}
       </div>
 
-      {showDetail && <PostDetail postItem={postItem} setShowDetail={setShowDetail} />}
       {showUserLikes && <Follower data={postItem.likes} title="Thích" setShow={setShowUserLikes} />}
     </div>
   )

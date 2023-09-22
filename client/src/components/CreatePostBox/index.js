@@ -6,7 +6,7 @@ import EmojiPicker from "emoji-picker-react";
 import "./index.scss";
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createPostAction, getPostsAction, getUserPostsAction, updatePostAction } from '../../redux/actions/postAction';
+import { createPostAction, getAllPostsAction, getUserPostsAction, updatePostAction } from '../../redux/actions/postAction';
 import { useClickOutSide } from '../../hook/useToggle';
 
 function CreatePostBox({ setShowCreateBox, user, data }) {
@@ -60,14 +60,14 @@ function CreatePostBox({ setShowCreateBox, user, data }) {
     if (!data) {
       await dispatch(createPostAction({ auth, content, image }));
       setShowCreateBox(false);
-      await dispatch(getPostsAction({ auth }));
+      await dispatch(getAllPostsAction({ auth }));
     } else {
       await dispatch(updatePostAction({ auth, content, image, id }));
       setShowCreateBox(false);
 
       id = urlParams?.id;
 
-      Object.keys(urlParams).length > 0 ? await dispatch(getUserPostsAction({ auth, id })) : await dispatch(getPostsAction({ auth }));
+      Object.keys(urlParams).length > 0 ? await dispatch(getUserPostsAction({ auth, id })) : await dispatch(getAllPostsAction({ auth }));
     }
   }
 

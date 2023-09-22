@@ -1,49 +1,49 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { followUser, getProfileUser, unfollowUser } from '../../redux/actions/profileAction';
+import { followUser, unfollowUser } from '../../redux/actions/profileAction';
 
-function FollowBtn({ setOnEdit }) {
-  const { auth, profile } = useSelector(state => state);
-  const { id } = useParams();
-
+function FollowBtn({ setOnEdit, user }) {
   const [followed, setFollowed] = useState(false);
+  const [load, setLoad] = useState(false);
+  const { auth, socket, profile } = useSelector(state => state);
+
+  const id = user._id;
   const dispatch = useDispatch();
 
-  const userInfo = typeof auth.userInfo === "string" ? JSON.parse(auth.userInfo) : auth.userInfo;
-
   useEffect(() => {
-    const loadData = () => {
-      try {
-        const followers = profile?.followers;
-        if (!followers) {
-          dispatch(getProfileUser({ id, auth }));
-        } else {
-          setFollowed(followers.some(user => user._id === userInfo._id));
-        }
-      } catch (error) {
-      }
-    };
+    setFollowed(user?.followers.some(user => user._id === auth.userInfo._id));
+  }, [auth, dispatch, user]);
 
-    loadData();
-  }, [id, auth, dispatch, profile?.followers])
+  const handleFollow = async () => {
+    if (load) return;
 
+    setFollowed(true)
+    setLoad(true)
+    await dispatch(followUser({ users: profile.users, user, auth, socket }));
+    setLoad(false)
+  }
 
-  const handleClick = async () => {
+  const handleUnFollow = async () => {
+    if (load) return;
+
+    setFollowed(false)
+    setLoad(true)
+    await dispatch(unfollowUser({ users: profile.users, user, auth, socket }));
+    setLoad(false)
+  }
+
+  const handleClick = () => {
     if (!followed) {
-      await dispatch(followUser({ id, auth }));
-      await dispatch(getProfileUser(id, auth));
+      handleFollow();
     } else {
-      await dispatch(unfollowUser({ id, auth }));
-      await dispatch(getProfileUser(id, auth));
-
+      handleUnFollow();
     }
   }
 
   return (
     <div>
       {
-        userInfo._id === id
+        auth.userInfo._id === id
           ?
           <button
             className='editBtn btn btn-outline-info'

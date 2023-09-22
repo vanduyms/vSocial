@@ -10,20 +10,26 @@ import { publicRoutes } from './routes';
 import { useEffect } from 'react'
 import { refreshToken } from './redux/actions/authAction';
 import { setSocket } from './redux/reducers/socketReducer';
+import { updateUserInfo } from './redux/reducers/authReducer';
+import SocketClient from './SocketClient';
 
 function App() {
-  const { auth } = useSelector(state => state);
+  const { auth, socket } = useSelector(state => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (typeof auth.userInfo === "string") {
+      const userInfo = JSON.parse(auth.userInfo);
+      dispatch(updateUserInfo(userInfo));
+    }
+
     dispatch(refreshToken());
-    const socket = io();
+    const socketIO = io("http://localhost:3001");
 
-    dispatch(setSocket());
+    dispatch(setSocket(socketIO));
 
-    return () => {
-      socket.close();
-    };
+    return () => socketIO.close();
+
   }, [dispatch]);
 
   return (
@@ -31,6 +37,7 @@ function App() {
       {/* <Notify /> */}
       <input type="checkbox" id='theme' />
       <div className="App">
+        {socket.socket && <SocketClient />}
         <Routes>
           <Route path='/' element={auth.userToken ? <Home /> : <Login />} />
           {

@@ -3,7 +3,7 @@ import { useClickOutSide } from '../../hook/useToggle';
 import UserComponent from '../UserComponent';
 import "./index.scss";
 
-function Follower({ data, title, setShow }) {
+function Follower({ data, title, setShow, auth }) {
   const [refOutside] = useClickOutSide({ "onClickOutside": () => setShow(false) });
 
   return (

@@ -1,19 +1,27 @@
-import { getProfileUser } from "../actions/profileAction";
-
-const { createSlice } = require("@reduxjs/toolkit")
-
+import { followUser, getProfileUser, unfollowUser, updateProfileUser } from "../actions/profileAction";
+import { EditData } from "../data";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   loading: false,
-  user: null,
-  folowers: [],
-  following: []
+  ids: [],
+  users: [],
+  posts: []
 }
 
 const profileReducer = createSlice({
   name: 'profile',
   initialState,
   reducers: {
+    updatePost: (state, { payload }) => {
+      state.posts = EditData(state.posts, payload._id, payload)
+    },
+    setUser: (state, { payload }) => {
+      state.users = EditData(state.users, payload._id, payload)
+    },
+    getId: (state, { payload }) => {
+      state.ids = [...state.ids, payload]
+    }
   },
   extraReducers: {
     [getProfileUser.pending]: (state) => {
@@ -21,14 +29,34 @@ const profileReducer = createSlice({
     },
     [getProfileUser.fulfilled]: (state, { payload }) => {
       state.loading = false
-      state.user = payload.data.user
-      state.followers = payload.data.user.followers
-      state.following = payload.data.user.following
+      state.users = [...state.users, payload.user]
+      state.posts = [...state.posts, ...payload.posts]
     },
     [getProfileUser.rejected]: (state, { payload }) => {
       state.loading = false
     },
+    [followUser.pending]: (state) => {
+
+    },
+    [followUser.fulfilled]: (state, { payload }) => {
+      state.users = EditData(state.users, payload._id, payload)
+    },
+    [unfollowUser.pending]: (state) => {
+
+    },
+    [unfollowUser.fulfilled]: (state, { payload }) => {
+      state.users = EditData(state.users, payload.newUser._id, payload.newUser)
+    },
+    [updateProfileUser.pending]: (state) => {
+
+    },
+    [updateProfileUser.fulfilled]: (state, { payload }) => {
+      state.users = EditData(state.users, payload._id, payload)
+    }
   }
 });
 
+export const {
+  updatePost, setUser, getId
+} = profileReducer.actions;
 export default profileReducer.reducer;

@@ -22,7 +22,7 @@ function Navbar() {
   }
 
   const { auth } = useSelector(state => state);
-  const user = typeof auth.userInfo === "string" ? JSON.parse(auth.userInfo) : auth.userInfo;
+
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between align-middle">
@@ -41,10 +41,10 @@ function Navbar() {
           }
           <li className="nav-item dropdown">
             <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <Avatar src={user?.avatar} size='small' />
+              <Avatar src={auth.userInfo?.avatar} size='small' />
             </a>
             <div className="dropdown-menu">
-              <Link className="dropdown-item" to={`/profile/${user?._id}`}>Trang cá nhân</Link>
+              <Link className="dropdown-item" to={`/profile/${auth.userInfo?._id}`}>Trang cá nhân</Link>
               <Link className="dropdown-item" to="/">Chế độ tối</Link>
               <hr className="dropdown-divider" />
               <Link className="dropdown-item" to="/" onClick={handleLogout}>Đăng xuất</Link>

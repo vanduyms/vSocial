@@ -2,10 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const socketSlice = createSlice({
   name: 'socket',
-  initialState: null,
+  initialState: {
+    socket: null
+  },
   reducers: {
     setSocket: (state, action) => {
-      return action.payload;
+      state.socket = action.payload;
     },
   },
 });

@@ -1,34 +1,24 @@
 .commentBox {
   &__container {
-    .boxText {
-      margin-left: 10px;
-      background-color: rgb(220, 220, 220);
+    .action__item {
+      cursor: pointer;
+      font-size: 20px;
+    }
 
-      input:focus {
-        outline: none;
+    input {
+      border: none;
+      outline: none;
+      margin: 0 10px;
+
+      &:focus {
+        border: none;
       }
     }
 
-    &--action {
-      margin-bottom: 0;
-      margin-right: 15px;
-
-      .action__item {
-        display: flex;
-        align-items: center;
-
-        cursor: pointer;
-
-        .btn--comment__post {
-          border: none;
-          font-weight: 700;
-          color: #0095f6;
-        }
-      }
-
-      .action__item + .action__item {
-        margin-left: 5px;
-      }
+    button {
+      padding: 0;
+      border: none;
+      outline: none;
     }
   }
 }

@@ -5,7 +5,7 @@ import Discover from "../pages/Discover";
 import Message from "../pages/Message";
 import Profile from "../pages/Profile/[id]";
 import Notify from "../pages/Notify";
-import NotFound from "../components/NotFound";
+import Post from "../pages/Post/[id]";
 
 const publicRoutes = [
   { path: config.login, component: Login },
@@ -14,6 +14,7 @@ const publicRoutes = [
   { path: config.profile, component: Profile },
   { path: config.message, component: Message },
   { path: config.notify, component: Notify },
+  { path: config.postDetail, component: Post }
   // { path: config.notfound, component: NotFound }
 ]
 

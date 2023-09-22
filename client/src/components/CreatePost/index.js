@@ -9,13 +9,12 @@ function CreatePost() {
   const [onShowBox, setShowBox] = useState(false);
   const { auth } = useSelector(state => state);
 
-  const user = typeof auth.userInfo === "string" ? JSON.parse(auth.userInfo) : auth.userInfo;
 
   return (
     <div className='create-post d-flex flex-column align-items-center justify-content-center p-3 rounded-3'>
       <div className='create-post__top d-flex align-items-center justify-content-between w-100'>
-        <Link to={`/profile/${user?._id}`} >
-          <Avatar src={user?.avatar} size="small-32" />
+        <Link to={`/profile/${auth.userInfo?._id}`} >
+          <Avatar src={auth.userInfo?.avatar} size="small-32" />
         </Link>
 
         <input type="button" value='Bạn đang nghĩ gì?' className='w-100 rounded-5 border-0 p-1 px-3' onClick={() => setShowBox(true)} />
@@ -38,7 +37,7 @@ function CreatePost() {
         </button>
       </div>
 
-      {onShowBox && <CreatePostBox setShowCreateBox={setShowBox} user={user} />}
+      {onShowBox && <CreatePostBox setShowCreateBox={setShowBox} user={auth.userInfo} />}
     </div>
   )
 }

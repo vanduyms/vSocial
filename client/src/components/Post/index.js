@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import PostCard from '../PostCard';
-import { getPostsAction } from '../../redux/actions/postAction';
+import { getAllPostsAction } from '../../redux/actions/postAction';
 import Loading from '../Loading';
 
 function Post() {
@@ -15,14 +15,11 @@ function Post() {
   }, [post]);
 
   useEffect(() => {
-    const loadData = async () => {
-      await dispatch(getPostsAction({ auth }));
-    }
-    loadData();
+    dispatch(getAllPostsAction({ auth }));
   }, [dispatch, auth]);
 
   return (
-    <div className='posts'>
+    <div className='posts d-flex flex-column'>
       {
         post?.loading && <Loading />
       }

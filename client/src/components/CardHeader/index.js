@@ -5,7 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import Avatar from '../Avatar';
 import "./index.scss";
 import { useDispatch, useSelector } from 'react-redux';
-import { deletePostAction, getPostsAction, getUserPostsAction } from '../../redux/actions/postAction';
+import { deletePostAction, getAllPostsAction, getUserPostsAction } from '../../redux/actions/postAction';
 import CreatePostBox from '../CreatePostBox';
 
 function CardHeader({ postItem }) {
@@ -33,7 +33,7 @@ function CardHeader({ postItem }) {
 
     id = urlParams?.id;
 
-    !urlParams ? await dispatch(getPostsAction({ auth })) : await dispatch(getUserPostsAction({ auth, id }));
+    !urlParams ? await dispatch(getAllPostsAction({ auth })) : await dispatch(getUserPostsAction({ auth, id }));
   }
 
   return (

@@ -24,12 +24,12 @@ const userController = {
   },
   updateUser: async (req, res) => {
     try {
-      const { avatar, fullName, mobile, address, story, website, gender } = req.body;
-      await User.findByIdAndUpdate({ _id: req.user._id }, {
-        avatar, fullName, mobile, address, story, website, gender
+      const { avatar, fullName, mobile, address, bio, website, gender } = req.body;
+      const newUser = await User.findByIdAndUpdate({ _id: req.user._id }, {
+        avatar, fullName, mobile, address, bio, website, gender
       });
 
-      res.json({ msg: "Update success!" });
+      res.json({ msg: "Update success!", newUser });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
