@@ -2,10 +2,11 @@ import config from "../config/index";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Discover from "../pages/Discover";
-import Message from "../pages/Message";
+import Message from "../pages/Message/index";
 import Profile from "../pages/Profile/[id]";
 import Notify from "../pages/Notify";
 import Post from "../pages/Post/[id]";
+import Conversation from "../pages/Conversation";
 
 const publicRoutes = [
   { path: config.login, component: Login },
@@ -14,8 +15,8 @@ const publicRoutes = [
   { path: config.profile, component: Profile },
   { path: config.message, component: Message },
   { path: config.notify, component: Notify },
-  { path: config.postDetail, component: Post }
-  // { path: config.notfound, component: NotFound }
+  { path: config.postDetail, component: Post },
+  { path: config.conversation, component: Conversation }
 ]
 
 export { publicRoutes };

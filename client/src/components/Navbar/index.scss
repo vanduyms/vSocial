@@ -5,5 +5,61 @@
   right: 0;
   padding: 0 7rem;
 
+  border-bottom: 1px solid #ccc;
   z-index: 20;
+
+  .search_form {
+    width: 30%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .navbar {
+    padding: 5px 0;
+
+    .search_form {
+      width: 300px;
+    }
+  }
+  .menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-top: 1px solid #ccc;
+
+    .navbar-nav {
+      width: 100%;
+
+      li {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        a {
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .navbar {
+    padding: 0 !important;
+    border: none;
+
+    .navbar-brand {
+      display: none;
+      height: 0;
+    }
+    .search_form {
+      display: none;
+    }
+  }
 }

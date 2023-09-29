@@ -1,0 +1,29 @@
+.chat__title {
+  margin-bottom: 3px;
+}
+.you__content {
+  position: relative;
+
+  span {
+    position: absolute;
+    top: 50%;
+    left: -30px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 30px;
+    opacity: 0;
+  }
+
+  &:hover span {
+    opacity: 1;
+  }
+}
+
+.chat__text {
+  padding: 9px 14px;
+  margin-bottom: 5px;
+}
+.chat__time {
+  font-size: 13px;
+  color: #777;
+}

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfileUser, updateProfileUser } from '../../redux/actions/profileAction';
+import { updateProfileUser } from '../../redux/actions/profileAction';
 import Avatar from '../Avatar';
 import "./index.scss";
 import { useClickOutSide } from '../../hook/useToggle';
+import { setCredentials } from '../../redux/reducers/authReducer';
+import { setUser } from '../../redux/reducers/profileReducer';
 
 function EditProfile({ user, setOnEdit }) {
   const [avatar, setAvatar] = useState(user?.avatar ? user.avatar : '');
@@ -42,10 +44,12 @@ function EditProfile({ user, setOnEdit }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setOnEdit(false);
+
     const res = await dispatch(updateProfileUser({ auth, userData, avatar }));
 
-    console.log(res);
-    setOnEdit(false);
+    await dispatch(setCredentials(res.payload));
+    await dispatch(setUser(res.payload));
   }
 
   return (

@@ -92,3 +92,10 @@
     }
   }
 }
+
+@media screen and (max-width: 640px) {
+  .postcards {
+    width: 100%;
+    margin: 10px 0 !important;
+  }
+}

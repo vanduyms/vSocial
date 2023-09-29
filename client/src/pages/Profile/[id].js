@@ -25,7 +25,7 @@ function Profile() {
     if (profile.ids.every(item => item !== id)) {
       dispatch(getProfileUser({ id, auth }))
     }
-  }, [id, auth, dispatch, profile.ids])
+  }, [id, auth, dispatch, profile])
 
 
   return (

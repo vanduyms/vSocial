@@ -1,0 +1,12 @@
+.comment__card {
+  &--container {
+    width: 100%;
+    .commentBox {
+      width: 100%;
+      margin-left: 5px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 0 10px;
+    }
+  }
+}

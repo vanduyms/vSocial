@@ -5,14 +5,14 @@
     align-items: center;
     justify-content: flex-start;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 4px;
 
     &__info {
       position: relative;
       background-color: #000;
       cursor: pointer;
-      width: 292px;
-      height: 292px;
+      width: 32.3%;
+      aspect-ratio: 1 / 1;
 
       .userPost__img {
         width: 100%;

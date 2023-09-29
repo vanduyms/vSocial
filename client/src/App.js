@@ -12,6 +12,7 @@ import { refreshToken } from './redux/actions/authAction';
 import { setSocket } from './redux/reducers/socketReducer';
 import { updateUserInfo } from './redux/reducers/authReducer';
 import SocketClient from './SocketClient';
+import Alert from "./components/Alert";
 
 function App() {
   const { auth, socket } = useSelector(state => state);
@@ -34,25 +35,27 @@ function App() {
 
   return (
     <Router>
-      {/* <Notify /> */}
+      <Alert />
       <input type="checkbox" id='theme' />
       <div className="App">
-        {socket.socket && <SocketClient />}
+        {socket.socket && auth.userToken && <SocketClient />}
         <Routes>
           <Route path='/' element={auth.userToken ? <Home /> : <Login />} />
+
+          <Route path='*' element={<NotFound />} />
+
           {
             publicRoutes.map((route, index) => {
               const Page = route.component;
               return (
-                <Route
+                < Route
                   key={index}
                   path={route.path}
-                  element={<Page />}
+                  element={< Page />}
                 />
               )
             })
           }
-          <Route path='*' element={<NotFound />} />
         </Routes>
       </div>
     </Router>

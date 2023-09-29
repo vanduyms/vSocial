@@ -11,13 +11,13 @@ function Saved({ auth, profile, dispatch, id }) {
               <img className='userPost__img userPost__img' src={post.images[0]} alt="Post img" />
               <div className='userPost__info userPost__info'>
                 <div>
-                  <span class="material-icons">
+                  <span className="material-icons">
                     favorite
                   </span>
                   <p>{post.likes.length} </p>
                 </div>
                 <div>
-                  <span class="material-icons">
+                  <span className="material-icons">
                     chat_bubble_outline
                   </span>
                   <p>{1}</p>

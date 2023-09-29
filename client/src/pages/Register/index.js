@@ -23,7 +23,7 @@ function Register() {
   const submitForm = (data) => {
     data.email = data.email.toLowerCase();
     data.password = password;
-    dispatch(userRegister(data));
+    dispatch(userRegister({ data, dispatch }));
   }
 
   return (
@@ -86,7 +86,7 @@ function Register() {
         </button>
 
         <p className='my-2'>
-          You have account ? <Link to="/login" style={{}} >Login Now</Link>
+          You have account ? <Link to="/" style={{}} >Login Now</Link>
         </p>
       </form>
     </div>

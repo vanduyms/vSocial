@@ -4,9 +4,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import Avatar from '../Avatar';
 import EmojiPicker from "emoji-picker-react";
 import "./index.scss";
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createPostAction, getAllPostsAction, getUserPostsAction, updatePostAction } from '../../redux/actions/postAction';
+import { createPostAction, getAllPostsAction, updatePostAction } from '../../redux/actions/postAction';
 import { useClickOutSide } from '../../hook/useToggle';
 
 function CreatePostBox({ setShowCreateBox, user, data }) {
@@ -53,21 +53,16 @@ function CreatePostBox({ setShowCreateBox, user, data }) {
   const dispatch = useDispatch();
 
   let id = data?._id;
-  let urlParams = useParams();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!data) {
-      await dispatch(createPostAction({ auth, content, image }));
+      await dispatch(createPostAction({ auth, content, image, dispatch }));
       setShowCreateBox(false);
       await dispatch(getAllPostsAction({ auth }));
     } else {
-      await dispatch(updatePostAction({ auth, content, image, id }));
+      await dispatch(updatePostAction({ auth, content, image, id, dispatch }));
       setShowCreateBox(false);
-
-      id = urlParams?.id;
-
-      Object.keys(urlParams).length > 0 ? await dispatch(getUserPostsAction({ auth, id })) : await dispatch(getAllPostsAction({ auth }));
     }
   }
 

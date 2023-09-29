@@ -28,8 +28,9 @@ const authSlice = createSlice({
       state.userToken = null
       state.error = null
     },
-    setCredentials: (state, action) => {
-      state.userInfo = action.payload
+    setCredentials: (state, { payload }) => {
+      localStorage.setItem("userInfo", JSON.stringify(payload))
+      state.userInfo = payload
     },
     updateUserInfo: (state, action) => {
       state.userInfo = action.payload
@@ -55,8 +56,8 @@ const authSlice = createSlice({
     },
     [userRegister.fulfilled]: (state, { payload }) => {
       state.loading = false
-      state.userInfo = payload
-      state.userToken = payload.userToken
+      state.userInfo = payload.data.user
+      state.userToken = payload.data.access_token
       state.success = true
     },
     [userRegister.rejected]: (state, { payload }) => {

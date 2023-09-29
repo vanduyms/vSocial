@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createCommentAction, deleteCommentAction, updateCommentAction } from "../actions/commentAction";
 import { createPostAction, getAllPostsAction, likePostAction, unLikePostAction, getUserPostsAction, deletePostAction, updatePostAction, getPostAction } from "../actions/postAction";
 import { EditData } from "../data";
 
@@ -64,15 +65,37 @@ const postSlice = createSlice({
     [updatePostAction.pending]: (state) => {
       state.loading = true
     },
-    [updatePostAction.fulfilled]: (state) => {
+    [updatePostAction.fulfilled]: (state, { payload }) => {
+      state.posts = [payload]
       state.loading = false
-    }, [getPostAction.pending]: (state) => {
+    },
+    [getPostAction.pending]: (state) => {
       state.loading = true
     },
     [getPostAction.fulfilled]: (state, { payload }) => {
       state.loading = false
       state.posts = [payload.data.post]
     },
+
+    // Comment
+    [createCommentAction.pending]: (state) => {
+
+    },
+    [createCommentAction.fulfilled]: (state, { payload }) => {
+      state.posts = EditData(state.posts, payload._id, payload);
+    },
+    [updateCommentAction.pending]: (state) => {
+
+    },
+    [updateCommentAction.fulfilled]: (state, { payload }) => {
+      state.posts = EditData(state.posts, payload._id, payload);
+    },
+    [deleteCommentAction.pending]: (state) => {
+
+    },
+    [deleteCommentAction.fulfilled]: (state, { payload }) => {
+      state.posts = EditData(state.posts, payload._id, payload);
+    }
   }
 });
 

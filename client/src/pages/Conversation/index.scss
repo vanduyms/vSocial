@@ -1,0 +1,31 @@
+.conversation {
+  height: 100vh;
+  &--container {
+    padding-top: 45px;
+  }
+}
+
+.right__mess {
+  width: 80%;
+}
+
+@media screen and (max-width: 640px) {
+  .conversation {
+    .navbar {
+      display: none;
+    }
+
+    &--container {
+      padding-top: 0px;
+
+      .message--container__left {
+        display: none !important;
+      }
+
+      .right__mess {
+        border: none;
+        width: 100%;
+      }
+    }
+  }
+}

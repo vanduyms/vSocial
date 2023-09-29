@@ -10,6 +10,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { deletePostAction, likePostAction, unLikePostAction } from '../../redux/actions/postAction';
 import Avatar from '../Avatar';
 import Follower from "../Follower";
+import CommentBox from '../CommentBox';
+import Comments from '../Comments';
 
 function PostCard({ postItem }) {
   const [liked, setLiked] = useState(false);
@@ -212,9 +214,10 @@ function PostCard({ postItem }) {
           </div>
         </div>
 
-        {/* <div className='postDetail--container__comment'>
-          <CommentBox auth={auth} />
-        </div> */}
+        <div className='postDetail--container__comment'>
+          <Comments post={postItem} />
+          <CommentBox post={postItem} />
+        </div>
       </div>
 
       {showUserLikes && <Follower data={postItem.likes} title="Thích" setShow={setShowUserLikes} />}

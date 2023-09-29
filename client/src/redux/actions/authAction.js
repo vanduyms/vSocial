@@ -1,9 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { postDataAPI } from "../../utils/fetchData";
+import { setAlert } from "../reducers/alertReducer";
 
 export const userLogin = createAsyncThunk(
   'api/login',
-  async (data, { rejectWithValue }) => {
+  async ({ data, dispatch }, { rejectWithValue }) => {
     try {
       const res = await postDataAPI('login', data);
 
@@ -13,6 +14,10 @@ export const userLogin = createAsyncThunk(
       localStorage.setItem('firstLogin', true);
       return res;
     } catch (error) {
+      dispatch(setAlert({
+        message: error.response.data.msg,
+        active: true
+      }));
       if (error.response && error.response.data.msg) {
         return rejectWithValue(error.response.data.msg)
       } else {
@@ -24,13 +29,17 @@ export const userLogin = createAsyncThunk(
 
 export const userRegister = createAsyncThunk(
   'api/register',
-  async (data, { rejectWithValue }) => {
+  async ({ data, dispatch }, { rejectWithValue }) => {
     try {
       const res = await postDataAPI('register', data);
 
       localStorage.setItem('userToken', res.data.access_token)
       return res;
     } catch (error) {
+      dispatch(setAlert({
+        message: error.response.data.msg,
+        active: true
+      }));
       if (error.response && error.response.data.msg) {
         return rejectWithValue(error.response.data.msg)
       } else {

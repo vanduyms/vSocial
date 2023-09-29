@@ -27,19 +27,20 @@ export const getProfileUser = createAsyncThunk(
 )
 
 export const updateProfileUser = createAsyncThunk(
-  'api/user',
+  'api/user/:id/update',
   async ({ auth, userData, avatar }, { rejectWithValue }) => {
     try {
       let media;
       if (avatar) media = await imageUpload([avatar]);
 
-      console.log(userData);
-      const res = await patchDataAPI("user", {
+      await patchDataAPI("user", {
         ...userData,
         avatar: media ? media[0].url : auth.userInfo.avatar
       }, auth.userToken);
 
-      return res.data;
+      const userInfo = { ...auth.userInfo, ...userData, avatar: media ? media[0].url : auth.userInfo.avatar };
+
+      return userInfo;
     } catch (error) {
       if (error.response && error.response.data.msg) {
         return rejectWithValue(error.response.data.msg)

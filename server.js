@@ -10,6 +10,8 @@ const SocketServer = require("./socketServer");
 const authRoute = require("./routes/authRouter");
 const userRoute = require("./routes/userRouter");
 const postRoute = require("./routes/postRouter");
+const commentRoute = require("./routes/commentRouter");
+const messageRoute = require("./routes/messageRouter");
 
 const app = express();
 app.use(express.json());
@@ -32,6 +34,8 @@ io.on('connection', (socket) => {
 app.use("/api", authRoute);
 app.use("/api", userRoute);
 app.use("/api", postRoute);
+app.use("/api", commentRoute);
+app.use("/api", messageRoute);
 
 app.get("/", (req, res) => {
   res.json({ msg: "Hello" });

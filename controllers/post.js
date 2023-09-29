@@ -31,7 +31,13 @@ const postController = {
   getPosts: async (req, res) => {
     try {
       const posts = await Post.find({}).sort('-createdAt')
-        .populate("user likes", "avatar username fullName followers");
+        .populate("user likes", "avatar username fullName followers").populate({
+          path: "comments",
+          populate: {
+            path: "user likes",
+            select: "-password"
+          }
+        });
 
       res.json({
         msg: 'Success!',
@@ -46,14 +52,13 @@ const postController = {
   updatePost: async (req, res) => {
     try {
       const { content, image } = req.body;
-      const post = await Post.findOneAndUpdate({ _id: req.params.id }, { content, image }).populate("user likes", "avatar username fullName followers")
-      // .populate({
-      //   path: "comments",
-      //   populate: {
-      //     path: "user likes",
-      //     select: "-password"
-      //   }
-      // })
+      const post = await Post.findOneAndUpdate({ _id: req.params.id }, { content, image }).populate("user likes", "avatar username fullName followers").populate({
+        path: "comments",
+        populate: {
+          path: "user likes",
+          select: "-password"
+        }
+      })
 
       res.json({
         msg: "Success",
@@ -107,14 +112,13 @@ const postController = {
   },
   getPost: async (req, res) => {
     try {
-      const post = await Post.findById(req.params.id).populate("user likes", "avatar username fullName followers")
-      // .populate({
-      //   path: "comments",
-      //   populate: {
-      //     path: "user likes",
-      //     select: "-password"
-      //   }
-      // });
+      const post = await Post.findById(req.params.id).populate("user likes", "avatar username fullName followers").populate({
+        path: "comments",
+        populate: {
+          path: "user likes",
+          select: "-password"
+        }
+      });
 
       // if (!post) return res.status(400).json({ msg: "This post is not exist!" });
 

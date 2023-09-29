@@ -21,11 +21,12 @@ function Info({ auth, profile, id, dispatch }) {
     }
   }, [id, auth, dispatch, profile.users]);
 
+
   return (
     <div className='info m-5 d-flex flex-column align-items-center'>
       {userData.map(user => (
         <div className='info__container d-flex' key={user._id}>
-          <div className='info__avatar rounded-circle'>
+          <div className='info__avatar d-flex align-items-center rounded-circle'>
             <Avatar src={user.avatar} size="very-big" />
           </div>
 

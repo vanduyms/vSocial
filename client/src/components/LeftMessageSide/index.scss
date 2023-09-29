@@ -1,0 +1,83 @@
+.message--container__left {
+  width: 20%;
+  height: 100%;
+
+  border-right: 1px solid #ccc;
+
+  .listChat--head {
+    padding: 10px 0;
+    &__action {
+      .action--item {
+        padding: 7px;
+        background-color: #ccc;
+
+        &:hover {
+          background-color: rgb(211, 211, 211);
+        }
+        & + .action--item {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+
+  .search--container {
+    background-color: #ccc;
+    margin-bottom: 10px;
+    input {
+      border: none;
+      outline: none;
+    }
+
+    div {
+      cursor: pointer;
+    }
+  }
+
+  .listChat--content {
+    height: 100%;
+    overflow-y: scroll;
+    border-top: 1px solid #ccc;
+    padding: 5px 0;
+
+    .listChat--item {
+      cursor: pointer;
+
+      &:hover {
+        background-color: #ccc;
+      }
+      &__info {
+        width: 100%;
+        margin-left: 10px;
+      }
+    }
+
+    .message__user {
+      display: flex;
+      cursor: pointer;
+      border-radius: 10px;
+      &.active {
+        background-color: rgb(207, 207, 207);
+      }
+
+      .userCard {
+        display: flex;
+        align-items: center;
+        border-radius: 10px;
+        width: 100%;
+        div {
+          width: 100%;
+        }
+
+        &:hover {
+          background-color: rgb(207, 207, 207);
+        }
+
+        .userActive {
+          font-size: 10px;
+          padding-right: 10px;
+        }
+      }
+    }
+  }
+}

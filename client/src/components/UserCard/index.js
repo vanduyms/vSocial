@@ -6,9 +6,9 @@ import "./index.scss";
 
 function UserCard({ children, user, border, handleClose, setShowFollowers, setShowFollowing, msg }) {
   const handleCloseAll = () => {
-    if (handleClose) handleClose()
-    if (setShowFollowers) setShowFollowers(false)
-    if (setShowFollowing) setShowFollowing(false)
+    if (handleClose) handleClose();
+    if (setShowFollowers) setShowFollowers(false);
+    if (setShowFollowing) setShowFollowing(false);
 
   }
 

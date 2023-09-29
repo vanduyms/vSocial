@@ -3,6 +3,7 @@ const { createSlice } = require("@reduxjs/toolkit")
 
 const initialState = {
   message: "",
+  active: false
 }
 
 const alertReducer = createSlice({
@@ -10,7 +11,8 @@ const alertReducer = createSlice({
   initialState,
   reducers: {
     setAlert: (state, { payload }) => {
-      state.message = payload
+      state.message = payload.message
+      state.active = payload.active
     }
   },
 });

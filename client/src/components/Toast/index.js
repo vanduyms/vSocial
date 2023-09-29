@@ -1,17 +1,22 @@
-import React from 'react';
+import React from 'react'
 
-function Toast({ msg, handleShow, bgColor }) {
+const Toast = ({ msg, handleShow, bgColor }) => {
   return (
-    <div className={`toast show position-fixed ${bgColor}`} style={{ top: '5px', right: '5px', minWidth: '200px', zIndex: 50 }}>
-      <div className={`toast-header text-light ${bgColor}`}>
-        <strong className="me-auto">{msg.title}</strong>
-        <button type="button" className="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-      <div className="toast-body text-light">
-        {msg.body}
+    <div className={`toast show position-fixed text-light ${bgColor}`}
+      style={{ top: '5px', right: '5px', minWidth: '200px', zIndex: 50 }}>
+      <div className={`toast-header text-light ${bgColor} d-flex justify-content-between`}>
+        <strong className="mr-auto text-light">{msg.title}</strong>
+        <button
+          type="button"
+          className="text-white close btn-close"
+          data-dismiss="toast"
+          style={{ outline: 'none' }}
+          onClick={handleShow}
+        >
+        </button>
       </div>
     </div>
   )
 }
 
-export default Toast;
+export default Toast

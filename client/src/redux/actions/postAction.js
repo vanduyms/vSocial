@@ -1,8 +1,9 @@
-const { createAsyncThunk } = require("@reduxjs/toolkit");
-const { imageUpload } = require("../../utils/imageUpload");
-const { postDataAPI, getDataAPI, patchDataAPI, deleteDataAPI } = require("../../utils/fetchData");
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { imageUpload } from "../../utils/imageUpload";
+import { postDataAPI, getDataAPI, patchDataAPI, deleteDataAPI } from "../../utils/fetchData";
+import { setAlert } from "../reducers/alertReducer";
 
-export const createPostAction = createAsyncThunk('api/createPost', async ({ auth, content, image, socket }, { rejectWithValue }) => {
+export const createPostAction = createAsyncThunk('api/createPost', async ({ auth, content, image, dispatch }, { rejectWithValue }) => {
   try {
     let media;
     if (image) media = await imageUpload([image]);
@@ -13,6 +14,10 @@ export const createPostAction = createAsyncThunk('api/createPost', async ({ auth
 
     return res;
   } catch (error) {
+    dispatch(setAlert({
+      message: error.response.data.msg,
+      active: true
+    }));
     if (error.response && error.response.data.msg) return rejectWithValue(error.response.data.msg);
     else return rejectWithValue(error.response);
   }
@@ -116,12 +121,15 @@ export const deletePostAction = createAsyncThunk('api/post/:id/delete', async ({
   }
 })
 
-export const updatePostAction = createAsyncThunk('api/post/:id/update', async ({ auth, content, image, id }, { rejectWithValue }) => {
+export const updatePostAction = createAsyncThunk('api/post/:id/update', async ({ auth, content, image, id, dispatch }, { rejectWithValue }) => {
   try {
     const res = await patchDataAPI(`post/${id}`, { content, image }, auth.userToken);
-    return res;
+    return res.data.newPost;
   } catch (error) {
-    console.log(error)
+    dispatch(setAlert({
+      message: error.response.data.msg,
+      active: true
+    }));
     if (error.response && error.response.data.msg) {
       return rejectWithValue(error.response.data.msg);
     }

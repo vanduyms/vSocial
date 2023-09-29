@@ -21,7 +21,7 @@ function Login() {
 
   const submitForm = (data) => {
     data.email = email.toLowerCase();
-    dispatch(userLogin(data));
+    dispatch(userLogin({ data, dispatch }));
   }
 
   return (

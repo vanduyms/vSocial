@@ -20,3 +20,39 @@
     }
   }
 }
+
+@media screen and (max-width: 640px) {
+  .profile {
+    &--container {
+      margin-top: 0;
+      padding-top: 0;
+      width: 100%;
+
+      .info {
+        margin: 3rem 0;
+
+        &__container {
+          .info__content {
+            margin-left: 10px;
+
+            &--title {
+              flex-direction: column;
+              .editBtn {
+                margin-left: 0;
+              }
+            }
+          }
+        }
+
+        .info__content--sub {
+          flex-direction: column;
+
+          .item {
+            padding: 5px 0;
+            margin-left: 0;
+          }
+        }
+      }
+    }
+  }
+}

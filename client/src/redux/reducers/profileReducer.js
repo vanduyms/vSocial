@@ -48,9 +48,10 @@ const profileReducer = createSlice({
       state.users = EditData(state.users, payload.newUser._id, payload.newUser)
     },
     [updateProfileUser.pending]: (state) => {
-
+      state.loading = true
     },
     [updateProfileUser.fulfilled]: (state, { payload }) => {
+      state.loading = false
       state.users = EditData(state.users, payload._id, payload)
     }
   }

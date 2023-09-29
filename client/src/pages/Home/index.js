@@ -2,10 +2,11 @@ import React from 'react';
 import CreatePost from '../../components/CreatePost';
 import Navbar from '../../components/Navbar';
 import Post from '../../components/Post';
+import "./index.scss";
 
 function Home() {
   return (
-    <div>
+    <div className='home'>
       <Navbar />
       <div className='main'>
         <CreatePost />
