@@ -18,4 +18,4 @@
 
 8. Fix update profile --> OK
 
-9. Create message page
+9. Create message page --> OK
