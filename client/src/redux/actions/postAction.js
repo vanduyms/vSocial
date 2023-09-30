@@ -2,8 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { imageUpload } from "../../utils/imageUpload";
 import { postDataAPI, getDataAPI, patchDataAPI, deleteDataAPI } from "../../utils/fetchData";
 import { setAlert } from "../reducers/alertReducer";
+import { createNotify, removeNotify } from "./notifyAction";
 
-export const createPostAction = createAsyncThunk('api/createPost', async ({ auth, content, image, dispatch }, { rejectWithValue }) => {
+export const createPostAction = createAsyncThunk('api/createPost', async ({ auth, content, image, dispatch, socket }, { rejectWithValue }) => {
   try {
     let media;
     if (image) media = await imageUpload([image]);
@@ -11,6 +12,17 @@ export const createPostAction = createAsyncThunk('api/createPost', async ({ auth
       content,
       images: media ? [media[0].url] : ['']
     }, auth.userToken);
+    console.log(res);
+
+    const msg = {
+      id: res.data.newPost._id,
+      text: 'Đã thêm 1 bài viết mới',
+      recipients: res.data.newPost.user.followers,
+      url: `/post/${res.data.newPost._id}`,
+      content,
+      image: media[0].url
+    }
+    await dispatch(createNotify({ msg, auth, socket }));
 
     return res;
   } catch (error) {
@@ -67,13 +79,24 @@ export const getUserPostsAction = createAsyncThunk('api/user_post', async ({ aut
   }
 });
 
-export const likePostAction = createAsyncThunk('api/post/:id/like', async ({ auth, postItem, socket }, { rejectWithValue }) => {
+export const likePostAction = createAsyncThunk('api/post/:id/like', async ({ auth, postItem, socket, dispatch }, { rejectWithValue }) => {
   try {
     const newPost = { ...postItem, likes: [...postItem.likes, auth.userInfo] };
     socket.socket.emit("likePost", newPost);
 
     await patchDataAPI(`post/${postItem._id}/like`, { id: postItem._id }, auth.userToken);
 
+    const msg = {
+      id: auth.userInfo._id,
+      text: 'đã thích bài viết của bạn',
+      recipients: [postItem.user._id],
+      url: `/post/${postItem._id}`,
+      content: postItem.content,
+      image: postItem.images[0].url
+    }
+
+    await dispatch(createNotify({ msg, auth, socket }))
+
     return newPost;
   } catch (error) {
     console.log(error)
@@ -86,13 +109,22 @@ export const likePostAction = createAsyncThunk('api/post/:id/like', async ({ aut
   }
 })
 
-export const unLikePostAction = createAsyncThunk('api/post/:id/unlike', async ({ auth, postItem, socket }, { rejectWithValue }) => {
+export const unLikePostAction = createAsyncThunk('api/post/:id/unlike', async ({ auth, postItem, socket, dispatch }, { rejectWithValue }) => {
   try {
     const newPost = { ...postItem, likes: postItem.likes.filter(like => like._id !== auth.userInfo._id) }
     socket.socket.emit("unLikePost", newPost);
 
     await patchDataAPI(`post/${postItem._id}/unlike`, { id: postItem._id }, auth.userToken);
 
+    const msg = {
+      id: auth.userInfo._id,
+      text: 'đã thích bài viết của bạn',
+      recipients: [postItem.user._id],
+      url: `/post/${postItem._id}`,
+    }
+    await dispatch(removeNotify({ msg, auth, socket }))
+
+
     return newPost;
   } catch (error) {
     console.log(error)
@@ -106,9 +138,16 @@ export const unLikePostAction = createAsyncThunk('api/post/:id/unlike', async ({
 })
 
 
-export const deletePostAction = createAsyncThunk('api/post/:id/delete', async ({ auth, id }, { rejectWithValue }) => {
+export const deletePostAction = createAsyncThunk('api/post/:id/delete', async ({ auth, id, dispatch, socket }, { rejectWithValue }) => {
   try {
     const res = await deleteDataAPI(`post/${id}`, auth.userToken);
+    const msg = {
+      id: auth.userInfo._id,
+      text: 'đã thêm một bài viết mới',
+      recipients: res.data.newPost.user.followers,
+      url: `/post/${res.data.newPost._id}`,
+    }
+    await dispatch(removeNotify({ msg, auth, socket }))
     return res;
   } catch (error) {
     console.log(error)

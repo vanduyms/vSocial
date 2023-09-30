@@ -19,7 +19,7 @@ function FollowBtn({ setOnEdit, user }) {
 
     setFollowed(true)
     setLoad(true)
-    await dispatch(followUser({ users: profile.users, user, auth, socket }));
+    await dispatch(followUser({ users: profile.users, user, auth, socket, dispatch }));
     setLoad(false)
   }
 
@@ -28,7 +28,7 @@ function FollowBtn({ setOnEdit, user }) {
 
     setFollowed(false)
     setLoad(true)
-    await dispatch(unfollowUser({ users: profile.users, user, auth, socket }));
+    await dispatch(unfollowUser({ users: profile.users, user, auth, socket, dispatch }));
     setLoad(false)
   }
 

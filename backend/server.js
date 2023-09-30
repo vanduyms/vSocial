@@ -12,6 +12,7 @@ const userRoute = require("./routes/userRouter");
 const postRoute = require("./routes/postRouter");
 const commentRoute = require("./routes/commentRouter");
 const messageRoute = require("./routes/messageRouter");
+const notifyRouter = require("./routes/notifyRouter");
 
 const app = express();
 app.use(express.json());
@@ -36,6 +37,7 @@ app.use("/api", userRoute);
 app.use("/api", postRoute);
 app.use("/api", commentRoute);
 app.use("/api", messageRoute);
+app.use("/api", notifyRouter);
 
 app.get("/", (req, res) => {
   res.json({ msg: "Hello" });

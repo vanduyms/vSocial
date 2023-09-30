@@ -7,6 +7,7 @@ import socketReducer from "./reducers/socketReducer";
 import messageReducer from "./reducers/messageReducer";
 import onlineReducer from "./reducers/onlineReducer";
 import alertReducer from "./reducers/alertReducer";
+import notifyReducer from "./reducers/notifyReducer";
 
 const store = configureStore({
   reducer: {
@@ -16,7 +17,8 @@ const store = configureStore({
     socket: socketReducer,
     message: messageReducer,
     online: onlineReducer,
-    alert: alertReducer
+    alert: alertReducer,
+    notify: notifyReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: false

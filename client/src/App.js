@@ -13,6 +13,7 @@ import { setSocket } from './redux/reducers/socketReducer';
 import { updateUserInfo } from './redux/reducers/authReducer';
 import SocketClient from './SocketClient';
 import Alert from "./components/Alert";
+import { getNotifies } from './redux/actions/notifyAction';
 
 function App() {
   const { auth, socket } = useSelector(state => state);
@@ -32,6 +33,12 @@ function App() {
     return () => socketIO.close();
 
   }, [dispatch]);
+
+  useEffect(() => {
+    if (auth.userToken) {
+      dispatch(getNotifies({ auth }))
+    }
+  }, [dispatch, auth.userToken])
 
   return (
     <Router>

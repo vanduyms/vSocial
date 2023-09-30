@@ -1,8 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { deleteDataAPI, patchDataAPI, postDataAPI } from "../../utils/fetchData";
 import { DeleteData, EditData } from "../data";
+import { createNotify, removeNotify } from "./notifyAction";
 
-export const createCommentAction = createAsyncThunk('api/comment', async ({ post, newComment, auth, socket }, { rejectWithValue }) => {
+export const createCommentAction = createAsyncThunk('api/comment', async ({ post, newComment, auth, socket, dispatch }, { rejectWithValue }) => {
   try {
     const data = { ...newComment, postId: post._id, postUserId: post.user._id }
     const res = await postDataAPI('comment', data, auth.userToken);
@@ -11,6 +12,18 @@ export const createCommentAction = createAsyncThunk('api/comment', async ({ post
     const newPost = { ...post, comments: [...post.comments, newData] };
 
     socket.socket.emit('createComment', newPost);
+
+    // Notify
+    const msg = {
+      id: res.data.newComment._id,
+      text: newComment.reply ? 'đã nhắc đến bạn trong một bình luận' : 'đã bình luận về bài viết của bạn',
+      recipients: newComment.reply ? [newComment.tag._id] : [post.user._id],
+      url: `/post/${post._id}`,
+      content: post.content,
+      image: post.images[0].url
+    }
+    dispatch(createNotify({ msg, auth, socket }));
+
     return newPost;
   } catch (error) {
     if (error.response && error.response.data.msg) {
@@ -74,7 +87,7 @@ export const unLikeCommentAction = createAsyncThunk('api/comment/:id/unlike', as
   }
 });
 
-export const deleteCommentAction = createAsyncThunk('api/comment/:id/delete', async ({ comment, post, auth, socket }, { rejectWithValue }) => {
+export const deleteCommentAction = createAsyncThunk('api/comment/:id/delete', async ({ comment, post, auth, socket, dispatch }, { rejectWithValue }) => {
   try {
     const deleteArr = [...post.comments.filter(cm => cm.reply === comment._id), comment];
     const newPost = {
@@ -84,6 +97,15 @@ export const deleteCommentAction = createAsyncThunk('api/comment/:id/delete', as
 
     deleteArr.forEach(async item => {
       await deleteDataAPI(`comment/${item._id}`, auth.userToken);
+
+      const msg = {
+        id: item._id,
+        text: comment.reply ? 'đã nhắc đến bạn trong một bình luận' : 'đã bình luận về bài viết của bạn',
+        recipients: comment.reply ? [comment.tag._id] : [post.user._id],
+        url: `/post/${post._id}`,
+      }
+
+      dispatch(removeNotify({ msg, auth, socket }))
     });
 
     socket.socket.emit('deleteComment', newPost);

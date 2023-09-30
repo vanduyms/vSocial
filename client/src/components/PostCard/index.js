@@ -49,12 +49,12 @@ function PostCard({ postItem }) {
 
   const handleLike = async (e) => {
     e.preventDefault();
-    await dispatch(likePostAction({ auth, postItem, socket }));
+    await dispatch(likePostAction({ auth, postItem, socket, dispatch }));
   }
 
   const handleUnLike = async (e) => {
     e.preventDefault();
-    await dispatch(unLikePostAction({ auth, postItem, socket }));
+    await dispatch(unLikePostAction({ auth, postItem, socket, dispatch }));
   }
 
 

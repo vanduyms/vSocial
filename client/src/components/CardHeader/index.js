@@ -9,7 +9,7 @@ import { deletePostAction, getAllPostsAction, getUserPostsAction } from '../../r
 import CreatePostBox from '../CreatePostBox';
 
 function CardHeader({ postItem }) {
-  const { auth, post } = useSelector(state => state);
+  const { auth, post, socket } = useSelector(state => state);
   const [showUpdateBox, setShowUpdateBox] = useState(false);
 
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ function CardHeader({ postItem }) {
 
 
   const handleDelete = async () => {
-    await dispatch(deletePostAction({ auth, id }));
+    await dispatch(deletePostAction({ auth, id, dispatch, socket }));
 
     id = urlParams?.id;
 

@@ -23,7 +23,12 @@ const postController = {
       const newPost = new Post({ content, images, user: req.user });
       await newPost.save();
 
-      res.json({ newPost })
+      res.json({
+        newPost: {
+          ...newPost._doc,
+          user: req.user
+        }
+      })
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

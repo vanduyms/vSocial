@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getDataAPI, patchDataAPI } from "../../utils/fetchData";
 import { imageUpload } from "../../utils/imageUpload";
 import { DeleteData } from "../data";
+import { createNotify, removeNotify } from "./notifyAction";
 
 export const getProfileUser = createAsyncThunk(
   'api/user/:id',
@@ -53,7 +54,7 @@ export const updateProfileUser = createAsyncThunk(
 
 export const followUser = createAsyncThunk(
   'api/:id/follow',
-  async ({ users, user, auth, socket }, { rejectWithValue }) => {
+  async ({ users, user, auth, socket, dispatch }, { rejectWithValue }) => {
     try {
       let newUser;
 
@@ -73,6 +74,16 @@ export const followUser = createAsyncThunk(
       socket.socket.emit('follow', info);
 
       await patchDataAPI(`/user/${user._id}/follow`, { id: user._id }, auth.userToken);
+
+      // Notify
+      const msg = {
+        id: auth.userInfo._id,
+        text: 'đã bắt đầu theo dõi bạn',
+        recipients: [newUser._id],
+        url: `/profile/${auth.userInfo._id}`,
+      }
+
+      dispatch(createNotify({ msg, auth, socket }))
       return newUser;
     } catch (error) {
       console.log(error)
@@ -87,7 +98,7 @@ export const followUser = createAsyncThunk(
 
 export const unfollowUser = createAsyncThunk(
   'api/:id/unfollow',
-  async ({ users, user, auth, socket }, { rejectWithValue }) => {
+  async ({ users, user, auth, socket, dispatch }, { rejectWithValue }) => {
     try {
       let newUser;
 
@@ -107,6 +118,17 @@ export const unfollowUser = createAsyncThunk(
 
       await patchDataAPI(`/user/${user._id}/unfollow`, { id: user._id }, auth.userToken);
       socket.socket.emit('unfollow', info);
+
+      // Notify
+      const msg = {
+        id: auth.userInfo._id,
+        text: 'đã bắt đầu theo dõi bạn',
+        recipients: [newUser._id],
+        url: `/profile/${auth.userInfo._id}`,
+      }
+
+      dispatch(removeNotify({ msg, auth, socket }))
+
       return newUser;
     } catch (error) {
       console.log(error)
