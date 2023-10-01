@@ -37,7 +37,7 @@ const profileReducer = createSlice({
     [getProfileUser.fulfilled]: (state, { payload }) => {
       state.loading = false
       state.users = [payload.user]
-      state.posts = [...state.posts, ...payload.posts.posts]
+      state.posts = [...payload.posts.posts]
       state.result = payload.posts.result
       state.page = 2
     },

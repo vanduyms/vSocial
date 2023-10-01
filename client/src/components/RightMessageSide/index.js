@@ -1,9 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { addMessageAction, deleteConversation, getMessages } from '../../redux/actions/messageAction';
-import { getProfileUser } from "../../redux/actions/profileAction";
-import { addUser } from '../../redux/reducers/messageReducer';
+import { addMessageAction, deleteConversation, getMessages, loadMoreMessages } from '../../redux/actions/messageAction';
 import { imageUpload } from '../../utils/imageUpload';
 import { videoShow, imageShow } from "../../utils/mediaShow";
 import MessageDisplay from '../MessageDisplay';
@@ -29,18 +28,6 @@ function RightMessageSide() {
   const [isLoadMore, setIsLoadMore] = useState(0);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const getMessagesData = async () => {
-      await dispatch(getMessages({ auth, id }));
-      if (refDisplay.current) {
-        setTimeout(() => {
-          refDisplay.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
-        }, 50)
-      }
-    }
-    getMessagesData()
-  }, [id, dispatch, auth])
 
   useEffect(() => {
     const newData = message.data.find(item => item._id === id)
@@ -154,10 +141,48 @@ function RightMessageSide() {
     await dispatch(addMessageAction({ msg, auth, socket }))
 
     setLoadMedia(false);
-    // if (refDisplay.current) {
-    //   refDisplay.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
-    // }
+    if (refDisplay.current) {
+      refDisplay.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    }
   }
+
+  useEffect(() => {
+    const getMessagesData = async () => {
+      await dispatch(getMessages({ auth, id }));
+      if (refDisplay.current) {
+        setTimeout(() => {
+          refDisplay.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
+        }, 50)
+      }
+    }
+    getMessagesData()
+  }, [id, dispatch, auth]);
+
+
+  // Load More
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setIsLoadMore(p => p + 1)
+        }
+      })
+    }, {
+      threshold: 0.7
+    })
+
+    observer.observe(pageEnd.current)
+  }, [setIsLoadMore])
+
+  useEffect(() => {
+    if (isLoadMore > 1) {
+      if (result >= page * 9) {
+        dispatch(loadMoreMessages({ auth, id, page: page + 1 }))
+        setIsLoadMore(1)
+      }
+    }
+    // eslint-disable-next-line
+  }, [isLoadMore])
 
   return (
     <>
@@ -202,7 +227,7 @@ function RightMessageSide() {
         <div className="chat__container"
           style={{ height: media.length > 0 ? 'calc(100% - 180px)' : '' }} >
           <div className="chat__display" ref={refDisplay}>
-            <button style={{ marginTop: '-25px', opacity: 0 }} ref={pageEnd}>
+            <button style={{ marginTop: '25px', opacity: 0 }} ref={pageEnd}>
               Load more
             </button>
 

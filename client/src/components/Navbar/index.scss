@@ -16,7 +16,7 @@
 
 @media screen and (max-width: 1000px) {
   .navbar {
-    padding: 5px 0;
+    padding: 5px 75px;
 
     .search_form {
       width: 300px;
@@ -63,6 +63,14 @@
     .search_form {
       width: 80%;
       display: none;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      transform: translate(-54%, -105%);
     }
   }
 }

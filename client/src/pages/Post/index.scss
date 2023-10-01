@@ -8,6 +8,7 @@
     margin-top: 40px;
 
     .posts--header {
+      margin-top: 8px;
       position: relative;
       background-color: white;
       border-bottom: 1px solid #ccc;
@@ -39,6 +40,7 @@
       margin-top: 0;
 
       .posts--header {
+        margin-top: 0;
         position: fixed;
         .back--btn {
           display: flex;

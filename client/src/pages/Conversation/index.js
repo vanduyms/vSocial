@@ -7,10 +7,9 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProfileUser } from '../../redux/actions/profileAction';
 import { addUser } from '../../redux/reducers/messageReducer';
-import { setUser } from '../../redux/reducers/profileReducer';
 
 function Conversation() {
-  const { auth, message } = useSelector(state => state);
+  const { auth } = useSelector(state => state);
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -23,6 +22,7 @@ function Conversation() {
 
 
     loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="conversation w-100">

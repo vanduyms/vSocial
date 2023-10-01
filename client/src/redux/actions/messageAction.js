@@ -13,12 +13,12 @@ export const addMessageAction = createAsyncThunk('api/message/addMessage', async
   }
 })
 
-export const getMessages = createAsyncThunk('api/messages/:id', async ({ auth, id }, { rejectWithValue }) => {
+export const getMessages = createAsyncThunk('api/messages/:id', async ({ auth, id, page = 1 }, { rejectWithValue }) => {
   try {
-    const res = await getDataAPI(`message/${id}`, auth.userToken)
+    const res = await getDataAPI(`message/${id}?limit=${page * 9}`, auth.userToken)
     const newData = { ...res.data, messages: res.data.messages.reverse() }
 
-    return { ...newData, _id: id }
+    return { ...newData, _id: id, page }
   } catch (error) {
     console.log(error)
     if (error.response && error.response.data.msg) return rejectWithValue(error.response.data.msg);
@@ -26,7 +26,7 @@ export const getMessages = createAsyncThunk('api/messages/:id', async ({ auth, i
   }
 })
 
-export const getConversations = createAsyncThunk('api/conversations', async ({ auth, page }, { rejectWithValue }) => {
+export const getConversations = createAsyncThunk('api/conversations', async ({ auth, page = 1 }, { rejectWithValue }) => {
   try {
     const res = await getDataAPI(`conversations?page=${page}&limit=9`, auth.userToken);
     let newArr = [];
@@ -69,3 +69,16 @@ export const deleteConversation = createAsyncThunk('api/conversations/:id/delete
     else return rejectWithValue(error.response);
   }
 })
+
+export const loadMoreMessages = createAsyncThunk('api/message/loadMore', async ({ auth, id, page = 1 }, { rejectWithValue }) => {
+  try {
+    const res = await getDataAPI(`message/${id}?limit=${page * 9}`, auth.userToken)
+    const newData = { ...res.data, messages: res.data.messages.reverse() }
+
+    return { ...newData, _id: id, page }
+  } catch (error) {
+    console.log(error);
+    if (error.response && error.response.data.msg) return rejectWithValue(error.response.data.msg);
+    else return rejectWithValue(error.response);
+  }
+});

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addMessageAction, getConversations, getMessages, deleteConversation, deleteMessage } from "../actions/messageAction";
-import { DeleteData } from "../data";
+import { addMessageAction, getConversations, getMessages, deleteConversation, deleteMessage, loadMoreMessages } from "../actions/messageAction";
+import { DeleteData, EditData } from "../data";
 
 const initialState = {
   users: [],
@@ -61,6 +61,12 @@ const messageReducer = createSlice({
     },
     [deleteMessage.fulfilled]: (state, { payload }) => {
       state.data[0].messages = DeleteData(state.data[0].messages, payload)
+    },
+    [loadMoreMessages.pending]: (state) => {
+
+    },
+    [loadMoreMessages.fulfilled]: (state, { payload }) => {
+      state.data = EditData(state.data, payload._id, payload)
     }
   }
 });

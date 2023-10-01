@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getConversations } from '../../redux/actions/messageAction';
@@ -13,6 +13,8 @@ function LeftMessageSide() {
 
   const [searchText, setSearchText] = useState('');
   const [searchUsers, setSearchUsers] = useState([]);
+  const pageEnd = useRef();
+  const [page, setPage] = useState(0)
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -31,7 +33,7 @@ function LeftMessageSide() {
     setSearchText('');
     setSearchUsers([]);
     dispatch(addUser({ ...user, text: '', media: [] }))
-    // dispatch({type: MESS_TYPES.CHECK_ONLINE_OFFLINE, payload: online})
+
     navigate(`/message/${user._id}`);
   }
 
@@ -42,7 +44,28 @@ function LeftMessageSide() {
   useEffect(() => {
     if (message.firstLoad) return;
     dispatch(getConversations({ auth }))
-  }, [dispatch, auth, message.firstLoad])
+  }, [dispatch, auth, message.firstLoad]);
+
+  // Load More
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setPage(p => p + 1)
+        }
+      })
+    }, {
+      threshold: 0.1
+    })
+
+    observer.observe(pageEnd.current)
+  }, [setPage]);
+
+  useEffect(() => {
+    if (message.resultUsers >= (page - 1) * 9 && page > 1) {
+      dispatch(getConversations({ auth, page }))
+    }
+  }, [message.resultUsers, page, auth, dispatch])
 
   return (
     <div className='message--container__left p-2 d-flex flex-column'>
@@ -101,6 +124,7 @@ function LeftMessageSide() {
             </>
         }
       </div>
+      <button ref={pageEnd} style={{ opacity: 0 }} >Load More</button>
     </div>
   )
 }

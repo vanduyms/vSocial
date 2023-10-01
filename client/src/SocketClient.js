@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "./redux/reducers/authReducer";
 import { setOnline, setOffline } from "./redux/reducers/onlineReducer";
