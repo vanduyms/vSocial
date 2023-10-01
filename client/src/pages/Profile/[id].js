@@ -7,12 +7,15 @@ import { useParams } from 'react-router-dom';
 import { getProfileUser } from '../../redux/actions/profileAction';
 import Saved from '../../components/Saved';
 import UserPost from '../../components/UserPost';
+import LoadMoreButton from "../../components/LoadMoreButton";
 import "./index.scss";
-import { getId } from '../../redux/reducers/profileReducer';
+import { getId, updateState } from '../../redux/reducers/profileReducer';
+import { getDataAPI } from '../../utils/fetchData';
 
 function Profile() {
   const { auth, profile } = useSelector(state => state);
   const [saveTab, setSaveTab] = useState(false);
+  const [load, setLoad] = useState(false);
   const { id } = useParams();
 
   const dispatch = useDispatch();
@@ -25,7 +28,20 @@ function Profile() {
     if (profile.ids.every(item => item !== id)) {
       dispatch(getProfileUser({ id, auth }))
     }
-  }, [id, auth, dispatch, profile])
+  }, [id, auth, dispatch, profile]);
+
+
+  const handleLoadMore = async () => {
+    setLoad(true)
+    const page = profile.page;
+    const res = await getDataAPI(`user_posts/${id}?page=${page}&limit=9`, auth.userToken);
+    await dispatch(updateState({
+      page: page + 1,
+      posts: res.data.posts,
+      result: profile.posts.length
+    }))
+    setLoad(false)
+  }
 
 
   return (
@@ -53,6 +69,9 @@ function Profile() {
               }
             </>
         }
+
+        <LoadMoreButton result={profile.result} page={profile.page}
+          load={load} handleLoadMore={handleLoadMore} />
       </div>
     </div>
   )

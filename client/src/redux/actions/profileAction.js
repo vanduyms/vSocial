@@ -10,9 +10,9 @@ export const getProfileUser = createAsyncThunk(
     try {
       const res_user = await getDataAPI(`user/${id}`, auth.userToken);
 
-      const res_post = await getDataAPI(`user_posts/${id}`, auth.userToken);
+      const res_post = await getDataAPI(`user_posts/${id}?page=1&limit=9`, auth.userToken);
 
-      let posts = res_post.data.posts;
+      let posts = res_post.data;
       let user = res_user.data.user;
 
       return { posts, user }
@@ -73,14 +73,14 @@ export const followUser = createAsyncThunk(
 
       socket.socket.emit('follow', info);
 
-      await patchDataAPI(`/user/${user._id}/follow`, { id: user._id }, auth.userToken);
+      await patchDataAPI(`/ user / ${user._id} / follow`, { id: user._id }, auth.userToken);
 
       // Notify
       const msg = {
         id: auth.userInfo._id,
         text: 'đã bắt đầu theo dõi bạn',
         recipients: [newUser._id],
-        url: `/profile/${auth.userInfo._id}`,
+        url: `/ profile / ${auth.userInfo._id}`,
       }
 
       dispatch(createNotify({ msg, auth, socket }))
@@ -116,7 +116,7 @@ export const unfollowUser = createAsyncThunk(
 
       const info = { newAuthInfo, newUser }
 
-      await patchDataAPI(`/user/${user._id}/unfollow`, { id: user._id }, auth.userToken);
+      await patchDataAPI(`/ user / ${user._id} / unfollow`, { id: user._id }, auth.userToken);
       socket.socket.emit('unfollow', info);
 
       // Notify
@@ -124,7 +124,7 @@ export const unfollowUser = createAsyncThunk(
         id: auth.userInfo._id,
         text: 'đã bắt đầu theo dõi bạn',
         recipients: [newUser._id],
-        url: `/profile/${auth.userInfo._id}`,
+        url: `/ profile / ${auth.userInfo._id}`,
       }
 
       dispatch(removeNotify({ msg, auth, socket }))

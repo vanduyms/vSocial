@@ -8,6 +8,7 @@ import messageReducer from "./reducers/messageReducer";
 import onlineReducer from "./reducers/onlineReducer";
 import alertReducer from "./reducers/alertReducer";
 import notifyReducer from "./reducers/notifyReducer";
+import discoverReducer from "./reducers/discoverReducer";
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     message: messageReducer,
     online: onlineReducer,
     alert: alertReducer,
+    discover: discoverReducer,
     notify: notifyReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({

@@ -6,7 +6,9 @@ const initialState = {
   loading: false,
   ids: [],
   users: [],
-  posts: []
+  posts: [],
+  page: 2,
+  result: 0
 }
 
 const profileReducer = createSlice({
@@ -15,6 +17,11 @@ const profileReducer = createSlice({
   reducers: {
     updatePost: (state, { payload }) => {
       state.posts = EditData(state.posts, payload._id, payload)
+    },
+    updateState: (state, { payload }) => {
+      state.posts = [...state.posts, ...payload.posts]
+      state.page = payload.page
+      state.result = state.posts.length
     },
     setUser: (state, { payload }) => {
       state.users = EditData(state.users, payload._id, payload)
@@ -29,8 +36,10 @@ const profileReducer = createSlice({
     },
     [getProfileUser.fulfilled]: (state, { payload }) => {
       state.loading = false
-      state.users = [...state.users, payload.user]
-      state.posts = [...state.posts, ...payload.posts]
+      state.users = [payload.user]
+      state.posts = [...state.posts, ...payload.posts.posts]
+      state.result = payload.posts.result
+      state.page = 2
     },
     [getProfileUser.rejected]: (state, { payload }) => {
       state.loading = false
@@ -58,6 +67,6 @@ const profileReducer = createSlice({
 });
 
 export const {
-  updatePost, setUser, getId
+  updatePost, updateState, setUser, getId
 } = profileReducer.actions;
 export default profileReducer.reducer;

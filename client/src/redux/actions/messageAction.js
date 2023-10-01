@@ -20,14 +20,15 @@ export const getMessages = createAsyncThunk('api/messages/:id', async ({ auth, i
 
     return { ...newData, _id: id }
   } catch (error) {
+    console.log(error)
     if (error.response && error.response.data.msg) return rejectWithValue(error.response.data.msg);
     else return rejectWithValue(error.response);
   }
 })
 
-export const getConversations = createAsyncThunk('api/conversations', async ({ auth }, { rejectWithValue }) => {
+export const getConversations = createAsyncThunk('api/conversations', async ({ auth, page }, { rejectWithValue }) => {
   try {
-    const res = await getDataAPI(`conversations`, auth.userToken);
+    const res = await getDataAPI(`conversations?page=${page}&limit=9`, auth.userToken);
     let newArr = [];
 
     res.data.conversations.forEach(item => {

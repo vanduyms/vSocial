@@ -1,20 +1,5 @@
 const Post = require('../models/postModel');
 
-class APIfeatures {
-  constructor(query, queryString) {
-    this.query = query;
-    this.queryString = queryString;
-  }
-
-  paginating() {
-    const page = this.queryString.page * 1 || 1;
-    const limit = this.queryString.limit * 1 || 9;
-    const skip = (page - 1) * limit;
-    this.query = this.query.skip(skip).limit(limit);
-    return this;
-  }
-}
-
 const postController = {
   createPost: async (req, res) => {
     try {
@@ -35,14 +20,20 @@ const postController = {
   },
   getPosts: async (req, res) => {
     try {
-      const posts = await Post.find({}).sort('-createdAt')
-        .populate("user likes", "avatar username fullName followers").populate({
-          path: "comments",
-          populate: {
-            path: "user likes",
-            select: "-password"
-          }
-        });
+      const perPage = parseInt(req.query.limit || 20);
+      const page = parseInt(req.query.page || 1);
+
+      const query = Post.find({
+        user: { $in: [...req.user.following, req.user._id] }
+      })
+      const posts = await query.sort({ _id: -1 }).skip((perPage * page) - perPage).limit(perPage).populate("user likes", "avatar username fullName followers").populate({
+        path: "comments",
+        populate: {
+          path: "user likes",
+          select: "-password"
+        }
+      });
+
 
       res.json({
         msg: 'Success!',
@@ -51,6 +42,7 @@ const postController = {
       })
 
     } catch (err) {
+      console.log(err)
       return res.status(500).json({ msg: err.message });
     }
   },
@@ -105,7 +97,14 @@ const postController = {
   },
   getUserPost: async (req, res) => {
     try {
-      const posts = await Post.find({ user: req.params.id }).populate("user likes", "avatar username fullName followers").sort("-createdAt");
+      const perPage = parseInt(req.query.limit || 12);
+      const page = parseInt(req.query.page || 1);
+
+      const query = Post.find({ user: req.params.id });
+
+      const posts = await query.sort("-createdAt").skip((perPage * page) - perPage).limit(perPage).populate("user likes", "avatar username fullName followers");
+
+      // const posts = await Post.find({ user: req.params.id }).populate("user likes", "avatar username fullName followers").sort("-createdAt");
 
       res.json({
         posts,
@@ -144,7 +143,29 @@ const postController = {
     } catch (err) {
       return res.status(500).json({ msg: err.message })
     }
-  }
+  },
+  getPostsDicover: async (req, res) => {
+    try {
+
+      const newArr = [...req.user.following, req.user._id]
+
+      const num = req.query.num || 9
+
+      const posts = await Post.aggregate([
+        { $match: { user: { $in: newArr } } },
+        { $sample: { size: Number(num) } },
+      ])
+
+      return res.json({
+        msg: 'Success!',
+        result: posts.length,
+        posts
+      })
+
+    } catch (err) {
+      return res.status(500).json({ msg: err.message })
+    }
+  },
 }
 
 module.exports = postController;

@@ -27,7 +27,7 @@ function CommentBox({ children, post, onReply, setOnReply }) {
       createAt: new Date().toISOString()
     }
 
-    dispatch(createCommentAction({ post, newComment, auth, socket }));
+    dispatch(createCommentAction({ post, newComment, auth, socket, dispatch }));
 
     if (setOnReply) return setOnReply(false);
   }

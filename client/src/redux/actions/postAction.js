@@ -52,9 +52,10 @@ export const getPostAction = createAsyncThunk('api/post', async ({ auth, id }, {
 
 export const getAllPostsAction = createAsyncThunk('api/allPost', async ({ auth }, { rejectWithValue }) => {
   try {
-    const res = await getDataAPI("post", auth.userToken);
+    const res = await getDataAPI(`post?page=1&limit=9`, auth.userToken);
     return res;
   } catch (error) {
+    console.log(error)
     if (error.response && error.response.data.msg) {
       return rejectWithValue(error.response.data.msg);
     }
@@ -64,9 +65,9 @@ export const getAllPostsAction = createAsyncThunk('api/allPost', async ({ auth }
   }
 });
 
-export const getUserPostsAction = createAsyncThunk('api/user_post', async ({ auth, id }, { rejectWithValue }) => {
+export const getUserPostsAction = createAsyncThunk('api/user_post', async ({ auth, id, page }, { rejectWithValue }) => {
   try {
-    const res = await getDataAPI(`user_posts/${id}`, auth.userToken);
+    const res = await getDataAPI(`user_posts/${id}?page=${page}&limit=9`, auth.userToken);
     return res;
   } catch (error) {
     console.log(error);

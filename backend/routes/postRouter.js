@@ -14,5 +14,6 @@ router.patch("/post/:id", auth, postCtrl.updatePost);
 router.get("/post/:id", auth, postCtrl.getPost);
 router.delete("/post/:id", auth, postCtrl.deletePost);
 
+router.get('/post_discover', auth, postCtrl.getPostsDicover);
 
 module.exports = router;

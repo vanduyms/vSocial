@@ -14,8 +14,20 @@
 
 6. Create comment --> OK
 
-7. Create alert
+7. Create alert --> OK
 
 8. Fix update profile --> OK
 
-9. Create message page
+9. Create message page --> OK
+
+10. Create pagination for API, for web --> OK
+
+11. Page notify --> Not done
+
+12. Discover --> OK
+
+13. Bug: Profile đang bị lỗi hiển thị sai bài viết
+
+14. Suggestion
+
+15. Forgot password

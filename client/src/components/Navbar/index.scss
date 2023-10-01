@@ -5,6 +5,7 @@
   right: 0;
   padding: 0 7rem;
 
+  background-color: #f0f2f5;
   border-bottom: 1px solid #ccc;
   z-index: 20;
 
@@ -58,7 +59,9 @@
       display: none;
       height: 0;
     }
+
     .search_form {
+      width: 80%;
       display: none;
     }
   }

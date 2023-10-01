@@ -1,0 +1,70 @@
+.discover {
+  width: 100%;
+  &--container {
+    margin-top: 45px;
+    width: 100%;
+    gap: 4px;
+
+    .discover--item {
+      width: 32.3%;
+      object-fit: cover;
+      aspect-ratio: 1 / 1;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+
+      &:hover {
+        filter: blur(0.8px);
+
+        .item__info {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto;
+        }
+      }
+
+      .item__info {
+        display: none;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        div {
+          display: flex;
+          align-items: center;
+          color: white;
+          font-weight: bold;
+
+          p {
+            margin-left: 5px;
+            font-size: 20px;
+          }
+        }
+
+        div + div {
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .discover {
+    .navbar {
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+      .search_form {
+        width: 80%;
+        margin: 5px auto;
+        display: flex;
+      }
+    }
+  }
+}

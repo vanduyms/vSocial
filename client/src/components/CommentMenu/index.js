@@ -8,7 +8,7 @@ function CommentMenu({ post, comment, setOnEdit }) {
 
   const handleRemove = () => {
     if (post.user?._id === auth.userInfo._id || comment.user?._id === auth.userInfo._id) {
-      dispatch(deleteCommentAction({ comment, post, auth, socket }))
+      dispatch(deleteCommentAction({ comment, post, auth, socket, dispatch }))
     }
   }
 

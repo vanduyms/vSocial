@@ -33,7 +33,18 @@ const messageCtrl = {
   },
   getConversations: async (req, res) => {
     try {
-      const conversations = await Conversation.find({ recipients: req.user._id }).sort('-updatedAt').populate('recipients', 'avatar username fullName');
+      const perPage = parseInt(req.query.limit || 12);
+      const page = parseInt(req.query.page || 1);
+
+      const query = Conversation.find({
+        recipients: req.user._id
+      });
+
+      const conversations = await query.sort('-updatedAt')
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .populate('recipients', 'avatar username fullName');
+      // const conversations = await Conversation.find({ recipients: req.user._id }).sort('-updatedAt').populate('recipients', 'avatar username fullName');
 
       res.json({
         conversations,
@@ -45,12 +56,24 @@ const messageCtrl = {
   },
   getMessages: async (req, res) => {
     try {
-      const messages = await Message.find({
+      const perPage = parseInt(req.query.limit || 20);
+      const page = parseInt(req.query.page || 1);
+
+      const query = Message.find({
         $or: [
           { sender: req.user._id, recipient: req.params.id },
           { sender: req.params.id, recipient: req.user._id }
         ]
-      }).sort('-createdAt')
+      });
+
+      const messages = await query.sort('-createdAt').skip((perPage * page) - perPage).limit(perPage);
+
+      // const messages = await Message.find({
+      //   $or: [
+      //     { sender: req.user._id, recipient: req.params.id },
+      //     { sender: req.params.id, recipient: req.user._id }
+      //   ]
+      // }).sort('-createdAt')
 
       res.json({
         messages,

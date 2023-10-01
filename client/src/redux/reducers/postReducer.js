@@ -7,7 +7,7 @@ const initialState = {
   loading: false,
   posts: [],
   result: 0,
-  page: 2
+  page: 1
 }
 
 const postSlice = createSlice({
@@ -16,6 +16,11 @@ const postSlice = createSlice({
   reducers: {
     updatePost: (state, { payload }) => {
       state.posts = EditData(state.posts, payload._id, payload)
+    },
+    updateState: (state, { payload }) => {
+      state.posts = [...state.posts, ...payload.posts]
+      state.page = payload.page
+      state.result = state.posts.length
     }
   },
   extraReducers: {
@@ -32,6 +37,7 @@ const postSlice = createSlice({
     [getAllPostsAction.fulfilled]: (state, { payload }) => {
       state.posts = payload.data.posts
       state.result = payload.data.result
+      state.page = 2
       state.loading = false
     },
     [getUserPostsAction.pending]: (state) => {
@@ -100,6 +106,6 @@ const postSlice = createSlice({
 });
 
 export const {
-  updatePost,
+  updatePost, updateState
 } = postSlice.actions;
 export default postSlice.reducer;

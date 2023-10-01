@@ -25,7 +25,7 @@ function Navbar() {
 
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between align-middle">
+    <nav className="navbar navbar-expand-lg navbar-light justify-content-between align-middle">
       <Link className="navbar-brand" to="/">V_Social</Link>
       <Search />
       <div className="menu bg-light" >

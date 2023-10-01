@@ -8,7 +8,7 @@ function UserPost({ profile, id }) {
 
   useEffect(() => {
     setUserPosts(profile.posts.filter(item => item.user[0]._id === id));
-  }, [userPosts, profile, id]);
+  }, [profile, id]);
 
   const handleClick = (e, index) => {
     e.preventDefault();
@@ -33,7 +33,7 @@ function UserPost({ profile, id }) {
                   <span className="material-icons">
                     chat_bubble_outline
                   </span>
-                  <p>{1}</p>
+                  <p>{post.comments.length}</p>
                 </div>
               </div>
             </div>
