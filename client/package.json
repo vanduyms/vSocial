@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "proxy": "http://localhost:3001",
+  "proxy": "https://vsocial-backend.onrender.com",
   "private": true,
   "dependencies": {
     "@cloudinary/react": "^1.11.2",

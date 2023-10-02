@@ -26,7 +26,7 @@ function App() {
     }
 
     dispatch(refreshToken());
-    const socketIO = io("http://localhost:3001");
+    const socketIO = io("https://vsocial-backend.onrender.com");
 
     dispatch(setSocket(socketIO));
 
