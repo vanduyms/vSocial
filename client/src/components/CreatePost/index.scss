@@ -26,7 +26,14 @@
 
 @media screen and (max-width: 640px) {
   .create-post {
-    margin: 5px 0;
+    margin: 5px auto;
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .create-post {
+    margin: 5px auto;
+    width: 90%;
   }
 }

@@ -24,3 +24,14 @@
     }
   }
 }
+
+@media screen and (max-width: 1000px) {
+  .main {
+    max-width: 100%;
+  }
+  .home {
+    .posts {
+      margin-bottom: 40px;
+    }
+  }
+}

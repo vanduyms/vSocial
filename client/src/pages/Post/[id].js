@@ -27,7 +27,7 @@ function Post() {
     <div className="posts">
       <Navbar />
 
-      <div className='posts--container'>
+      <div className='posts--container d-flex flex-column align-items-center'>
         <div className='posts--header w-100 d-flex align-items-center justify-content-center p-2'>
           <div className='back--btn align-items-center' onClick={handleBack}>
             <span className='material-icons'>arrow_left</span>

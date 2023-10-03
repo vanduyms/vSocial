@@ -62,3 +62,29 @@
     }
   }
 }
+
+@media screen and (max-width: 1000px) {
+  .posts {
+    &--container {
+      .posts--header {
+        position: fixed;
+        .back--btn {
+          display: flex;
+        }
+      }
+
+      .postcards {
+        margin-top: 60px !important;
+      }
+
+      .alert {
+        margin-top: 50px;
+
+        p {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

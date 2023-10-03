@@ -27,7 +27,6 @@ function Post() {
     setLoad(true)
     let page = post.page;
     const res = await getDataAPI(`post?page=${page}&limit=9`, auth.userToken);
-    console.log(res);
     await dispatch(updateState({
       posts: res.data.posts,
       page: page + 1
@@ -37,7 +36,7 @@ function Post() {
 
 
   return (
-    <div className='posts d-flex flex-column'>
+    <div className='posts d-flex flex-column align-items-center'>
       {
         post?.loading && <Loading />
       }

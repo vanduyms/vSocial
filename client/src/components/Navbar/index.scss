@@ -47,6 +47,13 @@
         }
       }
     }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translate(-30px, -105%);
+    }
   }
 }
 
