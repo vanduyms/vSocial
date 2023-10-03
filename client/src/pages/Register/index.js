@@ -31,7 +31,7 @@ function Register() {
       <form onSubmit={handleSubmit(submitForm)}>
         <h3 className='text-uppercase text-center'>V_Social</h3>
         <div className="mb-3 form-group">
-          <label htmlFor="InputFullName" className="form-label">Full Name:</label>
+          <label htmlFor="InputFullName" className="form-label">Họ và tên:</label>
           <input type="text" className="form-control" id="InputFullName" {...register('fullName')} required />
         </div>
         <div className="mb-3 form-group">
@@ -39,7 +39,7 @@ function Register() {
           <input type="text" className="form-control" id="InputUsername"  {...register('username')} required />
         </div>
         <div className="mb-3 form-group">
-          <label htmlFor="InputGender" className="form-label">Gender:</label>
+          <label htmlFor="InputGender" className="form-label">Giới tính:</label>
           <select style={{ marginLeft: 12, outline: 'none' }}  {...register('gender')} required>
             <option value="male">Male</option>
             <option value="female">Female</option>
@@ -50,27 +50,27 @@ function Register() {
           <input type="email" className="form-control" id="InputEmail1"  {...register('email')} required />
         </div>
         <div className="mb-3 form-group">
-          <label htmlFor="InputPassword" className="form-label">Password:</label>
+          <label htmlFor="InputPassword" className="form-label">Mật khẩu:</label>
           <div className='pass_input'>
             <input type={show1 ? "text" : "password"} className="form-control" id="InputPassword" value={password} onChange={e => setPassword(e.target.value)} required />
             <small onClick={() => setShow1(!show1)}>
-              {show1 ? 'Hide' : 'Show'}
+              {show1 ? 'Ẩn' : 'Hiện'}
             </small>
           </div>
         </div>
         <div className="mb-3 form-group">
-          <label htmlFor="InputconfirmPassword" className="form-label">Confirm Password:</label>
+          <label htmlFor="InputconfirmPassword" className="form-label">Xác nhận mật khẩu:</label>
           <div className='pass_input'>
             <input type={show2 ? "text" : "password"} className="form-control" id="InputconfirmPassword" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required />
             <small onClick={() => setShow2(!show2)}>
-              {show2 ? 'Hide' : 'Show'}
+              {show2 ? 'Ẩn' : 'Hiện'}
             </small>
           </div>
         </div>
         <div className="mb-3 form-group">
           {
             password !== confirmPassword
-              ? <small style={{ color: 'red' }}>Password is not match!</small>
+              ? <small style={{ color: 'red' }}>Mật khẩu không khớp!</small>
               : <small></small>
           }
         </div>
@@ -82,11 +82,11 @@ function Register() {
             password === confirmPassword ? false : true
           }
         >
-          Register
+          Đăng ký
         </button>
 
         <p className='my-2'>
-          You have account ? <Link to="/" style={{}} >Login Now</Link>
+          Bạn đã có tài khoản ? <Link to="/" style={{}} >Đăng nhập ngay</Link>
         </p>
       </form>
     </div>

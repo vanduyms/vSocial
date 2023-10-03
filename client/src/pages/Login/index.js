@@ -40,18 +40,21 @@ function Login() {
           } */}
         </div>
         <div className="mb-3 form-group">
-          <label htmlFor="exampleInputPassword1" className="form-label">Password:</label>
+          <label htmlFor="exampleInputPassword1" className="form-label">Mật khẩu:</label>
           <div className='pass_input'>
             <input type={show ? "text" : "password"} className="form-control" id="exampleInputPassword1" {...register("password")} required />
             <small onClick={() => setShow(!show)}>
-              {show ? 'Hide' : 'Show'}
+              {show ? 'Ẩn' : 'Hiện'}
             </small>
           </div>
         </div>
-        <button type="submit" className="btn btn-dark w-100 rounded-pill" disabled={auth.loading}>Login</button>
+        <button type="submit" className="btn btn-dark w-100 rounded-pill" disabled={auth.loading}>Đăng nhập</button>
 
         <p className='my-2'>
-          You don't have account ? <Link to="/register" style={{}} >Register Now</Link>
+          Bạn chưa có tài khoản ? <Link to="/register" style={{}} >Đăng ký</Link>
+        </p>
+        <p className='my-2'>
+          Quên mật khẩu ? <Link to="/resetPassword" style={{}} >Lấy lại mật khẩu</Link>
         </p>
       </form>
     </div>
