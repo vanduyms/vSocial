@@ -1,7 +1,10 @@
+const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const Users = require("../models/userModel");
+const Token = require("../models/tokenModel");
+const sendEmail = require("../controllers/email");
 
 const auth = {
   register: async (req, res) => {
@@ -107,6 +110,64 @@ const auth = {
         });
       })
     } catch (err) {
+      return res.status(500).json({ msg: err.message })
+    }
+  },
+  sendResetPassword: async (req, res) => {
+    try {
+      const { email } = req.body;
+      const user = await Users.findOne({ email: email });
+
+      if (!user) return res.status(400).json({ msg: "This email doesn't exist" });
+
+      const token = await Token.findOne({ userId: user._id });
+      if (token) await Token.deleteOne();
+
+      let resetToken = crypto.randomBytes(32).toString("hex");
+      const hash = await bcrypt.hash(resetToken, 12);
+
+      const newToken = new Token({
+        userId: user._id,
+        token: hash,
+        createdAt: Date.now(),
+      });
+
+      await newToken.save();
+
+      const link = `${process.env.BASE_URL}/resetPassword/${user._id}/${newToken.token}`;
+      await sendEmail(user.email, "Password reset", link);
+
+      res.json({
+        msg: "Link reset password sent successfully",
+        token: newToken.token,
+        id: user._id
+      });
+    } catch (err) {
+      console.log(err)
+      return res.status(500).json({ msg: err.message })
+    }
+  },
+  resetPassword: async (req, res) => {
+    try {
+      const user = await Users.findById(req.params.id);
+      if (!user) return res.status(400).send("Invalid link or expired");
+
+      const token = await Token.findOne({
+        userId: user._id,
+        token: req.params.token,
+      });
+
+      if (!token) return res.status(400).send("Invalid link or expired");
+
+      const passwordHash = await bcrypt.hash(req.body.password, 12);
+
+      user.password = passwordHash;
+      await user.save();
+      await token.delete();
+
+      res.json({ msg: "Password reset sucessfully" });
+    } catch (err) {
+      console.log(err)
       return res.status(500).json({ msg: err.message })
     }
   }

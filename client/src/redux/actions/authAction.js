@@ -68,3 +68,46 @@ export const refreshToken = createAsyncThunk(
     }
   }
 )
+
+export const sendResetPassword = createAsyncThunk(
+  'api/resetPassword',
+  async ({ email, dispatch }, { rejectWithValue }) => {
+    try {
+      const res = await postDataAPI('resetPassword', { email });
+      return res;
+
+    } catch (error) {
+      dispatch(setAlert({
+        message: error.response.data.msg,
+        active: true
+      }));
+
+      if (error.response && error.response.data.msg) {
+        return rejectWithValue(error.response.data.msg)
+      } else {
+        return rejectWithValue(error.response);
+      }
+    }
+  }
+)
+
+export const resetPassword = createAsyncThunk(
+  'api/resetPassword/:id',
+  async ({ password, id, token, dispatch }, { rejectWithValue }) => {
+    try {
+      const res = await postDataAPI(`resetPassword/${id}/${token}`, { password });
+      return res;
+    } catch (error) {
+      console.log(error);
+      dispatch(setAlert({
+        message: error.response.data.msg,
+        active: true
+      }));
+      if (error.response && error.response.data.msg) {
+        return rejectWithValue(error.response.data.msg)
+      } else {
+        return rejectWithValue(error.response);
+      }
+    }
+  }
+)

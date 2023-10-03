@@ -7,6 +7,8 @@ import Profile from "../pages/Profile/[id]";
 import Notify from "../pages/Notify";
 import Post from "../pages/Post/[id]";
 import Conversation from "../pages/Conversation";
+import ForgotPass from "../pages/ForgotPass";
+import ResetPassword from "../pages/ForgotPass/[id]";
 
 const publicRoutes = [
   { path: config.login, component: Login },
@@ -16,7 +18,9 @@ const publicRoutes = [
   { path: config.message, component: Message },
   { path: config.notify, component: Notify },
   { path: config.postDetail, component: Post },
-  { path: config.conversation, component: Conversation }
+  { path: config.conversation, component: Conversation },
+  { path: config.forgotPass, component: ForgotPass },
+  { path: config.resetPass, component: ResetPassword }
 ]
 
 export { publicRoutes };

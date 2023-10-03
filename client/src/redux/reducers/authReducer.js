@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { refreshToken, userLogin, userRegister } from "../actions/authAction";
+import { refreshToken, resetPassword, sendResetPassword, userLogin, userRegister } from "../actions/authAction";
 
 const userToken = localStorage.getItem('userToken')
   ? localStorage.getItem('userToken')
@@ -14,7 +14,8 @@ const initialState = {
   userInfo,
   userToken,
   error: null,
-  success: false
+  success: false,
+  resetInfo: null
 };
 
 const authSlice = createSlice({
@@ -67,7 +68,29 @@ const authSlice = createSlice({
     },
     [refreshToken.rejected]: (state, payload) => {
       console.log(payload)
-    }
+    },
+    [sendResetPassword.pending]: (state) => {
+      state.loading = true
+    },
+    [sendResetPassword.fulfilled]: (state, { payload }) => {
+      state.loading = false
+      state.success = true
+      state.resetInfo = { payload }
+    },
+    [sendResetPassword.rejected]: (state) => {
+      state.loading = false
+    },
+    [resetPassword.pending]: (state) => {
+      state.loading = true
+    },
+    [resetPassword.fulfilled]: (state, { payload }) => {
+      state.loading = false
+      state.success = true
+      state.resetInfo = { payload }
+    },
+    [resetPassword.rejected]: (state) => {
+      state.loading = false
+    },
   }
 });
 
