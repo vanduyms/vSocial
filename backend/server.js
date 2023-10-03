@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 const http = require('http').createServer(app);
 const { Server } = require('socket.io');
-const io = new Server(http, { cors: "http://localhost:3000" });
+const io = new Server(http, { cors: "https://vsocial.onrender.com/" });
 
 ExpressPeerServer(http, { path: '/' });
 
