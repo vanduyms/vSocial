@@ -18,7 +18,7 @@ function UserCard({ children, user, border, handleClose, setShowFollowers, setSh
         <Link to={`/profile/${user._id}`} onClick={handleCloseAll}
           className="d-flex align-items-center text-decoration-none">
 
-          <Avatar src={user.avatar} size='small' />
+          <Avatar src={user.avatar} size='small-32' />
 
           <div className="ms-2" style={{ transform: 'translateY(-2px)' }}>
             <span className="d-block fw-semibold text-black">{user.username}</span>

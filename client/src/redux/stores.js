@@ -9,6 +9,7 @@ import onlineReducer from "./reducers/onlineReducer";
 import alertReducer from "./reducers/alertReducer";
 import notifyReducer from "./reducers/notifyReducer";
 import discoverReducer from "./reducers/discoverReducer";
+import suggestionReducer from "./reducers/suggestionReducer";
 
 const store = configureStore({
   reducer: {
@@ -20,7 +21,8 @@ const store = configureStore({
     online: onlineReducer,
     alert: alertReducer,
     discover: discoverReducer,
-    notify: notifyReducer
+    notify: notifyReducer,
+    suggestion: suggestionReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: false

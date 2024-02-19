@@ -28,7 +28,7 @@ function Navbar() {
     <nav className="navbar navbar-expand-lg navbar-light justify-content-between align-middle">
       <Link className="navbar-brand" to="/">V_Social</Link>
       <Search />
-      <div className="menu bg-light" >
+      <div className="menu" >
         <ul className="navbar-nav mr-auto flex-row">
           {
             navLinks.map((link, index) => (

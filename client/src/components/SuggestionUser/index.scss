@@ -1,0 +1,31 @@
+.suggestionUser {
+  display: none;
+  padding-top: 15px;
+  &--container {
+    margin: 20px 0;
+    padding: 0 10px;
+    &__head {
+    }
+
+    &__content {
+      .user--item {
+        &:hover {
+          background-color: #fff;
+          cursor: pointer;
+        }
+
+        .userCard {
+          div {
+            padding: 0 20px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1201px) {
+  .suggestionUser {
+    display: flex;
+  }
+}

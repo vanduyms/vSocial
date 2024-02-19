@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { userLogin } from '../../redux/actions/authAction';
 import "./index.scss";
+import Loading from '../../components/Loading';
 
 function Login() {
   const { auth } = useSelector(state => state);
@@ -26,6 +27,7 @@ function Login() {
 
   return (
     <div className='main auth_page login_page'>
+      {auth.loading && <Loading />}
       <form onSubmit={handleSubmit(submitForm)}>
         <h3 className='text-uppercase text-center'>V_Social</h3>
         <div className="mb-3 form-group">

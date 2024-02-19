@@ -5,12 +5,16 @@
   right: 0;
   padding: 0 7rem;
 
-  background-color: #f0f2f5;
   border-bottom: 1px solid #ccc;
-  z-index: 20;
+  z-index: 50;
+  background-color: #f0f2f5;
 
   .search_form {
     width: 30%;
+  }
+
+  .menu {
+    background-color: #f0f2f5;
   }
 }
 

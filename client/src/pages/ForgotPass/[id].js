@@ -19,6 +19,8 @@ function ResetPassword() {
 
   return (
     <div className='main auth_page login_page'>
+      {auth.loading && <Loading />}
+
       <form onSubmit={e => handleSubmit(e)}>
         <h3 className='text-uppercase text-center'>V_Social</h3>
         {

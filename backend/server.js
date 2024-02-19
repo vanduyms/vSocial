@@ -15,14 +15,20 @@ const messageRoute = require("./routes/messageRouter");
 const notifyRouter = require("./routes/notifyRouter");
 
 const app = express();
+app.use(cors({
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204,
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 app.use(cookieParser());
 
 const http = require('http').createServer(app);
 const { Server } = require('socket.io');
-const io = new Server(http, { cors: "https://vsocial.onrender.com/" });
+const io = new Server(http, { cors: "http://localhost:3000/" });
 
 ExpressPeerServer(http, { path: '/' });
 

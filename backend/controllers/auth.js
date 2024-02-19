@@ -35,7 +35,7 @@ const auth = {
       const access_token = createAccessToken({ id: newUser._id });
       const refresh_token = createRefreshToken({ id: newUser._id });
 
-      res.cookie('refreshtoken', refresh_token, {
+      res.cookie('refreshToken', refresh_token, {
         httpOnly: true,
         path: '/api/refresh_token',
         maxAge: 30 * 24 * 60 * 60 * 1000
@@ -66,7 +66,7 @@ const auth = {
       const access_token = createAccessToken({ id: user._id });
       const refresh_token = createRefreshToken({ id: user._id });
 
-      res.cookie('refreshtoken', refresh_token, {
+      await res.cookie('refreshToken', refresh_token, {
         httpOnly: true,
         path: '/api/refresh_token',
         maxAge: 30 * 24 * 60 * 60 * 1000
@@ -86,7 +86,7 @@ const auth = {
   },
   logout: async (req, res) => {
     try {
-      res.clearCookie('refreshtoken', { path: '/api/refresh_token' });
+      res.clearCookie('refreshToken', { path: '/api/refresh_token' });
       return res.json({ msg: "Logout!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message })
@@ -94,7 +94,7 @@ const auth = {
   },
   generateAccessToken: async (req, res) => {
     try {
-      const rft = req.cookies.refreshtoken;
+      const rft = req.cookies.refreshToken;
       if (!rft) return res.status(400).json({ msg: "Please login now!" });
 
       jwt.verify(rft, process.env.REFRESH_TOKEN_SECRET, async (err, result) => {

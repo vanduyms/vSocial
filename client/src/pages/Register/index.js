@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { userRegister } from '../../redux/actions/authAction';
 import "./index.scss";
+import Loading from '../../components/Loading';
 
 function Register() {
   const { auth } = useSelector(state => state);
@@ -28,6 +29,7 @@ function Register() {
 
   return (
     <div className='main auth_page register_page'>
+      {auth.loading && <Loading />}
       <form onSubmit={handleSubmit(submitForm)}>
         <h3 className='text-uppercase text-center'>V_Social</h3>
         <div className="mb-3 form-group">
