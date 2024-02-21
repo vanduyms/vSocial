@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { postDataAPI } from "../../utils/fetchData";
 import { setAlert } from "../reducers/alertReducer";
-
 export const userLogin = createAsyncThunk(
   'api/login',
   async ({ data, dispatch }, { rejectWithValue }) => {

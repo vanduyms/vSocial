@@ -1,7 +1,6 @@
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 const Users = require("../models/userModel");
 const Token = require("../models/tokenModel");
 const sendEmail = require("../controllers/email");
@@ -35,20 +34,20 @@ const auth = {
       const access_token = createAccessToken({ id: newUser._id });
       const refresh_token = createRefreshToken({ id: newUser._id });
 
-      res.cookie('refreshToken', refresh_token, {
-        httpOnly: true,
-        path: '/api/refresh_token',
-        maxAge: 30 * 24 * 60 * 60 * 1000
-      });
-
-      res.json({
-        msg: "Register success!",
-        access_token,
-        user: {
-          ...newUser._doc,
-          password: ''
-        }
-      });
+      res
+        .cookie('refreshToken', refresh_token, {
+          httpOnly: true,
+          path: '/api/refresh_token',
+          maxAge: 30 * 24 * 60 * 60 * 1000
+        })
+        .json({
+          msg: "Register success!",
+          access_token,
+          user: {
+            ...newUser._doc,
+            password: ''
+          }
+        });
     } catch (err) {
       return res.status(500).json({ msg: err.message })
     }
@@ -66,20 +65,21 @@ const auth = {
       const access_token = createAccessToken({ id: user._id });
       const refresh_token = createRefreshToken({ id: user._id });
 
-      await res.cookie('refreshToken', refresh_token, {
-        httpOnly: true,
-        path: '/api/refresh_token',
-        maxAge: 30 * 24 * 60 * 60 * 1000
-      });
-
-      res.json({
-        msg: "Login success!",
-        access_token,
-        user: {
-          ...user._doc,
-          password: ''
-        }
-      });
+      res
+        .cookie('refreshToken', refresh_token, {
+          httpOnly: true,
+          secure: true,
+          path: '/api/refresh_token',
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+        })
+        .json({
+          msg: "Login success!",
+          access_token,
+          user: {
+            ...user._doc,
+            password: ''
+          }
+        });
     } catch (err) {
       return res.status(500).json({ msg: err.message })
     }

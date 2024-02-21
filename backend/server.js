@@ -20,7 +20,8 @@ app.use(cors({
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
   "preflightContinue": false,
   "optionsSuccessStatus": 204,
-  credentials: true
+  "credentials": true,
+  "sameSite": "none"
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -28,7 +29,7 @@ app.use(cookieParser());
 
 const http = require('http').createServer(app);
 const { Server } = require('socket.io');
-const io = new Server(http, { cors: "http://localhost:3000/" });
+const io = new Server(http, { cors: "https://vsocial.onrender.com" });
 
 ExpressPeerServer(http, { path: '/' });
 
