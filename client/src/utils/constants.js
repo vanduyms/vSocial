@@ -1,0 +1,1 @@
+export const host = "https://vsocial-backend.up.railway.app"
