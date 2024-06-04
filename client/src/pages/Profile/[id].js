@@ -20,9 +20,9 @@ function Profile() {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getId(id));
-    dispatch(getProfileUser({ id, auth }))
+  useEffect(async () => {
+    await dispatch(getId(id));
+    await dispatch(getProfileUser({ id, auth }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, dispatch]);
 
