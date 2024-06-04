@@ -101,11 +101,11 @@ function RightMessageSide() {
     let newMedia = []
 
     files.forEach(file => {
-      if (!file) console.log("File don't exist");
+      if (!file) window.alert("File don't exist");
       ;
 
       if (file.size > 1024 * 1024 * 5) {
-        console.log("File is too big");
+        window.alert("File is too big");
         ;
       }
 

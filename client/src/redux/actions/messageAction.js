@@ -7,7 +7,6 @@ export const addMessageAction = createAsyncThunk('api/message/addMessage', async
     socket.socket.emit('addMessage', res.data.message)
     return res.data.message;
   } catch (error) {
-    console.log(error);
     if (error.response && error.response.data.msg) return rejectWithValue(error.response.data.msg);
     else return rejectWithValue(error.response);
   }
@@ -20,7 +19,6 @@ export const getMessages = createAsyncThunk('api/messages/:id', async ({ auth, i
 
     return { ...newData, _id: id, page }
   } catch (error) {
-    console.log(error)
     if (error.response && error.response.data.msg) return rejectWithValue(error.response.data.msg);
     else return rejectWithValue(error.response);
   }
@@ -40,7 +38,6 @@ export const getConversations = createAsyncThunk('api/conversations', async ({ a
 
     return { newArr, result: res.data.result }
   } catch (error) {
-    console.log(error)
     if (error.response && error.response.data.msg) return rejectWithValue(error.response.data.msg);
     else return rejectWithValue(error.response);
   }
@@ -51,7 +48,6 @@ export const deleteMessage = createAsyncThunk('api/message/:id/delete', async ({
     await deleteDataAPI(`message/${msg._id}`, auth.userToken);
     return msg._id;
   } catch (error) {
-    console.log(error)
     if (error.response && error.response.data.msg) return rejectWithValue(error.response.data.msg);
     else return rejectWithValue(error.response);
   }
@@ -60,11 +56,9 @@ export const deleteMessage = createAsyncThunk('api/message/:id/delete', async ({
 export const deleteConversation = createAsyncThunk('api/conversations/:id/delete', async ({ auth, id }, { rejectWithValue }) => {
   try {
     const res = await deleteDataAPI(`conversation/${id}`, auth.userToken);
-    console.log(res);
 
     return id;
   } catch (error) {
-    console.log(error);
     if (error.response && error.response.data.msg) return rejectWithValue(error.response.data.msg);
     else return rejectWithValue(error.response);
   }
@@ -77,7 +71,6 @@ export const loadMoreMessages = createAsyncThunk('api/message/loadMore', async (
 
     return { ...newData, _id: id, page }
   } catch (error) {
-    console.log(error);
     if (error.response && error.response.data.msg) return rejectWithValue(error.response.data.msg);
     else return rejectWithValue(error.response);
   }

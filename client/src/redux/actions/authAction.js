@@ -57,7 +57,6 @@ export const refreshToken = createAsyncThunk(
         const res = await postDataAPI('refresh_token');
         return res;
       } catch (error) {
-        console.log(error);
         if (error.response && error.response.data.msg) {
           return rejectWithValue(error.response.data.msg)
         } else {
@@ -97,7 +96,6 @@ export const resetPassword = createAsyncThunk(
       const res = await postDataAPI(`resetPassword/${id}/${token}`, { password });
       return res;
     } catch (error) {
-      console.log(error);
       dispatch(setAlert({
         message: error.response.data.msg,
         active: true

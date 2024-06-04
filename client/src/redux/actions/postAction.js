@@ -12,7 +12,6 @@ export const createPostAction = createAsyncThunk('api/createPost', async ({ auth
       content,
       images: media ? [media[0].url] : ['']
     }, auth.userToken);
-    console.log(res);
 
     const msg = {
       id: res.data.newPost._id,
@@ -40,7 +39,6 @@ export const getPostAction = createAsyncThunk('api/post', async ({ auth, id }, {
     const res = await getDataAPI(`post/${id}`, auth.userToken);
     return res;
   } catch (error) {
-    console.log(error);
     if (error.response && error.response.data.msg) {
       return rejectWithValue(error.response.data.msg);
     }
@@ -55,7 +53,6 @@ export const getAllPostsAction = createAsyncThunk('api/allPost', async ({ auth }
     const res = await getDataAPI(`post?page=1&limit=9`, auth.userToken);
     return res;
   } catch (error) {
-    console.log(error)
     if (error.response && error.response.data.msg) {
       return rejectWithValue(error.response.data.msg);
     }
@@ -70,7 +67,6 @@ export const getUserPostsAction = createAsyncThunk('api/user_post', async ({ aut
     const res = await getDataAPI(`user_posts/${id}?page=${page}&limit=9`, auth.userToken);
     return res;
   } catch (error) {
-    console.log(error);
     if (error.response && error.response.data.msg) {
       return rejectWithValue(error.response.data.msg);
     }
@@ -100,7 +96,6 @@ export const likePostAction = createAsyncThunk('api/post/:id/like', async ({ aut
 
     return newPost;
   } catch (error) {
-    console.log(error)
     if (error.response && error.response.data.msg) {
       return rejectWithValue(error.response.data.msg);
     }
@@ -128,7 +123,6 @@ export const unLikePostAction = createAsyncThunk('api/post/:id/unlike', async ({
 
     return newPost;
   } catch (error) {
-    console.log(error)
     if (error.response && error.response.data.msg) {
       return rejectWithValue(error.response.data.msg);
     }
@@ -151,7 +145,6 @@ export const deletePostAction = createAsyncThunk('api/post/:id/delete', async ({
     await dispatch(removeNotify({ msg, auth, socket }))
     return res;
   } catch (error) {
-    console.log(error)
     if (error.response && error.response.data.msg) {
       return rejectWithValue(error.response.data.msg);
     }

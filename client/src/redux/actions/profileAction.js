@@ -86,7 +86,6 @@ export const followUser = createAsyncThunk(
       dispatch(createNotify({ msg, auth, socket }))
       return newUser;
     } catch (error) {
-      console.log(error)
       if (error.response && error.response.data.msg) {
         return rejectWithValue(error.response.data.msg);
       } else {
@@ -131,7 +130,6 @@ export const unfollowUser = createAsyncThunk(
 
       return newUser;
     } catch (error) {
-      console.log(error)
       if (error.response && error.response.data.msg) {
         return rejectWithValue(error.response.data.msg);
       } else {

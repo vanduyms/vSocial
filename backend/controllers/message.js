@@ -98,7 +98,6 @@ const messageCtrl = {
 
       res.json({ msg: "Delete success" })
     } catch (err) {
-      console.log(err);
       return res.status(500).json({ msg: err.message });
     }
   },
@@ -107,7 +106,6 @@ const messageCtrl = {
       await Message.findOneAndDelete({ _id: req.params.id, sender: req.user._id });
       res.json({ msg: "Delete success" });
     } catch (err) {
-      console.log(err);
       return res.status(500).json({ msg: err.message });
     }
   }

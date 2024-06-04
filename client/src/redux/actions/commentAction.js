@@ -112,7 +112,6 @@ export const deleteCommentAction = createAsyncThunk('api/comment/:id/delete', as
 
     return newPost;
   } catch (error) {
-    console.log(error)
     if (error.response && error.response.data.msg) {
       return rejectWithValue(error.response.data.msg)
     } else {

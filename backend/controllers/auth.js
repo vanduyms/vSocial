@@ -143,7 +143,6 @@ const auth = {
         id: user._id
       });
     } catch (err) {
-      console.log(err)
       return res.status(500).json({ msg: err.message })
     }
   },
@@ -167,7 +166,6 @@ const auth = {
 
       res.json({ msg: "Password reset sucessfully" });
     } catch (err) {
-      console.log(err)
       return res.status(500).json({ msg: err.message })
     }
   }

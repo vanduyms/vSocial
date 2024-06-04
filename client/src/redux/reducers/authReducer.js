@@ -67,7 +67,6 @@ const authSlice = createSlice({
       state.success = false
     },
     [refreshToken.rejected]: (state, { payload }) => {
-      console.log(payload)
     },
     [sendResetPassword.pending]: (state) => {
       state.loading = true
