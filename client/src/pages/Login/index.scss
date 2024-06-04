@@ -29,3 +29,20 @@
     }
   }
 }
+
+@media screen and (max-width: 640px) {
+  .auth_page {
+    form {
+      width: 80%;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .auth_page {
+    form {
+      padding: 1rem 1rem;
+      width: 90%;
+    }
+  }
+}
