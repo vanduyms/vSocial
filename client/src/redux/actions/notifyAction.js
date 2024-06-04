@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { deleteDataAPI, getDataAPI, patchDataAPI, postDataAPI } from "../../utils/fetchData";
+import { deleteDataAPI, getDataAPI, putDataAPI, postDataAPI } from "../../utils/fetchData";
 
 export const getNotifies = createAsyncThunk('api/notifies', async ({ auth }, { rejectWithValue }) => {
   try {
@@ -33,7 +33,7 @@ export const removeNotify = createAsyncThunk('api/notify/:id/remove', async ({ m
 
 export const isReadNotify = createAsyncThunk('api/notify/:id/read', async ({ msg, auth }, { rejectWithValue }) => {
   try {
-    await patchDataAPI(`isReadNotify/${msg.id}`, auth.userToken)
+    await putDataAPI(`isReadNotify/${msg.id}`, auth.userToken)
   } catch (error) {
     if (error.response && error.response.data.msg) return rejectWithValue(error.response.data.msg);
     else return rejectWithValue(error.response);

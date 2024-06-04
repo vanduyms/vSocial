@@ -29,13 +29,6 @@ export const putDataAPI = async (url, post, token) => {
   return res;
 }
 
-export const patchDataAPI = async (url, post, token) => {
-  const res = axios.patch(`${host}/api/${url}`, post, {
-    headers: { Authorization: token }
-  });
-  return res;
-}
-
 export const postAPI = async (url, token) => {
   const res = axios.post(`${host}/api/${url}`, {
     headers: { Authorization: token }

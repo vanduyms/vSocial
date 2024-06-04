@@ -6,10 +6,10 @@ router.post("/post", auth, postCtrl.createPost);
 router.get("/post", auth, postCtrl.getPosts);
 router.get("/user_posts/:id", auth, postCtrl.getUserPost);
 
-router.patch("/post/:id/like", auth, postCtrl.likePost);
-router.patch("/post/:id/unlike", auth, postCtrl.unLikePost);
+router.put("/post/:id/like", auth, postCtrl.likePost);
+router.put("/post/:id/unlike", auth, postCtrl.unLikePost);
 
-router.patch("/post/:id", auth, postCtrl.updatePost);
+router.put("/post/:id", auth, postCtrl.updatePost);
 
 router.get("/post/:id", auth, postCtrl.getPost);
 router.delete("/post/:id", auth, postCtrl.deletePost);

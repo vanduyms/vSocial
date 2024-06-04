@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { deleteDataAPI, patchDataAPI, postDataAPI } from "../../utils/fetchData";
+import { deleteDataAPI, putDataAPI, postDataAPI } from "../../utils/fetchData";
 import { DeleteData, EditData } from "../data";
 import { createNotify, removeNotify } from "./notifyAction";
 
@@ -39,7 +39,7 @@ export const updateCommentAction = createAsyncThunk('api/comment/:id/update', as
     const newComment = EditData(post.comments, comment._id, { ...comment, content });
     const newPost = { ...post, comments: newComment };
 
-    await patchDataAPI(`comment/${comment._id}`, { content }, auth.userToken);
+    await putDataAPI(`comment/${comment._id}`, { content }, auth.userToken);
 
     return newPost;
   } catch (error) {
@@ -57,7 +57,7 @@ export const likeCommentAction = createAsyncThunk('api/comment/:id/like', async 
     const newComments = EditData(post.comments, comment._id, newComment)
     const newPost = { ...post, comments: newComments };
 
-    await patchDataAPI(`comment/${comment._id}/like`, null, auth.userToken);
+    await putDataAPI(`comment/${comment._id}/like`, null, auth.userToken);
 
     return newPost;
   } catch (error) {
@@ -75,7 +75,7 @@ export const unLikeCommentAction = createAsyncThunk('api/comment/:id/unlike', as
     const newComments = EditData(post.comments, comment._id, newComment)
     const newPost = { ...post, comments: newComments };
 
-    await patchDataAPI(`comment/${comment._id}/unlike`, null, auth.userToken);
+    await putDataAPI(`comment/${comment._id}/unlike`, null, auth.userToken);
 
     return newPost;
   } catch (error) {

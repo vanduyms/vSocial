@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getDataAPI, patchDataAPI } from "../../utils/fetchData";
+import { getDataAPI, putDataAPI } from "../../utils/fetchData";
 import { imageUpload } from "../../utils/imageUpload";
 import { DeleteData } from "../data";
 import { createNotify, removeNotify } from "./notifyAction";
@@ -34,7 +34,7 @@ export const updateProfileUser = createAsyncThunk(
       let media;
       if (avatar) media = await imageUpload([avatar]);
 
-      await patchDataAPI("user", {
+      await putDataAPI("user", {
         ...userData,
         avatar: media ? media[0].url : auth.userInfo.avatar
       }, auth.userToken);
@@ -73,7 +73,7 @@ export const followUser = createAsyncThunk(
 
       socket.socket.emit('follow', info);
 
-      await patchDataAPI(`/ user / ${user._id} / follow`, { id: user._id }, auth.userToken);
+      await putDataAPI(`/ user / ${user._id} / follow`, { id: user._id }, auth.userToken);
 
       // Notify
       const msg = {
@@ -115,7 +115,7 @@ export const unfollowUser = createAsyncThunk(
 
       const info = { newAuthInfo, newUser }
 
-      await patchDataAPI(`/ user / ${user._id} / unfollow`, { id: user._id }, auth.userToken);
+      await putDataAPI(`/ user / ${user._id} / unfollow`, { id: user._id }, auth.userToken);
       socket.socket.emit('unfollow', info);
 
       // Notify

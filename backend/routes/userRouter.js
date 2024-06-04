@@ -6,8 +6,8 @@ router.get("/search", auth, userCtrl.searchUser);
 router.get("/user/:id", auth, userCtrl.getUser);
 router.get('/suggestionsUser', auth, userCtrl.suggestionUser)
 
-router.patch("/user", auth, userCtrl.updateUser);
-router.patch("/user/:id/follow", auth, userCtrl.follow);
-router.patch("/user/:id/unfollow", auth, userCtrl.unFollow);
+router.put("/user", auth, userCtrl.updateUser);
+router.put("/user/:id/follow", auth, userCtrl.follow);
+router.put("/user/:id/unfollow", auth, userCtrl.unFollow);
 
 module.exports = router;

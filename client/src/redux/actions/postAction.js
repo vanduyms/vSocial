@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { imageUpload } from "../../utils/imageUpload";
-import { postDataAPI, getDataAPI, patchDataAPI, deleteDataAPI } from "../../utils/fetchData";
+import { postDataAPI, getDataAPI, putDataAPI, deleteDataAPI } from "../../utils/fetchData";
 import { setAlert } from "../reducers/alertReducer";
 import { createNotify, removeNotify } from "./notifyAction";
 
@@ -81,7 +81,7 @@ export const likePostAction = createAsyncThunk('api/post/:id/like', async ({ aut
     const newPost = { ...postItem, likes: [...postItem.likes, auth.userInfo] };
     socket.socket.emit("likePost", newPost);
 
-    await patchDataAPI(`post/${postItem._id}/like`, { id: postItem._id }, auth.userToken);
+    await putDataAPI(`post/${postItem._id}/like`, { id: postItem._id }, auth.userToken);
 
     const msg = {
       id: auth.userInfo._id,
@@ -110,7 +110,7 @@ export const unLikePostAction = createAsyncThunk('api/post/:id/unlike', async ({
     const newPost = { ...postItem, likes: postItem.likes.filter(like => like._id !== auth.userInfo._id) }
     socket.socket.emit("unLikePost", newPost);
 
-    await patchDataAPI(`post/${postItem._id}/unlike`, { id: postItem._id }, auth.userToken);
+    await putDataAPI(`post/${postItem._id}/unlike`, { id: postItem._id }, auth.userToken);
 
     const msg = {
       id: auth.userInfo._id,
@@ -156,7 +156,7 @@ export const deletePostAction = createAsyncThunk('api/post/:id/delete', async ({
 
 export const updatePostAction = createAsyncThunk('api/post/:id/update', async ({ auth, content, image, id, dispatch }, { rejectWithValue }) => {
   try {
-    const res = await patchDataAPI(`post/${id}`, { content, image }, auth.userToken);
+    const res = await putDataAPI(`post/${id}`, { content, image }, auth.userToken);
     return res.data.newPost;
   } catch (error) {
     dispatch(setAlert({
