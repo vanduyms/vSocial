@@ -26,7 +26,7 @@ function App() {
     }
 
     dispatch(refreshToken());
-    const socketIO = io("https://trello-backend.up.railway.app");
+    const socketIO = io("https://vsocial-backend.up.railway.app");
 
     dispatch(setSocket(socketIO));
 
