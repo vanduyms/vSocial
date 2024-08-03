@@ -56,7 +56,7 @@ function Login() {
           Bạn chưa có tài khoản ? <Link to="/register" style={{}} >Đăng ký</Link>
         </p>
         <p className='my-2'>
-          Quên mật khẩu ? <Link to="/resetPassword" style={{}} >Lấy lại mật khẩu</Link>
+          Quên mật khẩu ? <Link to="/forgotPassword" style={{}} >Lấy lại mật khẩu</Link>
         </p>
       </form>
     </div>

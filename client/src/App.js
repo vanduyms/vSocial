@@ -27,7 +27,7 @@ function App() {
 
     dispatch(refreshToken());
     const socketIO = io("https://vsocial-backend.up.railway.app");
-    // const socketIO = io("https://localhost:3001");
+    // const socketIO = io("https://vsocial-backend.up.railway.app");
 
     dispatch(setSocket(socketIO));
 
@@ -50,7 +50,6 @@ function App() {
         <Routes>
           <Route path='/' element={auth.userToken ? <Home /> : <Login />} />
 
-          <Route path='*' element={<NotFound />} />
 
           {
             publicRoutes.map((route, index) => {
@@ -64,6 +63,7 @@ function App() {
               )
             })
           }
+
         </Routes>
       </div>
     </Router>

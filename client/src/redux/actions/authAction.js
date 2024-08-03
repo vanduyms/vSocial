@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { postDataAPI } from "../../utils/fetchData";
+import { postDataAPI, postDataAPIWithoutAuth } from "../../utils/fetchData";
 import { setAlert } from "../reducers/alertReducer";
 export const userLogin = createAsyncThunk(
   'api/login',
@@ -71,7 +71,9 @@ export const sendResetPassword = createAsyncThunk(
   'api/resetPassword',
   async ({ email, dispatch }, { rejectWithValue }) => {
     try {
-      const res = await postDataAPI('resetPassword', { email });
+      const res = await postDataAPIWithoutAuth('resetPassword', { email });
+
+
       return res;
 
     } catch (error) {

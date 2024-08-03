@@ -134,7 +134,7 @@ const auth = {
 
       await newToken.save();
 
-      const link = `${process.env.BASE_URL}/resetPassword/${user._id}/${newToken.token}`;
+      const link = `${process.env.BASE_URL}/resetPassword?id=${user._id}&resetToken=${newToken.token}`;
       await sendEmail(user.email, "Password reset", link);
 
       res.json({

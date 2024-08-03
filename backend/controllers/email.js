@@ -18,7 +18,9 @@ const sendEmail = async (email, subject, text) => {
       subject: subject,
       text: `Nhấp vào đường link sau để xác nhận reset lại mật khẩu: ${text}`,
     });
+    // console.log(res);
   } catch (error) {
+    // console.log(error)
     res.status(500).json({ msg: error.message })
   }
 };

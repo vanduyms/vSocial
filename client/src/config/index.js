@@ -8,8 +8,8 @@ const routes = {
   profile: "/profile/:id",
   discover: "/discover",
   notify: "/notify",
-  forgotPass: "/resetPassword",
-  resetPass: "/resetPassword/:id/:token",
+  forgotPass: "/forgotPassword",
+  resetPass: "/resetPassword",
   notfound: "*"
 }
 

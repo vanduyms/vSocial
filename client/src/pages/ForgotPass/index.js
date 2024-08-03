@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Loading from '../../components/Loading';
 import { sendResetPassword } from '../../redux/actions/authAction';
 
 function ForgotPass() {
@@ -27,7 +26,7 @@ function ForgotPass() {
                 <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" required />
               </div>
 
-              <button type="submit" className="btn btn-dark w-100 rounded-pill" >{auth.loading ? <Loading /> : "Đặt lại mật khẩu"}</button>
+              <button type="submit" className="btn btn-dark w-100 rounded-pill" >Đặt lại mật khẩu</button>
             </>
           ) :
             <p className='py-2'>Link reset mật khẩu đã được gửi đến email của bạn. Vui lòng kiểm tra email</p>

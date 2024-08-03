@@ -22,6 +22,12 @@ export const postDataAPI = async (url, post, token) => {
   return res;
 }
 
+export const postDataAPIWithoutAuth = async (url, post) => {
+  const res = axios.post(`${host}/api/${url}`, post);
+
+  return res;
+}
+
 export const putDataAPI = async (url, post, token) => {
   const res = axios.put(`${host}/api/${url}`, post, {
     headers: { Authorization: token }
