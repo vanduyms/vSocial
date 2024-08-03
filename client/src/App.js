@@ -27,6 +27,7 @@ function App() {
 
     dispatch(refreshToken());
     const socketIO = io("https://vsocial-backend.up.railway.app");
+    // const socketIO = io("https://localhost:3001");
 
     dispatch(setSocket(socketIO));
 

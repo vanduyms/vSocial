@@ -30,6 +30,14 @@
   }
 }
 
+@media screen and (max-width: 800px) {
+  .auth_page {
+    form {
+      width: 70%;
+    }
+  }
+}
+
 @media screen and (max-width: 640px) {
   .auth_page {
     form {

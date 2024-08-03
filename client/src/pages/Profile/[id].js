@@ -20,11 +20,11 @@ function Profile() {
 
   const dispatch = useDispatch();
 
-  useEffect(async () => {
-    await dispatch(getId(id));
-    await dispatch(getProfileUser({ id, auth }))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, dispatch]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    dispatch(getId(id));
+    dispatch(getProfileUser({ id, auth }))
+  }, [id, auth, dispatch]);
 
   const handleLoadMore = async () => {
     setLoad(true)

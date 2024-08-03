@@ -55,7 +55,7 @@ export const deleteMessage = createAsyncThunk('api/message/:id/delete', async ({
 
 export const deleteConversation = createAsyncThunk('api/conversations/:id/delete', async ({ auth, id }, { rejectWithValue }) => {
   try {
-    const res = await deleteDataAPI(`conversation/${id}`, auth.userToken);
+    await deleteDataAPI(`conversation/${id}`, auth.userToken);
 
     return id;
   } catch (error) {

@@ -24,5 +24,5 @@ const suggestionUser = createSlice({
   }
 });
 
-export const { } = suggestionUser.actions;
+// export const { } = suggestionUser.actions;
 export default suggestionUser.reducer;

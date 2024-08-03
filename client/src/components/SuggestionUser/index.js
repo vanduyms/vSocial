@@ -11,7 +11,7 @@ function SuggestionUser() {
 
   useEffect(() => {
     dispatch(getSuggestionUser({ auth }))
-  }, [dispatch]);
+  }, [dispatch, auth]);
 
   return (
     <div className='suggestionUser'>

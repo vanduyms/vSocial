@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "proxy": "https://vsocial-backend.onrender.com",
+  "proxy": "https://vsocial-backend.up.railway.app",
   "private": true,
   "dependencies": {
     "@cloudinary/react": "^1.11.2",
