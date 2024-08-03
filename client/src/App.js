@@ -2,7 +2,6 @@
 /* eslint-disable no-lone-blocks */
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import NotFound from './components/NotFound';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import io from "socket.io-client";
